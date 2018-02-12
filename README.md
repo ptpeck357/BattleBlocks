@@ -2,20 +2,22 @@
 <h2>BattleBlocks!</h2>
 A Northwestern University Bootcamp Final MERN Project
 <hr>
+<strong>Summary</strong>
 <ul>
-  <li>BattleBlocks is a two-player strategy game, with blocks randomly distributed on two sides of the board</li>
+  <li>BattleBlocks is a multi-player strategy board game</li>
+  <li>The game is played in "rounds" between two players</li>
   <li>The <strong>Main Player</strong> is on the left, and <strong>Opponent</strong> is on the right</li>
-  <li>The object of the game is to earn points and make it onto the "Wall of Fame"</li>
-  <li>Your points are accumulated and last forever, so the top point holders are on the leaderboard</li>
-  <li>To earn points, you have to click on the 3rd-to-last, 2nd-to-last, or last block on your side</li>
+  <li>The object of the game is to earn points in each round and make it onto the Leaderboard</li>
+  <li>Your points are accumulated and last forever, so the top point holders are on the Leaderboard</li>
+  <li>To earn points, you have to try to clear the blocks on your side</li>
   <li>Of course your opponent is trying to click on the blocks on their side, to keep you from earning points</li>
 </ul>
 <br>
 There are two wrinkles that make the game interesting....
-<ul>
-  <li>1) The computer randomly intervenes 
-  <li>2) There is "money" in the game, which you can use to improve your chances of earning points
-</ul>
+<ol>
+  <li>The computer randomly intervenes </li>
+  <li>There is a currency in the game, called $BlockCoins$, which you need in order to earning points </li>
+</ol>
 <br>
 <h3>Detailed Game Play</h3>
 <hr>
@@ -65,7 +67,7 @@ Continual Play
   <li>Each player has a login and accrues points indefinitely from round-to-round.</li>
   <li>High scoring players appear on the "Wall of Fame" in the leaderboard section of the site.</li>
   <li>$BlockCoins$ are only useful in the round in which they were earned, and do not persist to future games.</li>
-  <li>It is not common for players to clear the board completely, so typically the rounds will end when a player clicks "End Game".</li>
+  <li>It is not common for players to clear the board completely, so rounds usually end when a player clicks "End Game".</li>
 </ul>
 
 <hr>
