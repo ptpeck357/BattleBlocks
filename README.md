@@ -1,11 +1,11 @@
-=======
+
 <h2>BattleBlocks!</h2>
+A Northwestern University Bootcamp Final MERN Project
 <hr>
-Northwestern University Bootcamp Final MERN Project
 <ul>
   <li>BattleBlocks is a two-player strategy game, with blocks randomly distributed on two sides of the board</li>
   <li>The <strong>Main Player</strong> is on the left, and <strong>Opponent</strong> is on the right</li>
-  <li>The object of the game is to earn points</li>
+  <li>The object of the game is to earn points and make it onto the "Wall of Fame"</li>
   <li>Your points are accumulated and last forever, so the top point holders are on the leaderboard</li>
   <li>To earn points, you have to click on the 3rd-to-last, 2nd-to-last, or last block on your side</li>
   <li>Of course your opponent is trying to click on the blocks on their side, to keep you from earning points</li>
@@ -23,7 +23,7 @@ There are two wrinkles that make the game interesting....
 <strong>Object of Game</strong>
 <ul>
   <li>The game is played in "rounds"; each round begins with two players, one on the left and one on the right.</li>
-  <li>The object of the game is to earn "Points" by clicking blocks. It is a game of speed and strategy.</li>
+  <li>The object of each round is to earn "Points" by clicking blocks. It is a game of speed and strategy.</li>
   <li>Game play continues until one player clears their board or somebody gives up.</li>
 </ul>
 
@@ -57,15 +57,25 @@ Points are earned in the following denominations:
 The game is played in "rounds", and each round ends in one of two ways:
 <ol>
   <li>A player successfully clicks on the last block on their side and "clears" their board</li>
-  <li>A player quits the game by clicking "End Game"</li>
+  <li>A player quits the round by clicking "End Game"</li>
 </ol>
 
 Continual Play
 <ul>
-  <li>Each player has a login and accrues points indefinitely from game-to-game.</li>
-  <li>High scoring players appear on the "Wall of Fame" in the leaderboard section of the game.</li>
-  <li>$BlockCoins$ are only useful in the game in which they were earned, and do not persist to future games.</li>
-  <li>It is not common for players to clear the board completely, so typically the game will end when a player clicks "End Game".</li>
+  <li>Each player has a login and accrues points indefinitely from round-to-round.</li>
+  <li>High scoring players appear on the "Wall of Fame" in the leaderboard section of the site.</li>
+  <li>$BlockCoins$ are only useful in the round in which they were earned, and do not persist to future games.</li>
+  <li>It is not common for players to clear the board completely, so typically the rounds will end when a player clicks "End Game".</li>
+</ul>
+
+<hr>
+
+<strong>Game Contributors:</strong>
+<ul>
+  <li>Brett Barnes</li>
+  <li>Israel Peck</li>
+  <li>Peter Peck</li>
+  <li>Vinnie Sharma</li>
 </ul>
 
 <strong>END Of README</strong>
