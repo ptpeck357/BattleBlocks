@@ -74,12 +74,10 @@ Continual Play
 
 <hr>
 
-<strong>Game Contributors:</strong>
-<ul>
-  <li>Brett Barnes</li>
-  <li>Israel Peck</li>
-  <li>[Peter](https://github.com/ptpeck357)
-  <li>Vinnie Sharma</li>
-</ul>
+## Contributors
++ [Brett Barnes](https://github.com/bigbert836)
++ [Israel Peck](https://github.com/therealizzi)
++ [Peter Peck](https://github.com/ptpeck357)
++ [Vinnie Sharma](https://github.com/vasmarm)
 
 <strong>END Of README</strong>
