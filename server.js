@@ -2,8 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const dbConnection = require('./db') // loads our connection to the mongo database
-
+const dbConnection = require('./models/users.js') // loads our connection to the mongo database
+const passport = require('./passport.js')
 const mongoose = require("mongoose");
 const routes = require("./routes");
 
@@ -20,7 +20,7 @@ app.use(
 		resave: false,
 		saveUninitialized: false
 	})
-;)
+)
 
 // ===== Passport ====
 app.use(passport.initialize())
@@ -32,7 +32,7 @@ app.use("/", routes);
 // Set up promises with mongoose
 mongoose.Promise = Promise;
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:3001";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost";
 
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, function (err, db) {

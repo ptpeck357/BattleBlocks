@@ -42,7 +42,7 @@ var User = new Schema({
 });
 
 // Define schema methods
-userSchema.methods = {
+User.methods = {
 	checkPassword: function(inputPassword) {
 		return bcrypt.compareSync(inputPassword, this.password)
 	},
