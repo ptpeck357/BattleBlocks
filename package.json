@@ -1,19 +1,31 @@
 {
   "name": "battleblocks",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1",
-    "react-transition-group": "^2.2.1",
-    "reactstrap": "^4.8.0"
-  },
+  "version": "1.0.0",
+  "description": "Battle blocks project 3",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BattleBlocks/BattleBlocks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BattleBlocks/BattleBlocks/issues"
+  },
+  "homepage": "https://github.com/BattleBlocks/BattleBlocks#readme",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "connect-mongo": "^2.0.1",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.0.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "router": "^1.3.2"
   }
 }

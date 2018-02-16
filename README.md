@@ -40,7 +40,7 @@ There are two wrinkles that make the game interesting....
 
 Each player can click on the blocks on their respective sides to "move" them to the opposite side
 
-There are no turns, gameplay is <strong>realtime</strong> so players can click on as many blocks as they want 
+There are no turns, gameplay is <strong>realtime</strong> so players can click on as many blocks as they want
 
 Moving a block has 3 possible effects:
 <ol>
@@ -74,12 +74,10 @@ Continual Play
 
 <hr>
 
-<strong>Game Contributors:</strong>
-<ul>
-  <li>Brett Barnes</li>
-  <li>Israel Peck</li>
-  <li>Peter Peck</li>
-  <li>Vinnie Sharma</li>
-</ul>
+## Contributors
++ [Brett Barnes](https://github.com/bigbert836)
++ [Israel Peck](https://github.com/therealizzi)
++ [Peter Peck](https://github.com/ptpeck357)
++ [Vinnie Sharma](https://github.com/vasmarm)
 
 <strong>END Of README</strong>
