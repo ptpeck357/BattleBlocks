@@ -41,7 +41,14 @@ var User = new Schema({
 
 });
 
-// Create the Leaderboard model with the NoteSchema
-// var Leaderboard = mongoose.model("Leaderboard", User);
+// Define schema methods
+userSchema.methods = {
+	checkPassword: function(inputPassword) {
+		return bcrypt.compareSync(inputPassword, this.password)
+	},
+	hashPassword: plainTextPassword => {
+		return bcrypt.hashSync(plainTextPassword, 9)
+	}
+}
 
 module.exports = User;

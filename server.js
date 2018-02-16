@@ -1,19 +1,38 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const dbConnection = require('./db') // loads our connection to the mongo database
+
 const mongoose = require("mongoose");
 const routes = require("./routes");
+
 const app = express();
+
 const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(
+	session({
+		secret: 'supersecret',
+		store: new MongoStore({ mongooseConnection: dbConnection }),
+		resave: false,
+		saveUninitialized: false
+	})
+;)
+
+// ===== Passport ====
+app.use(passport.initialize())
+app.use(passport.session()) // will call the deserializeUser
+
 app.use(express.static("client/build"));
 app.use("/", routes);
 
 // Set up promises with mongoose
 mongoose.Promise = Promise;
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:3001";
 
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, function (err, db) {
