@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -13,12 +14,22 @@ const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser('supersecret'));
+
+const cookieExpirationDate = new Date();
+const cookieExpirationDays = 1;
+cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDays);
+
 app.use(
 	session({
 		secret: 'supersecret',
-		store: new MongoStore({ mongooseConnection: dbConnection }),
-		resave: false,
-		saveUninitialized: false
+		store: new MongoStore({ mongooseConnection: dbConnection, ttl: 0 * 6 * 60 * 60}),
+		resave: true,
+		saveUninitialized: true,
+		cookie: {
+	    httpOnly: true,
+	    expires: cookieExpirationDate
+		}
 	})
 )
 
