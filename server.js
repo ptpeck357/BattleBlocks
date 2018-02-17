@@ -37,7 +37,6 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session()) // will call the deserializeUser
 
-app.use(express.static("client/build"));
 app.use("/", routes);
 
 // Set up promises with mongoose
