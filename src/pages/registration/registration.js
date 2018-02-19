@@ -4,47 +4,46 @@ import { Redirect } from 'react-router-dom'
 import "./signup.css";
 
 class SignupForm extends Component {
-	
+
 	constructor() {
-        super()
-        this.state = {
-            usernameSignIn: '',
+    super()
+    this.state = {
+      usernameSignIn: '',
 			passwordSignIn: '',
 			email: '',
 			username: '',
 			password: '',
 			confirmPassword: '',
 			secretQuestion: '',
+			path: '/',
 			redirectTo: null
-        }
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
     }
+      this.handleSubmit = this.handleSubmit.bind(this)
+      this.handleChange = this.handleChange.bind(this)
+  };
 
 	handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  };
+
 	handleSubmit(event) {
-        event.preventDefault()
-        axios
-            .post('/signup', {
-                username: this.state.username,
-                password: this.state.password
-            })
-            .then(response => {
-                console.log(response)
-                // if (!response.data.errmsg) {
-                //     console.log('youre good')
-                //     this.setState({
-                //         redirectTo: '/login'
-                //     })
-                // } else {
-                //     console.log('duplicate')
-                // }
-            })
-    }
+    event.preventDefault()
+    axios.post('/api/signup', {
+			email: this.state.email
+    }).then(response => {
+        console.log(response)
+        // if (!response.data.errmsg) {
+        //     console.log('youre good')
+        //     this.setState({
+        //         redirectTo: '/login'
+        //     })
+        // } else {
+        //     console.log('duplicate')
+        // }
+    })
+  };
 
 	render() {
 		return (
@@ -59,16 +58,18 @@ class SignupForm extends Component {
 			                              <h4 className="form-heading">Sign In</h4>
 			                          </div>
 
-			                          
+
 
 			                          <div className="control-group">
 			                              <label className="control-label" htmlFor=
 			                              "inputUsername">Username</label>
 
 			                              <div className="controls">
-			                                  <input id="inputUsername" placeholder=
-			                                  "E.g. John Smith" type="text" value={this.state.usernameSignIn}
-                    onChange={this.handleChange} name="usernameSignIn"/>
+		                                  <input id="inputUsername"
+																				placeholder = "E.g. John Smith" type="text" value={this.state.usernameSignIn}
+	                  										onChange={this.handleChange}
+																				name="usernameSignIn"
+																			/>
 			                              </div>
 			                          </div>
 
@@ -77,9 +78,12 @@ class SignupForm extends Component {
 			                              "inputPassword">Password</label>
 
 			                              <div className="controls">
-			                                  <input id="inputPassword" placeholder=
-			                                  "Min. 8 Characters" type="password" value={this.state.passwordSignIn}
-                    onChange={this.handleChange} name="passwordSignIn"/>
+		                                  <input id="inputPassword"
+																				placeholder="Min. 8 Characters"
+																				type="password"
+																				value={this.state.passwordSignIn}
+                    										onChange={this.handleChange}
+																				name="passwordSignIn"/>
 			                              </div>
 			                          </div>
 
@@ -88,7 +92,7 @@ class SignupForm extends Component {
 			                                  <a className="btn btn-link"
 			                                  href="#">Forgot my password</a>
 			                                  <button className="btn btn-success" type=
-			                                  "submit" id="signin">Sign In</button> 
+			                                  "submit" id="signin">Sign In</button>
 			                              </div>
 			                          </div>
 
@@ -110,14 +114,15 @@ class SignupForm extends Component {
 			                          </div>
 
 			                          <div className="control-group">
-			                              <label className="control-label" htmlFor=
-			                              "inputEmail">Email</label>
-
+			                              <label className="control-label"
+																		htmlFor="inputEmail">Email</label>
 			                              <div className="controls">
-			                                  <input placeholder=
-			                                  "E.g. johnsmith@gmail.com" type="text" id="email" 
+		                                  <input id="email"
+																				placeholder="E.g. johnsmith@gmail.com"
+																				type="text"
 			                                  value={this.state.email}
-                    onChange={this.handleChange} name="email"/>
+	                  										onChange={this.handleChange}
+																				name="email"	/>
 			                              </div>
 			                          </div>
 
@@ -126,10 +131,13 @@ class SignupForm extends Component {
 			                              "inputUser">Username</label>
 
 			                              <div className="controls">
-			                                  <input placeholder=
-			                                  "E.g. John Smith" type="text" id="userName" 
+		                                  <input id="userName"
+																				placeholder="E.g. John Smith"
+																				type="text"
 			                                  value={this.state.username}
-                    onChange={this.handleChange} name="username"/>
+	                  										onChange={this.handleChange}
+																				name="username"
+																			/>
 			                              </div>
 			                          </div>
 
@@ -138,10 +146,13 @@ class SignupForm extends Component {
 			                              "inputPassword">Password</label>
 
 			                              <div className="controls">
-			                                  <input placeholder=
-			                                  "Min. 8 Characters" type="password" id="password"
+		                                  <input id="password"
+																				placeholder="Min. 8 Characters"
+																				type="password"
 			                                  value={this.state.password}
-                    onChange={this.handleChange} name="password"/>
+	                  										onChange={this.handleChange}
+																				name="password"
+																			/>
 			                              </div>
 			                          </div>
 
@@ -150,33 +161,42 @@ class SignupForm extends Component {
 			                              "inputPassword">Confirm Password</label>
 
 			                              <div className="controls">
-			                                  <input placeholder=
-			                                  "Min. 8 Characters" type="password" id="confirmPassword"
+		                                  <input id="confirmPassword"
+																				placeholder="Min. 8 Characters"
+																				type="password"
 			                                  value={this.state.confirmPassword}
-                    onChange={this.handleChange} name="confirmPassword"/>
+		                										onChange={this.handleChange}
+																				name="confirmPassword"
+																			/>
 			                              </div>
 			                          </div>
 
 			                          <div className="control-group">
 			                              <label className="control-label" htmlFor=
-			                              "inputUser">Secret Question</label> 
-			                    
+			                              "inputUser">Secret Question</label>
+
 			                              <label className="controls" htmlFor=
 			                              "inputUser">In Which City Your Father Was Born?</label>
 
 			                              <div className="controls">
-			                                  <input placeholder=
-			                                  "E.g. Chicago" type="text" id="secretQuestion"
+		                                  <input id="secretQuestion"
+																				placeholder= "E.g. Chicago"
+																				type="text"
 			                                  value={this.state.secretQuestion}
-                    onChange={this.handleChange} name="secretQuestion"	/>
+	                  										onChange={this.handleChange}
+																			 	name="secretQuestion"
+																			/>
 			                              </div>
 			                          </div>
 
 			                          <div className="control-group">
 			                              <div className="controls">
-			                                 <button className=
-			                                  "btn btn-success" onClick={this.handleSubmit} type="submit" id="makenew">Sign
-			                                  Up</button> 
+			                                 <button id="makenew"
+																			 	className="btn btn-success"
+																			 	onClick={this.handleSubmit}
+																				type="submit" >Sign
+			                                  Up
+																			</button>
 			                              </div>
 			                          </div>
 
@@ -187,10 +207,6 @@ class SignupForm extends Component {
 			                          </div>
 			                        </form>
 			                    </iron-form>
-			                    <a href="#" className="rainbow-button" alt="Delete DB" id="clearall"></a>
-			                    <div id="results">
-
-			                    </div>
 			                </div>
 			            </div>
 			        </div>

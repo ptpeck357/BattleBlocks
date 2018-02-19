@@ -20,7 +20,7 @@
     "url": "https://github.com/BattleBlocks/BattleBlocks/issues"
   },
   "homepage": "https://github.com/BattleBlocks/BattleBlocks#readme",
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "axios": "^0.17.1",
     "react": "^16.2.0",
