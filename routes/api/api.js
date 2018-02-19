@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const User = require('../../models/users.js');
 
-router.post('/signup', (req, res) => {
+router.route('/signup')
+.post(function(req, res){
+  console.log(req.body)
 	const { email, username, password } = req.body
-  console.log(email)
+
 		// User.findOne({ 'username': username }, (err, userMatch) => {
 			// if (userMatch) {
 			// 	return res.json({
@@ -16,8 +18,7 @@ router.post('/signup', (req, res) => {
 				'password': password
 			});
 
-      console.log(newUser);
-
+			res.send("Works")
 			// User.save(newUser, (err, doc) => {
 			// 	if (err) return err;
 			// 	// return res.json(savedUser)

@@ -10,6 +10,7 @@
     "eject": "react-scripts eject",
     "dev": "concurrently \"node server.js\" \"yarn start\""
   },
+  "proxy": "http://localhost:3001",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BattleBlocks/BattleBlocks.git"
@@ -20,7 +21,6 @@
     "url": "https://github.com/BattleBlocks/BattleBlocks/issues"
   },
   "homepage": "https://github.com/BattleBlocks/BattleBlocks#readme",
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "axios": "^0.17.1",
     "react": "^16.2.0",
@@ -41,8 +41,6 @@
     "router": "^1.3.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
     "concurrently": "^3.5.1"
   }
 }

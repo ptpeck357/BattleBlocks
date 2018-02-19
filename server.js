@@ -1,17 +1,17 @@
-const express = require("express");
 const cookieParser = require('cookie-parser');
-const path = require("path");
 const bodyParser = require("body-parser");
+
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const mongoose = require("mongoose");
+
 const dbConnection = require('./models/users.js') // loads our connection to the mongo database
 const passport = require('./passport.js')
-const mongoose = require("mongoose");
 const routes = require("./routes/index.js");
 
+const express = require("express");
 const app = express();
-
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,8 +35,8 @@ app.use(
 )
 
 // ===== Passport ====
-app.use(passport.initialize())
-app.use(passport.session()) // will call the deserializeUser
+// app.use(passport.initialize())
+// app.use(passport.session()) // will call the deserializeUser
 
 app.use(routes);
 

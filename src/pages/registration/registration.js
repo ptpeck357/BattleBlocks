@@ -8,7 +8,7 @@ class SignupForm extends Component {
 	constructor() {
     super()
     this.state = {
-      usernameSignIn: '',
+      	usernameSignIn: '',
 			passwordSignIn: '',
 			email: '',
 			username: '',
@@ -18,20 +18,21 @@ class SignupForm extends Component {
 			path: '/',
 			redirectTo: null
     }
-      this.handleSubmit = this.handleSubmit.bind(this)
-      this.handleChange = this.handleChange.bind(this)
   };
 
-	handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  };
+	handleChange = (event) => {
+		this.setState({
+		[event.target.name]: event.target.value
+		})
+  	};
 
-	handleSubmit(event) {
-    event.preventDefault()
-    axios.post('/api/signup', {
-			email: this.state.email
+	handleSubmit = (event) => {
+		console.log("RaNdom")
+    	event.preventDefault()
+    	axios.post('/api/signup', {
+			email: this.state.email,
+			username: this.state.username,
+			password: this.state.password
     }).then(response => {
         console.log(response)
         // if (!response.data.errmsg) {
@@ -42,7 +43,9 @@ class SignupForm extends Component {
         // } else {
         //     console.log('duplicate')
         // }
-    })
+    }).catch(response => {
+		console.log(response)
+	})
   };
 
 	render() {
@@ -192,11 +195,10 @@ class SignupForm extends Component {
 			                          <div className="control-group">
 			                              <div className="controls">
 			                                 <button id="makenew"
-																			 	className="btn btn-success"
-																			 	onClick={this.handleSubmit}
-																				type="submit" >Sign
-			                                  Up
-																			</button>
+												className="btn btn-success"
+												onClick={this.handleSubmit}
+												type="submit" >Sign Up
+											</button>
 			                              </div>
 			                          </div>
 
