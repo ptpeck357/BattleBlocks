@@ -1,72 +1,84 @@
-const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
-
+const expressValidator = require('express-validator');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require("mongoose");
-
 const dbConnection = require('./models/users.js') // loads our connection to the mongo database
-const passport = require('./passport.js')
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const routes = require("./routes/index.js");
-
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cookieParser('supersecret'));
-
-const cookieExpirationDate = new Date();
-const cookieExpirationDays = 1;
-cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDays);
 
 app.use(
 	session({
-		secret: 'supersecret',
-		store: new MongoStore({ mongooseConnection: dbConnection, ttl: 0 * 6 * 60 * 60}),
-		resave: true,
-		saveUninitialized: true,
-		cookie: {
-	    httpOnly: true,
-	    expires: cookieExpirationDate
-		}
+		secret: 'Secret',
+		store: new MongoStore({ mongooseConnection: dbConnection }),
+		resave: false,
+		saveUninitialized: false
 	})
-)
+);
 
 // ===== Passport ====
-// app.use(passport.initialize())
-// app.use(passport.session()) // will call the deserializeUser
+app.use(passport.initialize());
+app.use(passport.session()); // will call the deserializeUser
+
+/* Express Validator */
+app.use(expressValidator({
+    errorFormatter: (param, msg, value) => {
+        const namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
+
+        while(namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param : formParam,
+            msg   : msg,
+            value : value
+        };
+    }
+}));
+
+app.use((req, res, next) => {
+    res.locals.user = req.user || null;
+    next();
+});
 
 app.use(routes);
 
 // Set up promises with mongoose
 mongoose.Promise = Promise;
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/battleblocks";
 
 // Connect to the Mongo DB
-mongoose.connect(MONGODB_URI, function (err, db) {
-  if (err) {
-    console.log('Unable to connect to the mongoDB server. Error:', err);
-  } else {
-    console.log('Connection established to', MONGODB_URI);
-  }
+mongoose.connect(MONGODB_URI, (err, db) => {
+	if (err) {
+		console.log('Unable to connect to the mongoDB server. Error:', err);
+	} else {
+		console.log('Connection established to', MONGODB_URI);
+	}
 });
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 
 // Show any mongoose errors
-db.on("error", function(error) {
+db.on("error", (error) => {
 	console.log("Mongoose Error: ", error);
 });
 
 // Once logged in to the db through mongoose, log a success message
-db.once("open", function() {
+db.once("open", () => {
  	console.log("Mongoose connection successful.");
 });
 
 // Start the API server
-app.listen(PORT, function() {
+app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
 });
