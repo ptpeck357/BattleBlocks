@@ -1,12 +1,10 @@
 const router = require("express").Router();
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const passport = require('../../passport');
 const User = require('../../models/users.js');
 
 router.post('/signup', (req, res) => {
 
 	/*Getting user's inputs from form*/
-	// const { email, username, password, confirmPassword } = req.body;
 	const email = req.body.email;
 	const username= req.body.username;
 	const password= req.body.password;
@@ -52,53 +50,30 @@ router.post('/signup', (req, res) => {
 });
 
 /*Route for login*/
-router.post('/login', passport.authenticate('local', {successRedirect:'/lobby', failureRedirect: '/'}),
- 	(req, res)=>{
-		res.redirect("/lobby")
+router.post('/login', (req, res, next) => {
+	console.log('================')
+	next()
+	},
+	passport.authenticate('local'), (req, res) => {
+		console.log('POST to /login')
+		// const user = JSON.parse(JSON.stringify(req.user)) // hack
+		// const cleanUser = Object.assign({}, user)
+		// if (cleanUser.local) {
+		// 	console.log(`Deleting ${cleanUser.local.password}`)
+		// 	delete cleanUser.local.password
+		// }
+		// res.json({ user: cleanUser })
+		console.log(res.locals.user);
 	}
 );
 
-ensureAuthenticated = (req, res, next) => {
-    if(req.isAuthenticated()) {
-        return next();
-    } else {
-        // res.redirect('signin');
-    }
-}
-
-passport.use(new LocalStrategy(
-    (username, password, done) => {
-        User.findOne({
-            where: {
-                username: username
-              }
-        }).then((userMatch) => {
-            if(userMatch == null || user.dataValues.username !== username){
-                return done(null, false, {message: 'Unknown User'});
-            }
-			if(!userMatch){
-				return done(null, false, { message: 'Incorrect username' })
-			}
-			if (!User.checkPassword(password)) {
-				return done(null, false, { message: 'Incorrect password' })
-			}
-			return done(null, userMatch)
-        });
-}));
-
-passport.serializeUser((user, done) => {
-    done(null, user._id);
-});
-
-passport.deserializeUser((id, done) => {
-    User.findOne({
-        where: {
-            _id: _id
-          }
-    }).then((user) => {
-        done(null, user.dataValues);
-    });
-});
+// ensureAuthenticated = (req, res, next) => {
+//     if(req.isAuthenticated()) {
+//         return next();
+//     } else {
+//         // res.redirect('signin');
+//     };
+// };
 
 /*Route to logout user*/
 router.route('/logout').post((req, res) => {

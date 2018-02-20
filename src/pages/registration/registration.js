@@ -41,8 +41,6 @@ class SignupForm extends Component {
 			email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
 		});
 
-		// document.getElementById("signupform").reset();
-
         console.log(response)
         // if (!response.data.errmsg) {
         //     console.log('youre good')
