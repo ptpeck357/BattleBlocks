@@ -1,7 +1,7 @@
 import React from "react";
 import Squares from "../Squares";
 import buttons from "../rightbuttons.json";
-import leftButtons from "../buttons.json";
+import leftButtons from "../leftbuttons.json";
 import { Jumbotron, Button, Container, Row, Col } from "reactstrap";
 
 class Rightboard extends React.Component {
@@ -16,19 +16,6 @@ class Rightboard extends React.Component {
 	state = {
 		buttons
 	}
-
-	// shuffles the buttons
-	shuffle() { 
-    let currentIndex = buttons.length, temporaryValue, randomIndex;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      temporaryValue = buttons[currentIndex];
-      buttons[currentIndex] = buttons[randomIndex];
-      buttons[randomIndex] = temporaryValue;
-    }
-    return buttons;
-  	} 
 
   	//This should randomly activate a new button
 	addRightButton() { 

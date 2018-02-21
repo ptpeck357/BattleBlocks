@@ -17,19 +17,6 @@ class Leftboard extends React.Component {
 		buttons
 	}
 
-	// shuffles the buttons
-	shuffle() { 
-    let currentIndex = buttons.length, temporaryValue, randomIndex;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      temporaryValue = buttons[currentIndex];
-      buttons[currentIndex] = buttons[randomIndex];
-      buttons[randomIndex] = temporaryValue;
-    }
-    return buttons;
-  	} 
-
   	//This should randomly activate a new button
 	addLeftButton() { 
 		let randomId = Math.floor(Math.random()*rightButtons.length)

@@ -1,6 +1,8 @@
 import React from "react";
 import Leftboard from "../../components/Leftboard";
 import Rightboard from "../../components/Rightboard";
+import leftButtons from "../leftbuttons.json";
+import rightButtons from "../rightbuttons.json";
 import {  Jumbotron, Button, Container, Row, Col } from "reactstrap";
 
 class Gameboard extends React.Component {
@@ -14,6 +16,7 @@ class Gameboard extends React.Component {
     this.addRightButton = this.addRightButton.bind(this);
     this.addLeftButton = this.addLeftButton.bind(this);
     this.endGame = this.endGame.bind(this);
+    this.updateLeader = this.updateLeader.bind(this);
   }
 
   state = {
@@ -24,6 +27,7 @@ class Gameboard extends React.Component {
     high_side: "David",
     headline: "Game is live",
     boardleader: "David"+" has the least blocks",
+    leader: 0,
    
     //User1 settings
     u1_blockcoin: 3,
@@ -34,8 +38,34 @@ class Gameboard extends React.Component {
     u2_blockcount: 6,
 
     //Need from database!!
-    u2_points: 7,
-    u1_points: 9,
+    u2_points: 2,
+    u1_points: 2,
+  }
+
+  updateLeader() {
+    let leader = "David"
+
+    let leftPlayer = this.state.player;
+    let rightPlayer = this.state.opponent;
+
+    for (let i=0; i<rightButtons.length; i++){
+      if(rightButtons[i].active === 1){
+        rightPlayer = rightPlayer ++
+      }
+      return rightPlayer
+    }
+    for (let i=0; i<leftButtons.length; i++){
+      if(leftButtons[i].active === 1){
+        leftPlayer = leftPlayer ++
+      }
+      return leftPlayer
+    }
+
+    if (leftPlayer === rightPlayer) {
+      leader = "Both"
+    } else if (leftPlayer < rightPlayer) {
+      leader = leftPlayer
+    }
   }
 
   addRightButton(cb) {
@@ -52,6 +82,7 @@ class Gameboard extends React.Component {
     this.setState({
       u1_blockcoin: coins
     })
+    this.updateLeader();
   }
 
   leftPoints(update) {
@@ -59,6 +90,7 @@ class Gameboard extends React.Component {
     this.setState({
       u1_points: points
     })
+    this.updateLeader();
   }
 
   rightCoins(update) {
@@ -66,6 +98,7 @@ class Gameboard extends React.Component {
     this.setState({
       u2_blockcoin: coins
     })
+    this.updateLeader();
   }
 
   rightPoints(update) {
@@ -73,6 +106,7 @@ class Gameboard extends React.Component {
     this.setState({
       u2_points: points
     })
+    this.updateLeader();
   }
 
   endGame(winner) {

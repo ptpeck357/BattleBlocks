@@ -10,14 +10,14 @@
     "id": 2,
     "side": 0,
     "coordinates": "1B",
-    "active": 1,
+    "active": 0,
     "associate": 6
   },  
   {
     "id": 3,
     "side": 0,
     "coordinates": "2A",
-    "active": 1,
+    "active": 0,
     "associate": 7
   },  
   {
@@ -31,7 +31,7 @@
     "id": 5,
     "side": 1,
     "coordinates": "1C",
-    "active": 1,
+    "active": 0,
     "associate": 1
   },  
   {
@@ -73,7 +73,7 @@
     "id": 11,
     "side": 0,
     "coordinates": "2A",
-    "active": 1,
+    "active": 0,
     "associate": 7
   },  
   {
@@ -87,7 +87,7 @@
     "id": 13,
     "side": 1,
     "coordinates": "1C",
-    "active": 1,
+    "active": 0,
     "associate": 1
   },  
   {
@@ -108,7 +108,7 @@
     "id": 16,
     "side": 1,
     "coordinates": "2D",
-    "active": 1,
+    "active": 0,
     "associate": 4
   },
   {
@@ -129,7 +129,7 @@
     "id": 19,
     "side": 0,
     "coordinates": "2A",
-    "active": 1,
+    "active": 0,
     "associate": 7
   },  
   {
@@ -143,7 +143,7 @@
     "id": 21,
     "side": 1,
     "coordinates": "1C",
-    "active": 1,
+    "active": 0,
     "associate": 1
   },  
   {
@@ -178,7 +178,7 @@
     "id": 26,
     "side": 0,
     "coordinates": "1B",
-    "active": 1,
+    "active": 0,
     "associate": 6
   },  
   {
@@ -199,14 +199,14 @@
     "id": 29,
     "side": 1,
     "coordinates": "1C",
-    "active": 1,
+    "active": 0,
     "associate": 1
   },  
   {
     "id": 30,
     "side": 1,
     "coordinates": "1D",
-    "active": 1,
+    "active": 0,
     "associate": 2
   },  
   {
@@ -220,14 +220,14 @@
     "id": 32,
     "side": 1,
     "coordinates": "2D",
-    "active": 1,
+    "active": 0,
     "associate": 4
   },
   {
     "id": 33,
     "side": 0,
     "coordinates": "2A",
-    "active": 1,
+    "active": 0,
     "associate": 7
   },  
   {
@@ -248,7 +248,7 @@
     "id": 36,
     "side": 1,
     "coordinates": "1D",
-    "active": 1,
+    "active": 0,
     "associate": 2
   },  
   {
@@ -262,7 +262,7 @@
     "id": 38,
     "side": 1,
     "coordinates": "2D",
-    "active": 1,
+    "active": 0,
     "associate": 4
   },
   {
@@ -332,7 +332,7 @@
     "id": 48,
     "side": 1,
     "coordinates": "1D",
-    "active": 1,
+    "active": 0,
     "associate": 2
   },  
   {
@@ -346,21 +346,21 @@
     "id": 50,
     "side": 1,
     "coordinates": "2D",
-    "active": 1,
+    "active": 0,
     "associate": 4
   },
     {
     "id": 51,
     "side": 1,
     "coordinates": "1C",
-    "active": 1,
+    "active": 0,
     "associate": 1
   },  
   {
     "id": 52,
     "side": 1,
     "coordinates": "1D",
-    "active": 1,
+    "active": 0,
     "associate": 2
   },  
   {
@@ -374,7 +374,7 @@
     "id": 54,
     "side": 1,
     "coordinates": "2D",
-    "active": 1,
+    "active": 0,
     "associate": 4
   }
 ]
