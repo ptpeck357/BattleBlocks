@@ -38,11 +38,13 @@ class Gameboard extends React.Component {
     u1_points: 9,
   }
 
-  addRightButton() {
-    
+  addRightButton(cb) {
+    cb()
+    console.log("Add right button!")
   } 
-  addLeftButton() {
-
+  addLeftButton(cb) {
+    cb()
+    console.log("Add left button!")
   }
 
   leftCoins(update) {

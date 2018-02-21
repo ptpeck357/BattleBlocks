@@ -1,28 +1,28 @@
 [
   {
     "id": 65,
-    "side": 0,
+    "side": 1,
     "coordinates": "1A",
     "active": 0,
     "associate": 5
   },  
   {
     "id": 66,
-    "side": 0,
+    "side": 1,
     "coordinates": "1B",
     "active": 1,
     "associate": 6
   },  
   {
     "id": 67,
-    "side": 0,
+    "side": 1,
     "coordinates": "2A",
     "active": 1,
     "associate": 7
   },  
   {
     "id": 68,
-    "side": 0,
+    "side": 1,
     "coordinates": "2B",
     "active": 0,
     "associate": 8

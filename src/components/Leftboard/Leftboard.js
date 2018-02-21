@@ -1,6 +1,7 @@
 import React from "react";
 import Squares from "../Squares";
 import buttons from "../leftbuttons.json";
+import rightButtons from "../rightbuttons.json";
 import { Jumbotron, Button, Container, Row, Col } from "reactstrap";
 
 class Leftboard extends React.Component {
@@ -31,15 +32,14 @@ class Leftboard extends React.Component {
 
   	//This should randomly activate a new button
 	addLeftButton() { 
-		let randomId = Math.floor(Math.random()*buttons.length)
+		let randomId = Math.floor(Math.random()*rightButtons.length)
 		console.log(randomId);
 	
-		if (buttons[randomId].active === 0) {
-			buttons[randomId].active = 1;
-			document.getElementById(buttons[randomId].id).style.visibility="visible";
+		if (rightButtons[randomId].active === 0) {
+			rightButtons[randomId].active = 1;
+			document.getElementById(rightButtons[randomId].id).style.visibility="visible";
 		} 
 	}
-
 
 	//Once a button is clicked, this triggers all the changes
 	changeActive(status, id) { 
@@ -112,7 +112,7 @@ class Leftboard extends React.Component {
 	//this is the button click handler
 	buttonClick(status, id) { 
 		this.changeActive(status, id);
-		this.props.add();
+		this.props.add(this.addLeftButton);
 
 		console.log(buttons);
 	}
