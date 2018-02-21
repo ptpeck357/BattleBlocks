@@ -12,11 +12,6 @@ class Leftboard extends React.Component {
 		this.buttonClick = this.buttonClick.bind(this);
 	}
 
-	// Initiate state
-	state = {
-		buttons
-	}
-
   	//This should randomly activate a new button
 	addLeftButton() { 
 		let randomId = Math.floor(Math.random()*rightButtons.length)
@@ -109,7 +104,7 @@ class Leftboard extends React.Component {
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
 		        <h4>$BlockCoins$: {this.props.coins} Total Points: {this.props.points}</h4>		        
-		        {this.state.buttons.map(button => (
+		        {buttons.map(button => (
 		       		<Squares 
 		       			id = {button.id}
 		       			coordinates = {button.coordinates}

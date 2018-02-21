@@ -26,16 +26,16 @@ class Gameboard extends React.Component {
     opponent: "Goliath", // from user login!
     high_side: "David",
     headline: "Game is live",
-    boardleader: "David"+" has the least blocks",
+    boardleader: "Click a block to begin",
     leader: 0,
    
     //User1 settings
-    u1_blockcoin: 3,
-    u1_blockcount: 7,
+    u1_blockcoin: 0,
+    u1_blockcount: 0,
    
     //User2 settings
     u2_blockcoin: 0,
-    u2_blockcount: 6,
+    u2_blockcount: 0,
 
     //Need from database!!
     u2_points: 2,
@@ -43,38 +43,52 @@ class Gameboard extends React.Component {
   }
 
   updateLeader() {
-    let leader = "David"
+    let leader;
 
     let leftPlayer = this.state.player;
     let rightPlayer = this.state.opponent;
+    let rpBlocks = 0;
+    let lpBlocks = 0;
 
     for (let i=0; i<rightButtons.length; i++){
       if(rightButtons[i].active === 1){
-        rightPlayer = rightPlayer ++
+        console.log("WE HAVE CONTACT!")
+        rpBlocks = rpBlocks ++
       }
-      return rightPlayer
+      this.setState({u2_blockcount : rpBlocks})
     }
+      return rpBlocks
+
     for (let i=0; i<leftButtons.length; i++){
       if(leftButtons[i].active === 1){
-        leftPlayer = leftPlayer ++
+        lpBlocks = lpBlocks ++
       }
-      return leftPlayer
+      // console.log(leftPlayer);
+      this.setState({u1_blockcount : lpBlocks})
     }
+      console.log(this.state.u1_blockcount);
 
-    if (leftPlayer === rightPlayer) {
-      leader = "Both"
-    } else if (leftPlayer < rightPlayer) {
-      leader = leftPlayer
+    if (lpBlocks === rpBlocks) {
+      leader = "Both";
+    }  else 
+    if (lpBlocks < rpBlocks) {
+      leader = leftPlayer;
+    } else {
+      leader = rightPlayer;
     }
-  }
+      console.log(leader);
+    this.setState({
+      high_side: leader,
+      boardleader: leader+" has the most blocks!"})
+}
 
   addRightButton(cb) {
     cb()
-    console.log("Add right button!")
+    this.updateLeader();
   } 
   addLeftButton(cb) {
     cb()
-    console.log("Add left button!")
+    this.updateLeader();
   }
 
   leftCoins(update) {
@@ -82,7 +96,6 @@ class Gameboard extends React.Component {
     this.setState({
       u1_blockcoin: coins
     })
-    this.updateLeader();
   }
 
   leftPoints(update) {
@@ -90,7 +103,6 @@ class Gameboard extends React.Component {
     this.setState({
       u1_points: points
     })
-    this.updateLeader();
   }
 
   rightCoins(update) {
@@ -98,7 +110,6 @@ class Gameboard extends React.Component {
     this.setState({
       u2_blockcoin: coins
     })
-    this.updateLeader();
   }
 
   rightPoints(update) {
@@ -106,7 +117,6 @@ class Gameboard extends React.Component {
     this.setState({
       u2_points: points
     })
-    this.updateLeader();
   }
 
   endGame(winner) {
