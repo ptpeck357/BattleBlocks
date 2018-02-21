@@ -1,11 +1,17 @@
 [
   {
     "id": 1,
-    "active": 0
+    "side": 0,
+    "coordinates": "1A",
+    "active": 0,
+    "associate": 5
   },  
   {
     "id": 2,
-    "active": 1
+    "side": 0,
+    "coordinates": "1B",
+    "active": 1,
+    "associate": 6
   },  
   {
     "id": 3,
