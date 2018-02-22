@@ -12,6 +12,16 @@ class Leftboard extends React.Component {
 		this.buttonClick = this.buttonClick.bind(this);
 	}
 
+	//this is the button click handler
+	buttonClick(status, id) { 
+		if (this.props.coins < 1 && this.props.high !== this.props.player) {
+			console.log("Nope!")
+		} else {
+		this.changeActive(status, id);
+		this.props.add(this.addLeftButton);
+		}
+	}
+
   	//This should randomly activate a new button
 	addLeftButton() { 
 		let randomId = Math.floor(Math.random()*rightButtons.length)
@@ -91,12 +101,14 @@ class Leftboard extends React.Component {
 		this.props.leftPoints(points)
 	}
 
-	//this is the button click handler
-	buttonClick(status, id) { 
-		this.changeActive(status, id);
-		this.props.add(this.addLeftButton);
-
-		console.log(buttons);
+	componentDidMount() {
+	    for (let i=0; i<buttons.length; i++){
+	        if (buttons[i].active === 1) {
+	            document.getElementById(buttons[i].id).style.visibility="visible";
+	        } else {
+	            document.getElementById(buttons[i].id).style.visibility="hidden";
+	        }
+	    }    
 	}
 
 	render() {

@@ -27,18 +27,18 @@ class Gameboard extends React.Component {
     headline: "Game is live",
     boardleader: "Click a block to begin",
     leader: 0,
-   
-    //User1 settings
-    u1_blockcoin: 0,
-    u1_blockcount: 0,
-   
-    //User2 settings
-    u2_blockcoin: 0,
-    u2_blockcount: 0,
 
     //Need from database!!
     u2_points: 2,
     u1_points: 2,
+   
+    //User1 settings
+    u1_blockcoin: 3,
+    u1_blockcount: 0,
+   
+    //User2 settings
+    u2_blockcoin: 3,
+    u2_blockcount: 0,
   }
 
   countBlocks() {
