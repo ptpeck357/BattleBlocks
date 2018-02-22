@@ -1,21 +1,31 @@
 var mongoose = require("mongoose");
+const bcrypt = require('bcryptjs')
 var Schema = mongoose.Schema;
 
 // Create the User schema
-var User = new Schema({
+var userSchema = new Schema({
 
 	username: {
 		type: String,
-    trim: true,
-    unique: false,
-    required: true
+	    trim: true,
+	    unique: true,
+	    required: true
+	},
+
+	email: {
+		type: String,
+		trim: true,
+		unique: true,
+		required: true
 	},
 
   password: {
     type: String,
     trim: true,
     unique: false,
-    required: true
+    required: true,
+	min: 1,
+	max: 8
   },
 
   wins: {
@@ -42,7 +52,7 @@ var User = new Schema({
 });
 
 // Define schema methods
-User.methods = {
+userSchema.methods = {
 	checkPassword: function(inputPassword) {
 		return bcrypt.compareSync(inputPassword, this.password)
 	},
@@ -50,5 +60,7 @@ User.methods = {
 		return bcrypt.hashSync(plainTextPassword, 9)
 	}
 }
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
