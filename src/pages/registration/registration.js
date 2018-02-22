@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import "./signup.css";
+import logo from './assests/images/Picture1.png';
+import logo2 from './assests/images/Picture2.png';
+import logo3 from './assests/images/Picture3.png';
 
 class SignupForm extends Component {
 	
@@ -48,19 +51,24 @@ class SignupForm extends Component {
 
 	render() {
 		return (
+			
+			
+			
 			<div className="container">
 			    <div className="row-fluid">
 			        <div className="span12">
 			            <div className="span6">
+			            <img src={logo3} alt="Battle Blocks"/>
 			                <div className="area">
+
 			                    <iron-form id="form1">
+
 			                      <form className="form-horizontal">
+
 			                          <div className="heading">
 			                              <h4 className="form-heading">Sign In</h4>
-			                          </div>
-
+			                          </div>  
 			                          
-
 			                          <div className="control-group">
 			                              <label className="control-label" htmlFor=
 			                              "inputUsername">Username</label>
@@ -100,7 +108,8 @@ class SignupForm extends Component {
 			                    </iron-form>
 			                </div>
 			            </div>
-
+			            
+			            
 			            <div className="span6">
 			                <div className="area">
 			                    <iron-form id="form2">
@@ -195,7 +204,12 @@ class SignupForm extends Component {
 			            </div>
 			        </div>
 			    </div>
+			    <div>
+					<img src={logo} alt="Battle Blocks" id="logo"/>
+					
+				</div>
 			</div>
+
 
 		)
 	}

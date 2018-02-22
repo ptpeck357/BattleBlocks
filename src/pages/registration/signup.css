@@ -41,6 +41,10 @@ a {
 .rainbow-button:hover {
   animation:slidebg 2s linear infinite;
 }
+#logo{
+  
+  height: 300px;
+}
 
 @keyframes slidebg {
   to {
