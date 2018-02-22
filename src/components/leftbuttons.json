@@ -1,0 +1,380 @@
+[
+  {
+    "id": 1,
+    "side": 0,
+    "coordinates": "1A",
+    "active": 0,
+    "associate": 5
+  },  
+  {
+    "id": 2,
+    "side": 0,
+    "coordinates": "1B",
+    "active": 0,
+    "associate": 6
+  },  
+  {
+    "id": 3,
+    "side": 0,
+    "coordinates": "2A",
+    "active": 0,
+    "associate": 7
+  },  
+  {
+    "id": 4,
+    "side": 0,
+    "coordinates": "2B",
+    "active": 0,
+    "associate": 8
+  },  
+  {
+    "id": 5,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 0,
+    "associate": 1
+  },  
+  {
+    "id": 6,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 1,
+    "associate": 2
+  },  
+  {
+    "id": 7,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 8,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 0,
+    "associate": 4
+  },
+  {
+    "id": 9,
+    "side": 0,
+    "coordinates": "1A",
+    "active": 0,
+    "associate": 5
+  },  
+  {
+    "id": 10,
+    "side": 0,
+    "coordinates": "1B",
+    "active": 0,
+    "associate": 6
+  },  
+  {
+    "id": 11,
+    "side": 0,
+    "coordinates": "2A",
+    "active": 0,
+    "associate": 7
+  },  
+  {
+    "id": 12,
+    "side": 0,
+    "coordinates": "2B",
+    "active": 0,
+    "associate": 8
+  },  
+  {
+    "id": 13,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 0,
+    "associate": 1
+  },  
+  {
+    "id": 14,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 1,
+    "associate": 2
+  },  
+  {
+    "id": 15,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 16,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 0,
+    "associate": 4
+  },
+  {
+    "id": 17,
+    "side": 0,
+    "coordinates": "1A",
+    "active": 0,
+    "associate": 5
+  },  
+  {
+    "id": 18,
+    "side": 0,
+    "coordinates": "1B",
+    "active": 1,
+    "associate": 6
+  },  
+  {
+    "id": 19,
+    "side": 0,
+    "coordinates": "2A",
+    "active": 0,
+    "associate": 7
+  },  
+  {
+    "id": 20,
+    "side": 0,
+    "coordinates": "2B",
+    "active": 0,
+    "associate": 8
+  },  
+  {
+    "id": 21,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 0,
+    "associate": 1
+  },  
+  {
+    "id": 22,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 0,
+    "associate": 2
+  },  
+  {
+    "id": 23,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 24,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 0,
+    "associate": 4
+  },
+  {
+    "id": 25,
+    "side": 0,
+    "coordinates": "1A",
+    "active": 0,
+    "associate": 5
+  },  
+  {
+    "id": 26,
+    "side": 0,
+    "coordinates": "1B",
+    "active": 0,
+    "associate": 6
+  },  
+  {
+    "id": 27,
+    "side": 0,
+    "coordinates": "2A",
+    "active": 1,
+    "associate": 7
+  },  
+  {
+    "id": 28,
+    "side": 0,
+    "coordinates": "2B",
+    "active": 0,
+    "associate": 8
+  },  
+  {
+    "id": 29,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 0,
+    "associate": 1
+  },  
+  {
+    "id": 30,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 0,
+    "associate": 2
+  },  
+  {
+    "id": 31,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 32,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 0,
+    "associate": 4
+  },
+  {
+    "id": 33,
+    "side": 0,
+    "coordinates": "2A",
+    "active": 0,
+    "associate": 7
+  },  
+  {
+    "id": 34,
+    "side": 0,
+    "coordinates": "2B",
+    "active": 0,
+    "associate": 8
+  },  
+  {
+    "id": 35,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 1,
+    "associate": 1
+  },  
+  {
+    "id": 36,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 0,
+    "associate": 2
+  },  
+  {
+    "id": 37,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 38,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 0,
+    "associate": 4
+  },
+  {
+    "id": 39,
+    "side": 0,
+    "coordinates": "1A",
+    "active": 0,
+    "associate": 5
+  },  
+  {
+    "id": 40,
+    "side": 0,
+    "coordinates": "1B",
+    "active": 1,
+    "associate": 6
+  },  
+  {
+    "id": 41,
+    "side": 0,
+    "coordinates": "2A",
+    "active": 1,
+    "associate": 7
+  },  
+  {
+    "id": 42,
+    "side": 0,
+    "coordinates": "2B",
+    "active": 0,
+    "associate": 8
+  },  
+  {
+    "id": 43,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 1,
+    "associate": 1
+  },  
+  {
+    "id": 44,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 1,
+    "associate": 2
+  },  
+  {
+    "id": 45,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 46,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 1,
+    "associate": 4
+  },
+    {
+    "id": 47,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 1,
+    "associate": 1
+  },  
+  {
+    "id": 48,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 0,
+    "associate": 2
+  },  
+  {
+    "id": 49,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 50,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 1,
+    "associate": 4
+  },
+    {
+    "id": 51,
+    "side": 1,
+    "coordinates": "1C",
+    "active": 0,
+    "associate": 1
+  },  
+  {
+    "id": 52,
+    "side": 1,
+    "coordinates": "1D",
+    "active": 0,
+    "associate": 2
+  },  
+  {
+    "id": 53,
+    "side": 1,
+    "coordinates": "2C",
+    "active": 0,
+    "associate": 3
+  },  
+  {
+    "id": 54,
+    "side": 1,
+    "coordinates": "2D",
+    "active": 0,
+    "associate": 4
+  }
+]
