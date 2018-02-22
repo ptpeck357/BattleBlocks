@@ -66,14 +66,14 @@
     "id": 74,
     "side": 1,
     "coordinates": "1B",
-    "active": 1,
+    "active": 0,
     "associate": 6
   },  
   {
     "id": 75,
     "side": 1,
     "coordinates": "2A",
-    "active": 1,
+    "active": 0,
     "associate": 7
   },  
   {
@@ -276,7 +276,7 @@
     "id": 104,
     "side": 1,
     "coordinates": "2D",
-    "active": 1,
+    "active": 0,
     "associate": 4
   },
   {
@@ -374,7 +374,7 @@
     "id": 118,
     "side": 1,
     "coordinates": "2D",
-    "active": 1,
+    "active": 0,
     "associate": 4
   }
 ]

@@ -20,7 +20,6 @@ class Gameboard extends React.Component {
   }
 
   state = {
-
     //Game state settings
     player: "David", // from user login!
     opponent: "Goliath", // from user login!
@@ -42,53 +41,52 @@ class Gameboard extends React.Component {
     u1_points: 2,
   }
 
-  updateLeader() {
-    let leader;
-
-    let leftPlayer = this.state.player;
-    let rightPlayer = this.state.opponent;
-    let rpBlocks = 0;
-    let lpBlocks = 0;
+  countBlocks() {
+    let u2_blocks = 0;
+    let u1_blocks = 0;
 
     for (let i=0; i<rightButtons.length; i++){
       if(rightButtons[i].active === 1){
         console.log("WE HAVE CONTACT!")
-        rpBlocks = rpBlocks ++
+        u2_blocks = u2_blocks + 1
       }
-      this.setState({u2_blockcount : rpBlocks})
+      this.setState({u2_blockcount : u2_blocks})
     }
-      return rpBlocks
 
     for (let i=0; i<leftButtons.length; i++){
       if(leftButtons[i].active === 1){
-        lpBlocks = lpBlocks ++
+        u1_blocks = u1_blocks + 1
       }
       // console.log(leftPlayer);
-      this.setState({u1_blockcount : lpBlocks})
+      this.setState({u1_blockcount : u1_blocks})
     }
       console.log(this.state.u1_blockcount);
 
-    if (lpBlocks === rpBlocks) {
-      leader = "Both";
+    this.updateLeader(u1_blocks, u2_blocks)
+  }
+
+  updateLeader(u1_blocks, u2_blocks) {
+    let leader = "Neither"
+    if (u1_blocks === u2_blocks) {
+      this.setState({boardleader: "Both players are equal"});
     }  else 
-    if (lpBlocks < rpBlocks) {
-      leader = leftPlayer;
+    if (u1_blocks < u2_blocks) {
+      leader = this.state.opponent;
     } else {
-      leader = rightPlayer;
+      leader = this.state.player;
     }
-      console.log(leader);
     this.setState({
       high_side: leader,
       boardleader: leader+" has the most blocks!"})
-}
+  }
 
   addRightButton(cb) {
     cb()
-    this.updateLeader();
+    this.countBlocks();
   } 
   addLeftButton(cb) {
     cb()
-    this.updateLeader();
+    this.countBlocks();
   }
 
   leftCoins(update) {
