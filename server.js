@@ -44,11 +44,6 @@ app.use(expressValidator({
     }
 }));
 
-app.use((req, res, next) => {
-    res.locals.user = req.user || null;
-    next();
-});
-
 app.use(routes);
 
 // Set up promises with mongoose

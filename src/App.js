@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Nav from "./components/Nav";
 import Registration from "./pages/registration";
 import Lobby from "./pages/lobby";
 import Gameboard from "./pages/gameboard";
@@ -13,7 +12,6 @@ const App = () =>
 
   <Router>
     <div>
-      <Nav />
       <Switch>
         <Route exact path="/" component={Registration} />
         <Route exact path="/lobby" component={Lobby} />

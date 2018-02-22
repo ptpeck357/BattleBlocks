@@ -20,65 +20,63 @@ router.post('/signup', (req, res) => {
 
 	if(errors){
 		return res.json(errors)
+	} else {
+
+		User.findOne({ 'username': username }, (err, userMatch) => {
+
+			/*If there is a userame already in the database return message*/
+			if (userMatch) {
+				console.log("Already a user")
+				return res.json({
+					error: `Sorry, already a user with the username: ${username}`
+				})
+
+			} else {
+
+				/*Adding new user*/
+				const newUser = new User();
+				newUser.email = email,
+				newUser.username = username,
+				newUser.password = newUser.hashPassword(password);
+
+				/*Save new user*/
+				newUser.save((err, savedUser) => {
+					if (err) throw err;
+					res.json(savedUser)
+					console.log("user saved");
+				})
+			}
+		});
 	};
-
-	User.findOne({ 'username': username }, (err, userMatch) => {
-
-		/*If there is a userame already in the database return message*/
-		if (userMatch) {
-			console.log("Already a user")
-			return res.json({
-				error: `Sorry, already a user with the username: ${username}`
-			})
-
-		} else {
-
-			/*Accessing User database*/
-			const newUser = new User();
-			newUser.email = email,
-			newUser.username = username,
-			newUser.password = newUser.hashPassword(password);
-
-			/*Save new user*/
-			newUser.save((err, savedUser) => {
-				if (err) return err;
-				// return res.json(savedUser)
-				console.log("user saved");
-			})
-		}
-	})
 });
 
 /*Route for login*/
-router.post('/login', (req, res, next) => {
-	console.log('================')
-	next()
-	},
-	passport.authenticate('local'), (req, res) => {
-		console.log('POST to /login')
-		// const user = JSON.parse(JSON.stringify(req.user)) // hack
-		// const cleanUser = Object.assign({}, user)
-		// if (cleanUser.local) {
-		// 	console.log(`Deleting ${cleanUser.local.password}`)
-		// 	delete cleanUser.local.password
-		// }
-		// res.json({ user: cleanUser })
-		console.log(res.locals.user);
-	}
+router.post('/login', passport.authenticate('local'), function(req, res) {
+		const currentUser = req.user;
+		console.log("valid")
+		console.log(currentUser.username)
+		res.status(200).json(req.user);
+  	}
 );
 
-// ensureAuthenticated = (req, res, next) => {
-//     if(req.isAuthenticated()) {
-//         return next();
-//     } else {
-//         // res.redirect('signin');
-//     };
-// };
+/*Route to lobby*/
+// router.get('/lobby', isLoggedIn, (req, res) => {3
+// 	console.log("lobby")
+// })
+
+// function isLoggedIn(req, res, next){
+// 	if(req.isAuthenticated()){
+// 		return next();
+// 	} else {
+// 		return;
+// 	}
+// }
 
 /*Route to logout user*/
-router.route('/logout').post((req, res) => {
-	req.logout();
-	res.redirect('/api/');
-})
+// router.post('/logout', (req, res) => {
+// 	req.logout();
+// 	req.destroy()
+// 	console.log("user logged out")
+// })
 
 module.exports = router;
