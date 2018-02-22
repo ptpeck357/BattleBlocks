@@ -1,63 +1,69 @@
 var mongoose = require("mongoose");
+const bcrypt = require('bcryptjs')
 var Schema = mongoose.Schema;
 
 // Create the User schema
 var userSchema = new Schema({
 
-    username: {
-        type: String,
-   trim: true,
-   unique: false,
-   required: true
-    },
 
-    email: {
-        type: String,
-        trim: true,
-        unique: false,
-        required: true
-    },
+	username: {
+		type: String,
+	    trim: true,
+	    unique: true,
+	    required: true
+	},
 
- password: {
-   type: String,
-   trim: true,
-   unique: false,
-   required: true
- },
+	email: {
+		type: String,
+		trim: true,
+		unique: true,
+		required: true
+	},
 
- wins: {
-   type: Number
- },
+  password: {
+    type: String,
+    trim: true,
+    unique: false,
+    required: true,
+	min: 1,
+	max: 8
+  },
 
- losses: {
-   type: Number
- },
+  wins: {
+    type: Number
+  },
 
- totalScore: {
-   type: Number
- },
+  losses: {
+    type: Number
+  },
 
- totalGames: {
-   type: Number
- },
+  totalScore: {
+    type: Number
+  },
 
- joindate: {
-    type: Date,
-    default: Date.now
- }
+  totalGames: {
+    type: Number
+  },
+
+  joindate: {
+     type: Date,
+     default: Date.now
+  }
 
 });
 
 // Define schema methods
 userSchema.methods = {
-    checkPassword: function(inputPassword) {
-        return bcrypt.compareSync(inputPassword, this.password)
-    },
-    hashPassword: plainTextPassword => {
-        return bcrypt.hashSync(plainTextPassword, 9)
-    }
+
+	checkPassword: function(inputPassword) {
+		return bcrypt.compareSync(inputPassword, this.password)
+	},
+	hashPassword: plainTextPassword => {
+		return bcrypt.hashSync(plainTextPassword, 9)
+	}
 }
 
 const User = mongoose.model('User', userSchema);
+
 
 module.exports = User;
