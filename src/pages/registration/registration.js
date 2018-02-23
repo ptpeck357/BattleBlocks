@@ -15,7 +15,6 @@ class SignupForm extends Component {
 			password: '',
 			confirmPassword: '',
 			secretQuestion: '',
-			loggedOn: false,
 			path: null,
 			errorMsg: [],
 			redirectTo: null
@@ -39,9 +38,6 @@ class SignupForm extends Component {
 			confirmPassword: this.state.confirmPassword
     }).then(response => {
 
-		// document.getElementById("signupform").reset();
-		console.log(response);
-
 		this.setState({
 			email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
 		});
@@ -61,15 +57,14 @@ class SignupForm extends Component {
 		}).then(response => {
 
 			console.log(response.data);
-			console.log("it worked");
-			// document.getElementById("loginform").reset();
 
 			// this.setState({
-			// 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby", loggedOn: true
+			// 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
 			// });
 
 		}).catch(error => {
 			console.log(error);
+			console.log(error.message)
 		  });
 	};
 
