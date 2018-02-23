@@ -4,6 +4,7 @@ import Rightboard from "../../components/Rightboard";
 import leftButtons from "../leftbuttons.json";
 import rightButtons from "../rightbuttons.json";
 import {  Jumbotron, Button, Container, Row, Col } from "reactstrap";
+import Navbar from "../../components/Nav/index";
 
 class Gameboard extends React.Component {
 
@@ -129,9 +130,7 @@ class Gameboard extends React.Component {
   render() {
     return (
       <Container fluid>
-        <Row>
-          <h1>{this.state.headline}</h1>
-        </Row>
+      <Navbar headline = {this.state.headline}/>
         <Row>
           <h2>{this.state.boardleader}</h2>
         </Row>
