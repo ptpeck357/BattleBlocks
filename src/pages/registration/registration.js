@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import "./signup.css";
+import Navbar from "../../components/Nav/index";
+
+let headline = "Welcome to BattleBlocks!"
 
 class SignupForm extends Component {
 
@@ -80,6 +83,9 @@ class SignupForm extends Component {
 		} else {
 			return (
 				<div className="container">
+				<Navbar headline = {headline}/>
+				<hr />
+				<hr />
 					<div className="row-fluid">
 						<div className="span12">
 							<div className="span6">

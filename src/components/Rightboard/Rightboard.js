@@ -102,6 +102,7 @@ class Rightboard extends React.Component {
 		this.props.rightPoints(points)
 	}
 
+	//After the mount, read through the buttons and make them visible or hidden
 	componentDidMount() {
 	    for (let i=0; i<buttons.length; i++){
 	        if (buttons[i].active === 1) {
@@ -112,6 +113,7 @@ class Rightboard extends React.Component {
 	    }    
 	}
 
+	//Render to Dom
 	render() {
 		return (
 		  	<Container fluid>
