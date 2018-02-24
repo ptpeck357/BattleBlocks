@@ -68,4 +68,11 @@ router.post('/login', function(req, res, next) {
 	(req, res, next);
   });
 
+router.get('/lobby/newgame', function(req, res) {
+	res.json(req.user)
+
+	console.log("New game route works")
+	console.log("req.user = " + req.user)
+})
+
 module.exports = router;
