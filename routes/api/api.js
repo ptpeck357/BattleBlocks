@@ -29,7 +29,7 @@ router.post('/signup', (req, res) => {
 			if (userMatch) {
 				console.log("Username taken")
 				return res.json({
-					error: `Sorry, already a user with the username: ${username}`
+					errors: [{msg: `Sorry, already a user with the username: ${username}`}]
 				})
 
 			} else {
