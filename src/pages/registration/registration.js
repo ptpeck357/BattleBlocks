@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import _ from 'lodash';
 
+
 var errArray = [];
 var objrow;
 const customStyles = {
@@ -43,7 +44,6 @@ const customStyles = {
       padding: 30
     };
 
-import Navbar from "../../components/Nav/index";
 
 let headline = "Welcome to BattleBlocks!"
 
@@ -74,7 +74,6 @@ class SignupForm extends Component {
 		});
 	};
 
-
 	/*Function to handle signup on submit*/
 	handleSubmit = (event) => {
     	event.preventDefault()
@@ -85,18 +84,19 @@ class SignupForm extends Component {
 			confirmPassword: this.state.confirmPassword
     }).then(response => {
 
-		this.setState({
-			email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
-		});
-
-
-		if(true){
-			for(var i=0;i<response.data.length;i++){
-				errArray.push(response.data[i].msg);
+		
+	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
+		if(response.data.errors){
+			for(var i=0;i<response.data.errors.length;i++){
+				errArray.push(response.data.errors[i].msg);
 			}
-		this.openModal();
-		objrow = errArray.length;
-		errArray = [];
+			this.openModal();
+			errArray = [];
+		}else{
+				this.setState({
+				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
+				});
+			console.log(response);
 		}
 
 		}).catch((error) => {
@@ -112,11 +112,11 @@ class SignupForm extends Component {
 			password: this.state.passwordSignIn
 		}).then(response => {
 
-			console.log(response.data);
+			console.log(response.errors);
 
-			// this.setState({
-			// 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-			// });
+			 this.setState({
+			 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+			});
 
 		}).catch(error => {
 			console.log(error);
@@ -148,10 +148,6 @@ class SignupForm extends Component {
 				<div className="container">
 
 				<img src={logo3} alt="Battle Blocks"/>
-
-				<Navbar headline = {headline}/>
-				<hr />
-				<hr />
 					<div className="row-fluid">
 						<div className="span12">
 						
@@ -178,7 +174,7 @@ class SignupForm extends Component {
 												<label className="control-label" htmlFor="inputPassword">Password</label>
 												<div className="controls">
 													<input id="inputPassword"
-														placeholder="Min. 8 Characters"
+														placeholder="Min. 6 Characters"
 														type="password"
 														value={this.state.passwordSignIn}
 														onChange={this.handleChange}
@@ -236,7 +232,7 @@ class SignupForm extends Component {
 												<label className="control-label" htmlFor="inputPassword">Password</label>
 												<div className="controls">
 													<input id="password"
-														placeholder="Min. 8 Characters"
+														placeholder="Min. 6 Characters"
 														type="password"
 														value={this.state.password}
 														onChange={this.handleChange}
@@ -249,7 +245,7 @@ class SignupForm extends Component {
 												<label className="control-label" htmlFor= "inputPassword">Confirm Password</label>
 												<div className="controls">
 													<input id="confirmPassword"
-														placeholder="Min. 8 Characters"
+														placeholder="Min. 6 Characters"
 														type="password"
 														value={this.state.confirmPassword}
 														onChange={this.handleChange}
@@ -295,21 +291,15 @@ class SignupForm extends Component {
           style={customStyles}
           contentLabel="Error"
         >
-
-          <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
-
-
-          
-  			<li>{errArray}</li>
-		
-  
-         
-          
-          
-  
+        <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
+		<ul>
+               {errArray.map(function(errorMessgae, index){
+                   return <li key={ index }>{errorMessgae}</li>;
+                 })}
+           </ul>          
         </Modal>
 
-				</div>
+	</div>
 
 			)
 		};
