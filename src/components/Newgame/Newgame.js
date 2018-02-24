@@ -1,6 +1,7 @@
 import React from "react";
 import {  Jumbotron, Button, Container } from "reactstrap";
 import Navbar from "../../components/Nav/index";
+import axios from "axios";
 
 //This component sits in "Lobby" button and initiates a new game
 class Newgame extends React.Component {
@@ -8,6 +9,10 @@ class Newgame extends React.Component {
 	constructor(props){
 		super(props);
 		this.startGame = this.startGame.bind(this);
+	}
+
+	state = {
+		user : null
 	}
 
 	startGame() {
