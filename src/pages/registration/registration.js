@@ -2,9 +2,47 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import "./signup.css";
-import logo from './assests/images/Picture1.png';
-import logo2 from './assests/images/Picture2.png';
 import logo3 from './assests/images/Picture3.png';
+import signup from './assests/images/sign-up-here.jpg';
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
+import _ from 'lodash';
+
+var errArray = [];
+var objrow;
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};	
+
+
+
+    const backdropStyle = {
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'rgba(0,0,0,0.3)',
+      padding: 50
+    };
+
+
+    const modalStyle = {
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      maxWidth: 500,
+      minHeight: 300,
+      margin: '0 auto',
+      padding: 30
+    };
+
 
 class SignupForm extends Component {
 
@@ -21,9 +59,11 @@ class SignupForm extends Component {
 			loggedOn: false,
 			path: null,
 			errorMsg: [],
+			modalIsOpen: false,
 			redirectTo: null
 		};
   	};
+
 
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
@@ -31,6 +71,7 @@ class SignupForm extends Component {
 			[event.target.name]: event.target.value
 		});
 	};
+
 
 	/*Function to handle signup on submit*/
 	handleSubmit = (event) => {
@@ -49,6 +90,15 @@ class SignupForm extends Component {
 			email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
 		});
 
+
+		if(true){
+			for(var i=0;i<response.data.length;i++){
+				errArray.push(response.data[i].msg);
+			}
+		this.openModal();
+		objrow = errArray.length;
+		errArray = [];
+		}
 
 		}).catch((error) => {
 			console.log(error);
@@ -76,17 +126,33 @@ class SignupForm extends Component {
 		  });
 	};
 
+			openModal = () => {
+		    this.setState({modalIsOpen: true});
+		  }
+
+		  afterOpenModal = () => {
+		    // references are now sync'd and can be accessed.
+		    this.subtitle.style.color = '#f00';
+		  }
+
+		  closeModal = () => {
+		    this.setState({modalIsOpen: false});
+		  }
+
+
 	/*Function to render HTML form*/
 	render() {
-
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
+
 				<div className="container">
+
+				<img src={logo3} alt="Battle Blocks"/>
 					<div className="row-fluid">
 						<div className="span12">
-						<img src={logo3} alt="Battle Blocks"/>
+						
 							<div className="span6">
 								<div className="area">
 									<iron-form id="form1">
@@ -124,11 +190,6 @@ class SignupForm extends Component {
 													<a className="btn btn-link" href="#">Forgot my password</a>
 													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 												</div>
-											</div>
-
-											<div className="alert alert-error" id="alert-local-failure">
-												<strong>Access Denied!</strong>
-												Please provide valid authorization.
 											</div>
 										</form>
 									</iron-form>
@@ -223,14 +284,35 @@ class SignupForm extends Component {
 						</div>
 					</div>
 					<div>
-					<img src={logo} alt="Battle Blocks" id="logo"/>
+					</div>
 					
-				</div>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Error"
+        >
+
+          <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
+
+
+          
+  			<li>{errArray}</li>
+		
+  
+         
+          
+          
+  
+        </Modal>
+
 				</div>
 
 			)
 		};
 	};
 };
+
 
 export default SignupForm
