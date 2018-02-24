@@ -92,6 +92,7 @@ class SignupForm extends Component {
 			}
 			this.openModal();
 			errArray = [];
+			console.log(response);
 		}else{
 				this.setState({
 				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
