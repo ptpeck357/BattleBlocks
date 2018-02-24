@@ -3,6 +3,7 @@ import Squares from "../Squares";
 import buttons from "../rightbuttons.json";
 import leftButtons from "../leftbuttons.json";
 import { Jumbotron, Button, Container, Row, Col } from "reactstrap";
+import URL from "url-parse";
 
 class Rightboard extends React.Component {
 
@@ -101,6 +102,16 @@ class Rightboard extends React.Component {
 		// console.log(points);
 		this.props.rightPoints(points)
 	}
+
+	//Captures the gameID from the url
+    parseUrl() {
+		let gameUrl = window.location.href;
+		let path = new URL(gameUrl);
+		console.log(path.pathname);
+		let gameID = path.pathname.slice(11);
+		console.log(gameID);
+	}  
+
 
 	//After the mount, read through the buttons and make them visible or hidden
 	componentDidMount() {

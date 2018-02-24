@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 import "./signup.css";
 import logo3 from './assests/images/Picture3.png';
 import signup from './assests/images/sign-up-here.jpg';

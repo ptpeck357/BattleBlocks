@@ -72,7 +72,7 @@ router.post('/login', function(req, res, next) {
 router.get('/lobby/newgame', function(req, res, next) {
 	console.log("New game route works")
 	console.log("req.user = " + req.user)
-	
+
 	if(res.user){
 		res.json(req.user)
 	} else {

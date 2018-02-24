@@ -1,10 +1,10 @@
 import React from "react";
 import {  Jumbotron, Button, Container } from "reactstrap";
+import { Redirect } from 'react-router-dom';
 import Navbar from "../../components/Nav/index";
-import axios from "axios";
 import leftButtons from "../leftbuttons.json";
 import rightButtons from "../rightbuttons.json";
-import fire from "../../fire.js"
+import fire from "../../fire.js";
 
 //This component sits in "Lobby" button and initiates a new game
 class Newgame extends React.Component {
@@ -13,28 +13,16 @@ class Newgame extends React.Component {
 		super(props);
 		this.startGame = this.startGame.bind(this);
 		this.createGameData = this.createGameData.bind(this);
+
+		this.state = {
+			redirectTo : null,
+		}
 	}
 
-	// state = {
-	// 	user1_userName : null,
-	// 	user2_userName: null,
-	// 	user1_points: null,
-	// 	user2_points: null,
-	// 	user1_buttons: null,
-	// 	user2_buttons: null
-	// }
-
 	createGameData() {
-		axios.get('/api/lobby/newgame').then(response => {
-   		console.log(response.data)
-   
-		})
-
-		let myRef = fire.ref().push();
-		let key = myRef.key;
 
 		let newData = {
-			id: key,
+			id: null,
 			user1_userName: null,
 			user1_userPoints: null,
 			user1_userCoins: null,
@@ -44,8 +32,12 @@ class Newgame extends React.Component {
 			user1_buttons: leftButtons,
 			user2_buttons: rightButtons
 		}
-		console.log(newData);
-		myRef.push(newData)
+		let myRef = fire.ref().push(newData)
+		let gameRoute = '/gameboard/' + myRef.key;
+
+		this.setState({
+			redirectTo : gameRoute
+		});
 	}
 
 	createNewUserInFirebase() {
@@ -74,11 +66,17 @@ class Newgame extends React.Component {
 	}
 
 	render() {
-		return (
-			<Button onClick ={this.startGame}>
-				Start A Round
-			</Button>
-		)
+		if (this.state.redirectTo) {
+			return <Redirect to={{ pathname: this.state.redirectTo }} />
+		} 
+		else 
+		{
+			return (
+				<Button onClick ={this.startGame}>
+					Start A Round
+				</Button>
+			)
+		}
 	}
 }
 
