@@ -9,12 +9,10 @@ const strategy = new LocalStrategy(
 				return done(err)
 			}
 			if (!userMatch) {
-				console.log("no user found");
-				return done(null, false)
+				return done(null, false, {response: 'Unknown User'})
 			}
 			if (!userMatch.checkPassword(password)) {
-				console.log("password doesn't match");
-				return done(null, false)
+				return done(null, false, {response: 'Invalid Password'})
 			}
 
 			return done(null, userMatch)

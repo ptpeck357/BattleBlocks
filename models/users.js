@@ -10,23 +10,19 @@ var userSchema = new Schema({
 		type: String,
 	    trim: true,
 	    unique: true,
-	    required: true
-	},
+      required: true
+    },
 
 	email: {
-		type: String,
-		trim: true,
-		unique: true,
-		required: true
-	},
+    type: String,
+    unique: true,
+    required: true
+  },
 
   password: {
     type: String,
     trim: true,
-    unique: false,
-    required: true,
-	min: 1,
-	max: 8
+    required: true
   },
 
   wins: {

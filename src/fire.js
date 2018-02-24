@@ -12,5 +12,6 @@ import firebase from "firebase";
 
   //Initialize Firebase
   var fire = firebase.initializeApp(config);
+  var database = firebase.database();
 
-export default fire;
+export default database;

@@ -4,6 +4,7 @@ import Rightboard from "../../components/Rightboard";
 import leftButtons from "../leftbuttons.json";
 import rightButtons from "../rightbuttons.json";
 import {  Jumbotron, Button, Container, Row, Col } from "reactstrap";
+import Navbar from "../../components/Nav/index";
 
 class Gameboard extends React.Component {
 
@@ -27,18 +28,18 @@ class Gameboard extends React.Component {
     headline: "Game is live",
     boardleader: "Click a block to begin",
     leader: 0,
-   
-    //User1 settings
-    u1_blockcoin: 0,
-    u1_blockcount: 0,
-   
-    //User2 settings
-    u2_blockcoin: 0,
-    u2_blockcount: 0,
 
     //Need from database!!
     u2_points: 2,
     u1_points: 2,
+   
+    //User1 settings
+    u1_blockcoin: 3,
+    u1_blockcount: 0,
+   
+    //User2 settings
+    u2_blockcoin: 3,
+    u2_blockcount: 0,
   }
 
   countBlocks() {
@@ -129,9 +130,7 @@ class Gameboard extends React.Component {
   render() {
     return (
       <Container fluid>
-        <Row>
-          <h1>{this.state.headline}</h1>
-        </Row>
+      <Navbar headline = {this.state.headline}/>
         <Row>
           <h2>{this.state.boardleader}</h2>
         </Row>

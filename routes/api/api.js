@@ -11,22 +11,22 @@ router.post('/signup', (req, res) => {
 	const confirmPassword= req.body.confirmPassword;
 
 	/*Checking forms for validity*/
-	req.checkBody('email', 'Email is required').isEmail();
+	req.checkBody('email', 'Please provide a valid email address').isEmail();
 	req.checkBody('username', 'username is required').notEmpty();
 	req.checkBody('password', 'Password is required').notEmpty();
-	req.checkBody('confirmPassword', 'Password does not match').equals(req.body.password);
+	req.checkBody('confirmPassword', 'Password does not match').equals(password);
 
 	var errors = req.validationErrors();
 
 	if(errors){
-		return res.json(errors)
+		return res.json({errors: errors})
 	} else {
 
 		User.findOne({ 'username': username }, (err, userMatch) => {
 
 			/*If there is a userame already in the database return message*/
 			if (userMatch) {
-				console.log("Already a user")
+				console.log("Username taken")
 				return res.json({
 					error: `Sorry, already a user with the username: ${username}`
 				})
@@ -38,45 +38,34 @@ router.post('/signup', (req, res) => {
 				newUser.email = email,
 				newUser.username = username,
 				newUser.password = newUser.hashPassword(password);
+				newUser.wins = 0;
+				newUser.losses = 0;
+				newUser.totalScore = 0;
+				newUser.totalGame = 0;
 
 				/*Save new user*/
-				newUser.save((err, savedUser) => {
-					if (err) throw err;
-					res.json(savedUser)
-					console.log("user saved");
-				})
+				newUser.save().then((dbUser) => {
+					res.json(dbUser);
+					console.log("User saved")
+				  })
 			}
 		});
 	};
 });
 
-/*Route for login*/
-router.post('/login', passport.authenticate('local'), function(req, res) {
-		const currentUser = req.user;
-		console.log("valid")
-		console.log(currentUser.username)
-		res.status(200).json(req.user);
-  	}
-);
-
-/*Route to lobby*/
-// router.get('/lobby', isLoggedIn, (req, res) => {3
-// 	console.log("lobby")
-// })
-
-// function isLoggedIn(req, res, next){
-// 	if(req.isAuthenticated()){
-// 		return next();
-// 	} else {
-// 		return;
-// 	}
-// }
-
-/*Route to logout user*/
-// router.post('/logout', (req, res) => {
-// 	req.logout();
-// 	req.destroy()
-// 	console.log("user logged out")
-// })
+router.post('/login', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+	  	if (err) {
+			return next(err);
+		}
+	 	if (!user) {
+		 	console.log("invalid User")
+		}
+		if (user) {
+			res.json(user)
+		}
+	})
+	(req, res, next);
+  });
 
 module.exports = router;

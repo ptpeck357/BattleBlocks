@@ -43,6 +43,9 @@ const customStyles = {
       padding: 30
     };
 
+import Navbar from "../../components/Nav/index";
+
+let headline = "Welcome to BattleBlocks!"
 
 class SignupForm extends Component {
 
@@ -56,7 +59,6 @@ class SignupForm extends Component {
 			password: '',
 			confirmPassword: '',
 			secretQuestion: '',
-			loggedOn: false,
 			path: null,
 			errorMsg: [],
 			modalIsOpen: false,
@@ -82,9 +84,6 @@ class SignupForm extends Component {
 			password: this.state.password,
 			confirmPassword: this.state.confirmPassword
     }).then(response => {
-
-		// document.getElementById("signupform").reset();
-		console.log(response);
 
 		this.setState({
 			email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
@@ -114,15 +113,14 @@ class SignupForm extends Component {
 		}).then(response => {
 
 			console.log(response.data);
-			console.log("it worked");
-			// document.getElementById("loginform").reset();
 
 			// this.setState({
-			// 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby", loggedOn: true
+			// 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
 			// });
 
 		}).catch(error => {
 			console.log(error);
+			console.log(error.message)
 		  });
 	};
 
@@ -150,6 +148,10 @@ class SignupForm extends Component {
 				<div className="container">
 
 				<img src={logo3} alt="Battle Blocks"/>
+
+				<Navbar headline = {headline}/>
+				<hr />
+				<hr />
 					<div className="row-fluid">
 						<div className="span12">
 						

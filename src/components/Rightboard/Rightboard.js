@@ -12,6 +12,17 @@ class Rightboard extends React.Component {
 		this.buttonClick = this.buttonClick.bind(this);
 	}
 
+
+	//this is the button click handler
+	buttonClick(status, id) { 
+		if (this.props.coins < 1 && this.props.high !== this.props.player) {
+			console.log("nuh huh uhuh!")
+		} else {
+		this.changeActive(status, id);
+		this.props.add(this.addRightButton);
+		}
+	}
+
   	//This should randomly activate a new button
 	addRightButton() { 
 		let randomId = Math.floor(Math.random()*leftButtons.length)
@@ -27,7 +38,7 @@ class Rightboard extends React.Component {
 	changeActive(status, id) { 
 		for (let i=0; i<buttons.length; i++){
 			if(buttons[i].id === id && buttons[i].active === 1){
-				buttons[i].active=0;
+				buttons[i].active = 0;
 				this.reDisplay(status, id);
 				this.changeCoin();
 				this.changePoints();
@@ -91,14 +102,18 @@ class Rightboard extends React.Component {
 		this.props.rightPoints(points)
 	}
 
-	//this is the button click handler
-	buttonClick(status, id) { 
-		this.changeActive(status, id);
-		this.props.add(this.addRightButton);
-
-		console.log(buttons);
+	//After the mount, read through the buttons and make them visible or hidden
+	componentDidMount() {
+	    for (let i=0; i<buttons.length; i++){
+	        if (buttons[i].active === 1) {
+	            document.getElementById(buttons[i].id).style.visibility="visible";
+	        } else {
+	            document.getElementById(buttons[i].id).style.visibility="hidden";
+	        }
+	    }    
 	}
 
+	//Render to Dom
 	render() {
 		return (
 		  	<Container fluid>
