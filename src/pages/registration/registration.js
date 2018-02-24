@@ -97,7 +97,7 @@ class SignupForm extends Component {
 				this.setState({
 				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
 				});
-			console.log(response);
+			// console.log(response);
 		}
 
 		}).catch((error) => {

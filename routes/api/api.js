@@ -69,11 +69,15 @@ router.post('/login', function(req, res, next) {
 	(req, res, next);
   });
 
-router.get('/lobby/newgame', function(req, res) {
-	res.json(req.user)
-
+router.get('/lobby/newgame', function(req, res, next) {
 	console.log("New game route works")
 	console.log("req.user = " + req.user)
+	
+	if(res.user){
+		res.json(req.user)
+	} else {
+		console.log("no user found")
+	}
 })
 
 module.exports = router;
