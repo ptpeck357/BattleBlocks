@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 // Create the User schema
 var userSchema = new Schema({
 
+
 	username: {
 		type: String,
 	    trim: true,
@@ -49,6 +50,7 @@ var userSchema = new Schema({
 
 // Define schema methods
 userSchema.methods = {
+
 	checkPassword: function(inputPassword) {
 		return bcrypt.compareSync(inputPassword, this.password)
 	},
@@ -58,5 +60,6 @@ userSchema.methods = {
 }
 
 const User = mongoose.model('User', userSchema);
+
 
 module.exports = User;

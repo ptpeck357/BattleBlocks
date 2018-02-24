@@ -12,8 +12,9 @@ router.post('/signup', (req, res) => {
 
 	/*Checking forms for validity*/
 	req.checkBody('email', 'Please provide a valid email address').isEmail();
-	req.checkBody('username', 'username is required').notEmpty();
+	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('password', 'Password is required').notEmpty();
+	req.checkBody('password', 'Passwords must be at least 6 characters long').isLength({ min: 6 })
 	req.checkBody('confirmPassword', 'Password does not match').equals(password);
 
 	var errors = req.validationErrors();
@@ -28,7 +29,7 @@ router.post('/signup', (req, res) => {
 			if (userMatch) {
 				console.log("Username taken")
 				return res.json({
-					error: `Sorry, already a user with the username: ${username}`
+					errors: [{msg: `Sorry, already a user with the username: ${username}`}]
 				})
 
 			} else {

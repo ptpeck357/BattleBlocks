@@ -2,7 +2,48 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import "./signup.css";
-import Navbar from "../../components/Nav/index";
+import logo3 from './assests/images/Picture3.png';
+import signup from './assests/images/sign-up-here.jpg';
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
+import _ from 'lodash';
+
+
+var errArray = [];
+var objrow;
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};	
+
+
+
+    const backdropStyle = {
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'rgba(0,0,0,0.3)',
+      padding: 50
+    };
+
+
+    const modalStyle = {
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      maxWidth: 500,
+      minHeight: 300,
+      margin: '0 auto',
+      padding: 30
+    };
+
 
 let headline = "Welcome to BattleBlocks!"
 
@@ -20,9 +61,11 @@ class SignupForm extends Component {
 			secretQuestion: '',
 			path: null,
 			errorMsg: [],
+			modalIsOpen: false,
 			redirectTo: null
 		};
   	};
+
 
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
@@ -41,10 +84,21 @@ class SignupForm extends Component {
 			confirmPassword: this.state.confirmPassword
     }).then(response => {
 
-		this.setState({
-			email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
-		});
-
+		
+	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
+		if(response.data.errors){
+			for(var i=0;i<response.data.errors.length;i++){
+				errArray.push(response.data.errors[i].msg);
+			}
+			this.openModal();
+			errArray = [];
+			console.log(response);
+		}else{
+				this.setState({
+				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
+				});
+			console.log(response);
+		}
 
 		}).catch((error) => {
 			console.log(error);
@@ -59,11 +113,11 @@ class SignupForm extends Component {
 			password: this.state.passwordSignIn
 		}).then(response => {
 
-			console.log(response.data);
+			console.log(response.errors);
 
-			// this.setState({
-			// 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-			// });
+			 this.setState({
+			 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+			});
 
 		}).catch(error => {
 			console.log(error);
@@ -71,18 +125,33 @@ class SignupForm extends Component {
 		  });
 	};
 
+			openModal = () => {
+		    this.setState({modalIsOpen: true});
+		  }
+
+		  afterOpenModal = () => {
+		    // references are now sync'd and can be accessed.
+		    this.subtitle.style.color = '#f00';
+		  }
+
+		  closeModal = () => {
+		    this.setState({modalIsOpen: false});
+		  }
+
+
 	/*Function to render HTML form*/
 	render() {
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
+
 				<div className="container">
-				<Navbar headline = {headline}/>
-				<hr />
-				<hr />
+
+				<img src={logo3} alt="Battle Blocks"/>
 					<div className="row-fluid">
 						<div className="span12">
+						
 							<div className="span6">
 								<div className="area">
 									<iron-form id="form1">
@@ -106,7 +175,7 @@ class SignupForm extends Component {
 												<label className="control-label" htmlFor="inputPassword">Password</label>
 												<div className="controls">
 													<input id="inputPassword"
-														placeholder="Min. 8 Characters"
+														placeholder="Min. 6 Characters"
 														type="password"
 														value={this.state.passwordSignIn}
 														onChange={this.handleChange}
@@ -120,11 +189,6 @@ class SignupForm extends Component {
 													<a className="btn btn-link" href="#">Forgot my password</a>
 													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 												</div>
-											</div>
-
-											<div className="alert alert-error" id="alert-local-failure">
-												<strong>Access Denied!</strong>
-												Please provide valid authorization.
 											</div>
 										</form>
 									</iron-form>
@@ -169,7 +233,7 @@ class SignupForm extends Component {
 												<label className="control-label" htmlFor="inputPassword">Password</label>
 												<div className="controls">
 													<input id="password"
-														placeholder="Min. 8 Characters"
+														placeholder="Min. 6 Characters"
 														type="password"
 														value={this.state.password}
 														onChange={this.handleChange}
@@ -182,7 +246,7 @@ class SignupForm extends Component {
 												<label className="control-label" htmlFor= "inputPassword">Confirm Password</label>
 												<div className="controls">
 													<input id="confirmPassword"
-														placeholder="Min. 8 Characters"
+														placeholder="Min. 6 Characters"
 														type="password"
 														value={this.state.confirmPassword}
 														onChange={this.handleChange}
@@ -218,7 +282,25 @@ class SignupForm extends Component {
 							</div>
 						</div>
 					</div>
-				</div>
+					<div>
+					</div>
+					
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Error"
+        >
+        <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
+		<ul>
+               {errArray.map(function(errorMessgae, index){
+                   return <li key={ index }>{errorMessgae}</li>;
+                 })}
+           </ul>          
+        </Modal>
+
+	</div>
 
 			)
 		};
