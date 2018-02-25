@@ -23,17 +23,31 @@ class Leftboard extends React.Component {
 	rightButtons : null
 	}
 
-	//need to get button objects from firebase
-	getFirebaseButtons() {
-		let buttons = fire.ref(this.state.gameID+"/-L68BmjWb9ywljAuMsir/user2_buttons");
-		let rightButtons = fire.ref(this.state.gameID+"/-L68BmjWb9ywljAuMsir/user1_buttons");
+	//Get button object from firebase
+	getFirebaseButtons(gameID) {
 
-		this.setState({
-			buttons : buttons,
-			rightButtons : rightButtons
+		//access values in firebase and return snapshot
+		fire.ref().on('value', snapshot => {
+
+			//access values in snapshot
+			let response = snapshot.val();
+
+			//access values in response Object
+			let values = Object.values(response);
+
+			//Create user button arrays
+			let user1_buttons = values[0].user1_buttons;
+			let user2_buttons = values[0].user2_buttons;
+
+			console.log(user1_buttons)
+			
+			this.setState({buttons : user1_buttons, rightbuttons : user2_buttons})
 		})
-		console.log("Get firebase buttons is working!")
-	}
+
+	console.log("state.buttons = "+this.state.buttons);
+	console.log("state.rightbuttons = "+this.state.rightbuttons)
+
+	};
 
 	//this is the button click handler
 	buttonClick(status, id) { 
@@ -128,18 +142,18 @@ class Leftboard extends React.Component {
     parseUrl() {
 		let gameUrl = window.location.href;
 		let path = new URL(gameUrl);
-		console.log(path.pathname);
+
 		let gameID = path.pathname.slice(11);
 
 		this.setState({
 			gameID : gameID
 		})
-		console.log(gameID);
+		// console.log(gameID);
+		this.getFirebaseButtons(gameID);
 	}  
 
 	componentWillMount() {
 		this.parseUrl();
-		this.getFirebaseButtons();
 	}
 
 	componentDidMount() {
@@ -154,7 +168,6 @@ class Leftboard extends React.Component {
 	}
 
 	render() {
-		console.log(this.state.buttons)
 		return (
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
