@@ -1,23 +1,16 @@
 import React from "react";
 import Leftboard from "../../components/Leftboard";
 import Rightboard from "../../components/Rightboard";
-import leftButtons from "../leftbuttons.json";
-import rightButtons from "../rightbuttons.json";
+// import leftButtons from "../leftbuttons.json";
+// import rightButtons from "../rightbuttons.json";
 import {  Jumbotron, Button, Container, Row, Col } from "reactstrap";
 import Navbar from "../../components/Nav/index";
+import fire from "../../fire.js";
 
 class Gameboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.leftCoins = this.leftCoins.bind(this);
-    this.leftPoints = this.leftPoints.bind(this);
-    this.rightCoins = this.rightCoins.bind(this);
-    this.rightPoints = this.rightPoints.bind(this);
-    this.addRightButton = this.addRightButton.bind(this);
-    this.addLeftButton = this.addLeftButton.bind(this);
-    this.endGame = this.endGame.bind(this);
-    this.updateLeader = this.updateLeader.bind(this);
   }
 
   state = {
@@ -40,22 +33,46 @@ class Gameboard extends React.Component {
     //User2 settings
     u2_blockcoin: 3,
     u2_blockcount: 0,
+
+    //Buttons
+    rightButtons : "",
+    leftButtons : "",
   }
 
-  countBlocks() {
+  //Get button object from firebase
+  componentWillMount() {
+
+    //access values in firebase and return snapshot
+    fire.ref().on('child_added', snapshot => {
+
+      //access values in snapshot
+      let response = snapshot.val();
+
+      //create user button arrays
+      let user1_buttons = response.user1_buttons;
+      let user2_buttons = response.user2_buttons;
+
+      console.log(user1_buttons)
+      console.log(user2_buttons)
+      
+      this.setState({leftButtons : user1_buttons, rightButtons : user2_buttons})
+    })
+  };
+
+  countBlocks = () => {
     let u2_blocks = 0;
     let u1_blocks = 0;
 
-    for (let i=0; i<rightButtons.length; i++){
-      if(rightButtons[i].active === 1){
+    for (let i=0; i<this.state.rightButtons.length; i++){
+      if(this.state.rightButtons[i].active === 1){
         console.log("WE HAVE CONTACT!")
         u2_blocks = u2_blocks + 1
       }
       this.setState({u2_blockcount : u2_blocks})
     }
 
-    for (let i=0; i<leftButtons.length; i++){
-      if(leftButtons[i].active === 1){
+    for (let i=0; i<this.state.leftButtons.length; i++){
+      if(this.state.leftButtons[i].active === 1){
         u1_blocks = u1_blocks + 1
       }
       // console.log(leftPlayer);
@@ -66,7 +83,7 @@ class Gameboard extends React.Component {
     this.updateLeader(u1_blocks, u2_blocks)
   }
 
-  updateLeader(u1_blocks, u2_blocks) {
+  updateLeader = (u1_blocks, u2_blocks) => {
     let leader = "Neither"
     if (u1_blocks === u2_blocks) {
       this.setState({boardleader: "Both players are equal"});
@@ -81,44 +98,46 @@ class Gameboard extends React.Component {
       boardleader: leader+" has the most blocks!"})
   }
 
-  addRightButton(cb) {
+  addRightButton = cb => {
     cb()
+    console.log("Please sir - add right button")
     this.countBlocks();
   } 
-  addLeftButton(cb) {
+  addLeftButton = cb => {
     cb()
+    console.log("Please sir - add left button")
     this.countBlocks();
   }
 
-  leftCoins(update) {
+  leftCoins = update => {
     let coins = update;
     this.setState({
       u1_blockcoin: coins
     })
   }
 
-  leftPoints(update) {
+  leftPoints = update => {
     let points = update;
     this.setState({
       u1_points: points
     })
   }
 
-  rightCoins(update) {
+  rightCoins = update => {
     let coins = update;
     this.setState({
       u2_blockcoin: coins
     })
   }
 
-  rightPoints(update) {
+  rightPoints = update => {
     let points = update;
     this.setState({
       u2_points: points
     })
   }
 
-  endGame(winner) {
+  endGame = winner => {
     let name = winner;
     this.setState({
       high_side: "",
