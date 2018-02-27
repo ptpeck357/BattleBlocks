@@ -1,14 +1,16 @@
 const bodyParser = require("body-parser");
 const expressValidator = require('express-validator');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongodb-session')(session);
 const mongoose = require("mongoose");
 const dbConnection = require('./models/users.js') // loads our connection to the mongo database
 const passport = require("./passport/index.js");
 const routes = require("./routes/index.js");
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/battleblocks";
+mongoose.Promise = Promise;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -16,9 +18,9 @@ app.use(bodyParser.json());
 app.use(
 	session({
 		secret: 'Secret',
-		store: new MongoStore({ mongooseConnection: dbConnection }),
-		resave: false,
-		saveUninitialized: false
+		store: new MongoStore({ uri: MONGODB_URI,collection:"users" }),
+		resave: true,
+		saveUninitialized: true
 	})
 );
 
@@ -45,11 +47,6 @@ app.use(expressValidator({
 }));
 
 app.use(routes);
-
-// Set up promises with mongoose
-mongoose.Promise = Promise;
-
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/battleblocks";
 
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, (err, db) => {

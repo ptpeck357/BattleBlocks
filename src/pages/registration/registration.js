@@ -3,10 +3,10 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import "./signup.css";
 import logo3 from './assests/images/Picture3.png';
-import signup from './assests/images/sign-up-here.jpg';
-import ReactDOM from 'react-dom';
+// import signup from './assests/images/sign-up-here.jpg';
+// import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 
 var errArray = [];
@@ -20,7 +20,7 @@ const customStyles = {
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)'
   }
-};	
+};
 
 
 
@@ -45,7 +45,7 @@ const customStyles = {
     };
 
 
-let headline = "Welcome to BattleBlocks!"
+// let headline = "Welcome to BattleBlocks!"
 
 class SignupForm extends Component {
 
@@ -84,7 +84,7 @@ class SignupForm extends Component {
 			confirmPassword: this.state.confirmPassword
     }).then(response => {
 
-		
+
 	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
 		if(response.data.errors){
 			for(var i=0;i<response.data.errors.length;i++){
@@ -92,17 +92,15 @@ class SignupForm extends Component {
 			}
 			this.openModal();
 			errArray = [];
-			console.log(response);
-		}else{
+		} else {
 				this.setState({
 				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
 				});
-			// console.log(response);
 		}
 
 		}).catch((error) => {
 			console.log(error);
-		  });
+		});
 	};
 
 	/*Function to handle login on submit*/
@@ -112,32 +110,40 @@ class SignupForm extends Component {
 			username: this.state.usernameSignIn,
 			password: this.state.passwordSignIn
 		}).then(response => {
-
-			console.log(response.errors);
-
-			 this.setState({
-			 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-			});
+			console.log(response)
+			if(response.data.user === null){
+				console.log(response.data.message)
+			} else {
+				console.log("logged in");
+				//  this.setState({
+			//  	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+			// });
+			}
 
 		}).catch(error => {
 			console.log(error);
-			console.log(error.message)
 		  });
 	};
 
-			openModal = () => {
-		    this.setState({modalIsOpen: true});
-		  }
+	handlelogout = (event) => {
+		event.preventDefault();
+		axios.get('/api/logout').then(response => {
+			console.log(response)
+		})
+	}
 
-		  afterOpenModal = () => {
-		    // references are now sync'd and can be accessed.
-		    this.subtitle.style.color = '#f00';
-		  }
+	openModal = () => {
+		this.setState({modalIsOpen: true});
+	}
 
-		  closeModal = () => {
-		    this.setState({modalIsOpen: false});
-		  }
+	afterOpenModal = () => {
+		// references are now sync'd and can be accessed.
+		this.subtitle.style.color = '#f00';
+	}
 
+	closeModal = () => {
+		this.setState({modalIsOpen: false});
+	}
 
 	/*Function to render HTML form*/
 	render() {
@@ -151,7 +157,7 @@ class SignupForm extends Component {
 				<img src={logo3} alt="Battle Blocks"/>
 					<div className="row-fluid">
 						<div className="span12">
-						
+
 							<div className="span6">
 								<div className="area">
 									<iron-form id="form1">
@@ -187,6 +193,7 @@ class SignupForm extends Component {
 											<div className="control-group">
 												<div className="controls">
 													<a className="btn btn-link" href="#">Forgot my password</a>
+													<button id="makenew" className="btn btn-success" onClick={this.handlelogout} type="submit" >Logout</button>
 													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 												</div>
 											</div>
@@ -284,7 +291,7 @@ class SignupForm extends Component {
 					</div>
 					<div>
 					</div>
-					
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -297,7 +304,7 @@ class SignupForm extends Component {
                {errArray.map(function(errorMessgae, index){
                    return <li key={ index }>{errorMessgae}</li>;
                  })}
-           </ul>          
+           </ul>
         </Modal>
 
 	</div>

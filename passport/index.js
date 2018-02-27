@@ -9,15 +9,16 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((_id, done) => {
-	console.log('Deserialize ... called')
+	console.log('Deserialize ... called. user Id is: ' + _id)
 	User.findOne(
-		{
-			_id: _id
+		{_id: _id},
+		(err, user) => {
+			console.log('======= DESERILAIZE USER CALLED ======')
+			console.log(user)
+			console.log('--------------')
+			done(null, user)
 		}
-	).then(function(currentUser){
-		done(null, currentUser);
-		console.log("user foundddd")
-    });
+	)
 });
 
 // ==== Register Strategies ====

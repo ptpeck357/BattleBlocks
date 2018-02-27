@@ -32,11 +32,11 @@ class Gameboard extends React.Component {
     //Need from database!!
     u2_points: 2,
     u1_points: 2,
-   
+
     //User1 settings
     u1_blockcoin: 3,
     u1_blockcount: 0,
-   
+
     //User2 settings
     u2_blockcoin: 3,
     u2_blockcount: 0,
@@ -70,7 +70,7 @@ class Gameboard extends React.Component {
     let leader = "Neither"
     if (u1_blocks === u2_blocks) {
       this.setState({boardleader: "Both players are equal"});
-    }  else 
+    }  else
     if (u1_blocks < u2_blocks) {
       leader = this.state.opponent;
     } else {
@@ -84,7 +84,7 @@ class Gameboard extends React.Component {
   addRightButton(cb) {
     cb()
     this.countBlocks();
-  } 
+  }
   addLeftButton(cb) {
     cb()
     this.countBlocks();
@@ -136,27 +136,27 @@ class Gameboard extends React.Component {
         </Row>
         <Row>
           <Col>
-            <Leftboard 
+            <Leftboard
               add = {this.addRightButton}
               winner = {this.endGame}
               leftCoins = {this.leftCoins}
               leftPoints = {this.leftPoints}
               high = {this.state.high_side}
-              player = {this.state.player} 
-              coins = {this.state.u1_blockcoin} 
-              points = {this.state.u1_points} 
+              player = {this.state.player}
+              coins = {this.state.u1_blockcoin}
+              points = {this.state.u1_points}
             />
           </Col>
           <Col>
-            <Rightboard 
+            <Rightboard
               add = {this.addLeftButton}
               winner = {this.endGame}
               rightCoins = {this.rightCoins}
               rightPoints = {this.rightPoints}
               high = {this.state.high_side}
-              player = {this.state.opponent} 
-              coins = {this.state.u2_blockcoin} 
-              points = {this.state.u2_points} 
+              player = {this.state.opponent}
+              coins = {this.state.u2_blockcoin}
+              points = {this.state.u2_points}
             />
           </Col>
         </Row>

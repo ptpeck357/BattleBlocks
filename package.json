@@ -10,7 +10,7 @@
     "eject": "react-scripts eject",
     "dev": "concurrently \"node server.js\" \"yarn start\""
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:8080",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BattleBlocks/BattleBlocks.git"
@@ -25,7 +25,7 @@
     "axios": "^0.17.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
-    "connect-mongo": "^2.0.1",
+    "connect-mongodb-session": "^1.4.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "express-validator": "^5.0.1",
