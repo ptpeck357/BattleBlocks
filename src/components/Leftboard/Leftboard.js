@@ -1,7 +1,5 @@
 import React from "react";
 import Squares from "../Squares";
-// import buttons from "../leftbuttons.json";
-// import rightButtons from "../rightbuttons.json";
 import { Redirect } from 'react-router-dom';
 import { Jumbotron, Button, Container, Row, Col } from "reactstrap";
 import URL from "url-parse";
@@ -15,42 +13,36 @@ class Leftboard extends React.Component {
 		this.buttonClick = this.buttonClick.bind(this);
 		this.parseUrl = this.parseUrl.bind(this);
 		this.getFirebaseButtons = this.getFirebaseButtons.bind(this);
-	}
-
-	state = {
-	gameID : null,
-	buttons : null,
-	rightButtons : null
+		this.state = {
+			gameID : null,
+			buttons : null,
+			rightButtons : null
+		}
 	}
 
 	//Get button object from firebase
-	getFirebaseButtons(gameID) {
+	getFirebaseButtons = gameID => {
 
 		//access values in firebase and return snapshot
-		fire.ref().on('value', snapshot => {
+		fire.ref().on('child_added', snapshot => {
 
 			//access values in snapshot
 			let response = snapshot.val();
 
-			//access values in response Object
-			let values = Object.values(response);
-
-			//Create user button arrays
-			let user1_buttons = values[0].user1_buttons;
-			let user2_buttons = values[0].user2_buttons;
+			//create user button arrays
+			let user1_buttons = response.user1_buttons;
+			let user2_buttons = response.user2_buttons;
 
 			console.log(user1_buttons)
+			console.log(user2_buttons)
 			
-			this.setState({buttons : user1_buttons, rightbuttons : user2_buttons})
+			this.setState({buttons : user1_buttons, rightButtons : user2_buttons})
 		})
-
-	console.log("state.buttons = "+this.state.buttons);
-	console.log("state.rightbuttons = "+this.state.rightbuttons)
-
 	};
 
 	//this is the button click handler
-	buttonClick(status, id) { 
+	buttonClick = (status, id) => { 
+		console.log("Adding a button");
 		if (this.props.coins < 1 && this.props.high !== this.props.player) {
 			console.log("Nope!")
 		} else {
@@ -60,21 +52,24 @@ class Leftboard extends React.Component {
 	}
 
   	//This should randomly activate a new button
-	addLeftButton() { 
+	addLeftButton = () => { 
 		let randomId = Math.floor(Math.random()*this.state.rightButtons.length)
 		console.log(randomId);
 	
 		if (this.state.rightButtons[randomId].active === 0) {
-			this.state.rightButtons[randomId].active = 1;
+				//update firebase
+				fire.ref(this.state.gameID + "/user2_buttons/" + randomId).update({active : 1});
+			
+			//turn new button to 'visible'
 			document.getElementById(this.state.rightButtons[randomId].id).style.visibility="visible";
 		} 
 	}
 
 	//Once a button is clicked, this triggers all the changes
-	changeActive(status, id) { 
+	changeActive = (status, id) => { 
 		for (let i=0; i<this.state.buttons.length; i++){
 			if(this.state.buttons[i].id === id && this.state.buttons[i].active === 1){
-				this.state.buttons[i].active=0;
+				this.state.buttons[i].active = 0;
 				this.reDisplay(status, id);
 				this.changeCoin();
 				this.changePoints();
@@ -83,7 +78,7 @@ class Leftboard extends React.Component {
 	}
 
 	//Once a button is clicked, this re-displays the "visible" buttons
-    reDisplay(status, id) { 
+    reDisplay = (status, id) => { 
         for (let i=0; i<this.state.buttons.length; i++){
             if (this.state.buttons[i].active === 1) {
                 document.getElementById(this.state.buttons[i].id).style.visibility="visible";
@@ -94,7 +89,7 @@ class Leftboard extends React.Component {
     }
 
     //this changes coins based on player's click position
-	changeCoin() { 
+	changeCoin = () => { 
 		let coins = this.props.coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
@@ -107,7 +102,7 @@ class Leftboard extends React.Component {
 	}
 
 	//this should change points based on player's click position
-	changePoints() { 
+	changePoints = () => { 
 		let points = this.props.points;
 		let countActive = 0;
 		for (let i=0; i<this.state.buttons.length; i++){
@@ -115,7 +110,6 @@ class Leftboard extends React.Component {
 				countActive = countActive + 1;
 			}
 		}
-		// console.log(points);
 
 		// update points
 		switch (countActive) {
@@ -139,7 +133,7 @@ class Leftboard extends React.Component {
 	}
 
 	//Captures the gameID from the url
-    parseUrl() {
+    parseUrl = () => {
 		let gameUrl = window.location.href;
 		let path = new URL(gameUrl);
 
@@ -156,30 +150,50 @@ class Leftboard extends React.Component {
 		this.parseUrl();
 	}
 
-	componentDidMount() {
-
-	    for (let i=0; i<this.state.buttons.length; i++){
-	        if (this.state.buttons[i].active === 1) {
-	            document.getElementById(this.state.buttons[i].id).style.visibility="visible";
-	        } else {
-	            document.getElementById(this.state.buttons[i].id).style.visibility="hidden";
-	        }
-	    }
+	componentDidUpdate() {
+		if (this.state.buttons === null) {
+			console.log("HELP BUTTONS ARE NULL")
+		} else {
+			console.log("Buttons are not null --- stiill help")
+		    for (let i=0; i<this.state.buttons.length; i++){
+		        if (this.state.buttons[i].active === 1) {
+		            document.getElementById(this.state.buttons[i].id).style.visibility="visible";
+		        } else {
+		            document.getElementById(this.state.buttons[i].id).style.visibility="hidden";
+		        }
+		    } 
+		}
 	}
+
+	componentDidMount() {
+		fire.ref(this.state.gameID).on('child_changed', (childSnapshot, prevChildKey) => {
+			
+			console.log(childSnapshot.val());
+		this.setState({rightButtons : childSnapshot.val()})
+		});
+	}
+
+	determineButtonRender = () => 
+	    !(this.state.buttons === null) ? 
+	        this.state.buttons.map((button, i) => 
+	       		<Squares 
+	       			key = {i}
+	       			id = {button.id}
+	       			coordinates = {button.coordinates}
+	       			status = {button.active}
+	       			buttonClick = {this.buttonClick} 
+	       		/>
+	        )
+	    : ""
 
 	render() {
 		return (
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
 		        <h4>$BlockCoins$: {this.props.coins} Total Points: {this.props.points}</h4>		        
-		        {this.state.buttons.map(button => (
-		       		<Squares 
-		       			id = {button.id}
-		       			coordinates = {button.coordinates}
-		       			status = {button.active}
-		       			buttonClick = {this.buttonClick} 
-		       		/>
-		        ))}
+				        
+		        {this.determineButtonRender()}
+
 		  	</Container>
 		)
 	}
