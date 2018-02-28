@@ -10,15 +10,13 @@ class Newgame extends React.Component {
 
 	constructor(props){
 		super(props);
-		this.startGame = this.startGame.bind(this);
-		this.createGameData = this.createGameData.bind(this);
 
 		this.state = {
 			redirectTo : null,
 		}
 	}
 
-	createGameData() {
+	createGameData = () => {
 
 		let newData = {
 			id: null,
@@ -39,23 +37,8 @@ class Newgame extends React.Component {
 		});
 	}
 
-	createNewUserInFirebase() {
-		//check fire for game with "status: open"
-		
-		//if no "status: open": 
-			//create player1 object with "status: open"
-			//create id: key
-			//call createButtons(key)
-			//push player objects to fire
 
-		//if "status: open" is found:
-			//assign player1 data to object
-			//push player object to game
-			//change status to "closed"
-	}
-
-
-	startGame() {
+	startGame = () => {
 		this.createGameData()
 		console.log("Yah suure, lemme get right on that for ye!")
 		//initiate fire

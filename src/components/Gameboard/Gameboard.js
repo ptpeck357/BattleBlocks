@@ -172,6 +172,8 @@ class Gameboard extends React.Component {
       //access values in snapshot
       let response = snapshot.val();
 
+      console.log(response);
+
       //create user button arrays
       let user1_buttons = response.user1_buttons;
       let user2_buttons = response.user2_buttons;
