@@ -54,30 +54,42 @@ router.post('/signup', (req, res) => {
 	};
 });
 
-router.post('/login', function(req, res, next) {
+router.post('/login', (req, res, next) =>{
 	passport.authenticate('local', function(err, user, info) {
-	  	if (err) {
-			return next(err);
-		}
-	 	if (!user) {
-		 	console.log("invalid User")
-		}
-		if (user) {
-			res.json(user)
-		}
-	})
-	(req, res, next);
-  });
+	  	if (err) { return res.status(400).send(err);}
+	  	if (!user) {
+			return res.json(
+				{message: 'Incorrect username or password', path: "/", user: null}
+			);
+		};
+	  	req.login(user, (err) => {
+			if (err) { return res.status(400).send(err); }
+			return res.json(
+				{message: 'You are now logged in!',  path: "/lobby", user: user.username}
+			);
+	  	});
+	})(req, res, next);
+});
 
-router.get('/lobby/newgame', function(req, res, next) {
-	console.log("New game route works")
-	console.log("req.user = " + req.user)
-
-	if(res.user){
-		res.json(req.user)
+router.get('/lobby', (req, res) => {
+	if(req.user){
+		res.json(req.user);
+		console.log(req.user);
 	} else {
-		console.log("no user found")
+		res.json(
+			{message: "No user found",  path: "/lobby", user: null}
+		);
 	}
-})
+});
+
+router.get('/logout', (req, res) => {
+	if(req.user){
+		req.session.destroy();
+		res.clearCookie('connect.sid');
+		req.json({message: "You are logged out", path: "/"})
+	} else {
+		console.log("Already signed out");
+	}
+});
 
 module.exports = router;

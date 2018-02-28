@@ -3,21 +3,16 @@ const LocalStrategy = require('./localStrategy');
 const User = require('../models/users');
 
 passport.serializeUser((user, done) => {
-	console.log('=== serialize ... called ===')
-	console.log('---------' + user._id)
+	console.log('=== serialize --- called ===')
 	done(null, user._id)
 })
 
-passport.deserializeUser((_id, done) => {
-	console.log('Deserialize ... called')
-	User.findOne(
-		{
-			_id: _id
-		}
-	).then(function(currentUser){
-		done(null, currentUser);
-		console.log("user foundddd")
-    });
+passport.deserializeUser((id, done) => {
+	console.log('Deserialize === called === user Id is: ' + id)
+	User.findOne({_id: id}, (err, user) => {
+		console.log('======= DESERILAIZE USER CALLED ======')
+		done(null, user)
+	});
 });
 
 // ==== Register Strategies ====
