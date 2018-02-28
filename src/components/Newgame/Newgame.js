@@ -37,6 +37,14 @@ class Newgame extends React.Component {
 		});
 	}
 
+	// createNewUserInFirebase() {
+		//check fire for game with "status: open"
+
+		//if no "status: open":
+			//create player1 object with "status: open"
+			//create id: key
+			//call createButtons(key)
+			//push player objects to fire
 
 	startGame = () => {
 		this.createGameData()
@@ -50,8 +58,8 @@ class Newgame extends React.Component {
 	render() {
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
-		} 
-		else 
+		}
+		else
 		{
 			return (
 				<Button onClick ={this.startGame}>
