@@ -3,49 +3,40 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import "./signup.css";
 import logo3 from './assests/images/Picture3.png';
-// import signup from './assests/images/sign-up-here.jpg';
 // import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-// import _ from 'lodash';
-
 
 var errArray = [];
 var objrow;
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+  	content : {
+		top: '50%',
+		left: '50%',
+		right: 'auto',
+		bottom: 'auto',
+		marginRight: '-50%',
+		transform: 'translate(-50%, -50%)'
+ 	}
 };
 
+const backdropStyle = {
+	position: 'fixed',
+	top: 0,
+	bottom: 0,
+	left: 0,
+	right: 0,
+	backgroundColor: 'rgba(0,0,0,0.3)',
+	padding: 50
+};
 
-
-    const backdropStyle = {
-      position: 'fixed',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
-    };
-
-
-    const modalStyle = {
-      backgroundColor: '#fff',
-      borderRadius: 5,
-      maxWidth: 500,
-      minHeight: 300,
-      margin: '0 auto',
-      padding: 30
-    };
-
-
-// let headline = "Welcome to BattleBlocks!"
+const modalStyle = {
+	backgroundColor: '#fff',
+	borderRadius: 5,
+	maxWidth: 500,
+	minHeight: 300,
+	margin: '0 auto',
+	padding: 30
+};
 
 class SignupForm extends Component {
 
@@ -66,7 +57,6 @@ class SignupForm extends Component {
 		};
   	};
 
-
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
 		this.setState({
@@ -83,7 +73,6 @@ class SignupForm extends Component {
 			password: this.state.password,
 			confirmPassword: this.state.confirmPassword
     }).then(response => {
-
 
 	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
 		if(response.data.errors){
@@ -115,9 +104,9 @@ class SignupForm extends Component {
 				console.log(response.data.message)
 			} else {
 				console.log("logged in");
-				//  this.setState({
-			//  	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-			// });
+				this.setState({
+			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+				});
 			}
 
 		}).catch(error => {
@@ -125,10 +114,14 @@ class SignupForm extends Component {
 		  });
 	};
 
+	/*Function to handle logout on submit*/
 	handlelogout = (event) => {
 		event.preventDefault();
 		axios.get('/api/logout').then(response => {
 			console.log(response)
+			this.setState({
+				usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+		   });
 		})
 	}
 
@@ -193,7 +186,6 @@ class SignupForm extends Component {
 											<div className="control-group">
 												<div className="controls">
 													<a className="btn btn-link" href="#">Forgot my password</a>
-													<button id="makenew" className="btn btn-success" onClick={this.handlelogout} type="submit" >Logout</button>
 													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 												</div>
 											</div>
@@ -285,26 +277,26 @@ class SignupForm extends Component {
 											</div>
 										</form>
 									</iron-form>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					<div>
-					</div>
+				</div>
 
         <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Error"
+         	isOpen={this.state.modalIsOpen}
+          	onAfterOpen={this.afterOpenModal}
+          	onRequestClose={this.closeModal}
+          	style={customStyles}
+          	contentLabel="Error"
         >
         <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
 		<ul>
-               {errArray.map(function(errorMessgae, index){
-                   return <li key={ index }>{errorMessgae}</li>;
-                 })}
-           </ul>
+			{errArray.map(function(errorMessgae, index){
+				return <li key={ index }>{errorMessgae}</li>;
+				})}
+        </ul>
         </Modal>
 
 	</div>
@@ -313,6 +305,5 @@ class SignupForm extends Component {
 		};
 	};
 };
-
 
 export default SignupForm
