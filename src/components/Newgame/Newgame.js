@@ -1,7 +1,6 @@
 import React from "react";
-import {  Jumbotron, Button, Container } from "reactstrap";
+import { Button } from "reactstrap";
 import { Redirect } from 'react-router-dom';
-import Navbar from "../../components/Nav/index";
 import leftButtons from "../leftbuttons.json";
 import rightButtons from "../rightbuttons.json";
 import fire from "../../fire.js";

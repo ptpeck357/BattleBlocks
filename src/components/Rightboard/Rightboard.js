@@ -2,7 +2,7 @@ import React from "react";
 import Squares from "../Squares";
 // import buttons from "../rightbuttons.json";
 // import leftButtons from "../leftbuttons.json";
-import { Jumbotron, Button, Container, Row, Col } from "reactstrap";
+import { Container } from "reactstrap";
 import URL from "url-parse";
 import fire from "../../fire.js";
 
@@ -14,12 +14,31 @@ class Rightboard extends React.Component {
 		this.buttonClick = this.buttonClick.bind(this);
 		this.parseUrl = this.parseUrl.bind(this);
 		this.getFirebaseButtons = this.getFirebaseButtons.bind(this);
+		this.addRightButton = this.addRightButton.bind(this);
 		this.state = {
 			gameID : null,
 			buttons : null,
 			leftButtons : null
 		}
 	}
+
+// ----------------------- ------------- -----------------------//
+// --------------------------- SETUP ---------------------------//
+// ----------------------- ------------- -----------------------//
+
+	//Captures the gameID from the url
+    parseUrl = () => {
+		let gameUrl = window.location.href;
+		let path = new URL(gameUrl);
+
+		let gameID = path.pathname.slice(11);
+
+		this.setState({
+			gameID : gameID
+		})
+		// console.log(gameID);
+		this.getFirebaseButtons(gameID);
+	}  
 
 	//Get button object from firebase
 	getFirebaseButtons = gameID => {
@@ -41,28 +60,21 @@ class Rightboard extends React.Component {
 		})
 	};
 
+// ----------------------- ------------- -----------------------//
+// ----------------------- click actions -----------------------//
+// ----------------------- ------------- -----------------------//
+
 	//this is the button click handler
 	buttonClick = (status, id) => { 
+		
+
 		if (this.props.coins < 1 && this.props.high !== this.props.player) {
 			console.log("nuh huh uhuh!")
+		
 		} else {
 		this.changeActive(status, id);
 		this.props.add(this.addRightButton);
 		}
-	}
-
-  	//This should randomly activate a new button
-	addRightButton = () => { 
-		let randomId = Math.floor(Math.random()*this.state.leftButtons.length)
-		console.log(randomId);
-	
-		if (this.state.leftButtons[randomId].active === 0) {
-				//update firebase
-				fire.ref(this.state.gameID + "/user1_buttons/" + randomId).update({active : 1});
-			
-			//turn new button to 'visible'
-			document.getElementById(this.state.leftButtons[randomId].id).style.visibility="visible";
-		}  
 	}
 
 	//Once a button is clicked, this triggers all the changes
@@ -128,26 +140,38 @@ class Rightboard extends React.Component {
 			default:
 				points;
 		}
-		// console.log(points);
+		
 		this.props.rightPoints(points)
 	}
 
-	//Captures the gameID from the url
-    parseUrl = () => {
-		let gameUrl = window.location.href;
-		let path = new URL(gameUrl);
+  	//This should randomly activate a new button
+	addRightButton() { 
+		let randomId = Math.floor(Math.random()*this.state.leftButtons.length)
+		console.log(randomId);
+	
+		if (this.state.leftButtons[randomId].active === 0) {
+				//update firebase
+				fire.ref(this.state.gameID + "/user1_buttons/" + randomId).update({active : 1});
+			
+			//turn new button to 'visible'
+			document.getElementById(this.state.leftButtons[randomId].id).style.visibility="visible";
+		}  
+	}
 
-		let gameID = path.pathname.slice(11);
-
-		this.setState({
-			gameID : gameID
-		})
-		// console.log(gameID);
-		this.getFirebaseButtons(gameID);
-	}  
+// ----------------------- ------------- -----------------------//
+// -------------------- Component Lifecycle --------------------//
+// ----------------------- ------------- -----------------------//
 
 	componentWillMount() {
 		this.parseUrl();
+	}
+
+	componentDidMount() {
+		fire.ref(this.state.gameID).on('child_changed', (childSnapshot, prevChildKey) => {
+			
+			console.log(childSnapshot.val());
+		this.setState({leftButtons : childSnapshot.val()})
+		});
 	}
 
 	componentDidUpdate() {
@@ -165,13 +189,9 @@ class Rightboard extends React.Component {
 		}
 	}
 
-	componentDidMount() {
-		fire.ref(this.state.gameID).on('child_changed', (childSnapshot, prevChildKey) => {
-			
-			console.log(childSnapshot.val());
-		this.setState({leftButtons : childSnapshot.val()})
-		});
-	}
+// ----------------------- ------------- -----------------------//
+// ----------------------- Render Logic ------------------------//
+// ----------------------- ------------- -----------------------//
 
 	determineButtonRender = () => 
 	    !(this.state.buttons === null) ? 

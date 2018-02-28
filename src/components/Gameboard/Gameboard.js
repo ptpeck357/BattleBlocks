@@ -3,7 +3,7 @@ import Leftboard from "../../components/Leftboard";
 import Rightboard from "../../components/Rightboard";
 // import leftButtons from "../leftbuttons.json";
 // import rightButtons from "../rightbuttons.json";
-import {  Jumbotron, Button, Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import Navbar from "../../components/Nav/index";
 import fire from "../../fire.js";
 
@@ -11,57 +11,65 @@ class Gameboard extends React.Component {
 
   constructor(props) {
     super(props);
+    this.countBlocks = this.countBlocks.bind(this);
+
+    this.state = {
+      //Game state settings
+      player: "David", // from user login!
+      opponent: "Goliath", // from user login!
+      high_side: "David",
+      headline: "Game is live",
+      boardleader: "Click a block to begin",
+      leader: 0,
+
+      //Need from database!!
+      u2_points: 2,
+      u1_points: 2,
+     
+      //User1 settings
+      u1_blockcoin: 3,
+      u1_blockcount: 0,
+     
+      //User2 settings
+      u2_blockcoin: 3,
+      u2_blockcount: 0,
+
+      //Buttons
+      rightButtons : "",
+      leftButtons : "",
+
+      //Game ID
+      gameID : "",
+    }
   }
 
-  state = {
-    //Game state settings
-    player: "David", // from user login!
-    opponent: "Goliath", // from user login!
-    high_side: "David",
-    headline: "Game is live",
-    boardleader: "Click a block to begin",
-    leader: 0,
+// ----------------------- ------------- -----------------------//
+// --------------------------- SETUP ---------------------------//
+// ----------------------- ------------- -----------------------//
 
-    //Need from database!!
-    u2_points: 2,
-    u1_points: 2,
-   
-    //User1 settings
-    u1_blockcoin: 3,
-    u1_blockcount: 0,
-   
-    //User2 settings
-    u2_blockcoin: 3,
-    u2_blockcount: 0,
+  //Captures the gameID from the url
+  parseUrl = () => {
+    let gameUrl = window.location.href;
+    let path = new URL(gameUrl);
 
-    //Buttons
-    rightButtons : "",
-    leftButtons : "",
-  }
+    let gameID = path.pathname.slice(11);
 
-  //Get button object from firebase
-  componentWillMount() {
-
-    //access values in firebase and return snapshot
-    fire.ref().on('child_added', snapshot => {
-
-      //access values in snapshot
-      let response = snapshot.val();
-
-      //create user button arrays
-      let user1_buttons = response.user1_buttons;
-      let user2_buttons = response.user2_buttons;
-
-      console.log(user1_buttons)
-      console.log(user2_buttons)
-      
-      this.setState({leftButtons : user1_buttons, rightButtons : user2_buttons})
+    this.setState({
+      gameID : gameID
     })
-  };
+    console.log(gameID);
+  }  
 
+// ----------------------- ------------- -----------------------//
+// ----------------------- Click Actions -----------------------//
+// ----------------------- ------------- -----------------------//
+
+  //Checks who is the boardleader
   countBlocks = () => {
     let u2_blocks = 0;
     let u1_blocks = 0;
+
+    console.log("gameboard.countBlocks fired");
 
     for (let i=0; i<this.state.rightButtons.length; i++){
       if(this.state.rightButtons[i].active === 1){
@@ -83,6 +91,7 @@ class Gameboard extends React.Component {
     this.updateLeader(u1_blocks, u2_blocks)
   }
 
+  //Updates the boardleader based on countBlocks()
   updateLeader = (u1_blocks, u2_blocks) => {
     let leader = "Neither"
     if (u1_blocks === u2_blocks) {
@@ -98,15 +107,16 @@ class Gameboard extends React.Component {
       boardleader: leader+" has the most blocks!"})
   }
 
-  addRightButton = cb => {
+  addRightButton(cb) {
     cb()
-    console.log("Please sir - add right button")
-    this.countBlocks();
+    console.log("gameboard.addRightButton fired")
+    this.countBlocks;
   } 
-  addLeftButton = cb => {
+
+  addLeftButton(cb) {
     cb()
-    console.log("Please sir - add left button")
-    this.countBlocks();
+    console.log("gameboard.addLeftButton fired")
+    this.countBlocks;
   }
 
   leftCoins = update => {
@@ -145,6 +155,38 @@ class Gameboard extends React.Component {
       boardleader: "The winner is: "+name
     })
   }
+
+// ----------------------- ------------- -----------------------//
+// -------------------- Component Lifecycle --------------------//
+// ----------------------- ------------- -----------------------//
+
+  //Get button object from firebase
+  componentWillMount() {
+    this.parseUrl();
+  }
+    //access values in firebase and return snapshot
+
+  componentDidMount() {
+    fire.ref(this.state.gameID).on('child_added', snapshot => {
+
+      //access values in snapshot
+      let response = snapshot.val();
+
+      //create user button arrays
+      let user1_buttons = response.user1_buttons;
+      let user2_buttons = response.user2_buttons;
+
+      console.log(user1_buttons)
+      console.log(user2_buttons)
+      
+      this.setState({leftButtons : user1_buttons, rightButtons : user2_buttons})
+    })
+  };
+
+
+// ----------------------- ------------- -----------------------//
+// ----------------------- Render Logic ------------------------//
+// ----------------------- ------------- -----------------------//
 
   render() {
     return (
