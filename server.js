@@ -21,7 +21,9 @@ app.use(
 		store: new MongoStore({ uri: MONGODB_URI,collection:"users" }),
 		resave: true,
         saveUninitialized: true,
-        cookie: { maxAge: 60000}
+        cookie: {
+            maxAge: 18000000
+        }
 	})
 );
 
