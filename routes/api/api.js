@@ -72,22 +72,22 @@ router.post('/login', (req, res, next) =>{
 });
 
 router.get('/lobby/newgame', (req, res) => {
-	console.log("New game route works")
-	console.log("req.user = " + req.user)
 
-	// if(req.user){
-	// 	res.json(req.user)
-	// } else {
-	// 	console.log("no user found")
-	// }
+	if(req.user){
+		console.log(req.user)
+	} else {
+		console.log("no user found")
+	}
+
 });
 
 router.get('/logout', (req, res) => {
-	// req.session.destroy()
-	// res.clearCookie('connect.sid')
-	//	req.logout();
-
-	console.log("req.user = " + req.user);
+	if(req.user){
+		req.session.destroy()
+		res.clearCookie('connect.sid')
+	} else {
+		console.log("Already signed out")
+	}
 
 });
 module.exports = router;

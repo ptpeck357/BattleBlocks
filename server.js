@@ -20,7 +20,8 @@ app.use(
 		secret: 'Secret',
 		store: new MongoStore({ uri: MONGODB_URI,collection:"users" }),
 		resave: true,
-		saveUninitialized: true
+        saveUninitialized: true,
+        cookie: { maxAge: 60000}
 	})
 );
 
