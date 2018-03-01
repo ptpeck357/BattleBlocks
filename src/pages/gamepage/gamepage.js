@@ -1,6 +1,6 @@
 import React from "react";
 import Gameboard from "../../components/Gameboard"
-import {  Jumbotron, Button, Container, Row, Col } from "reactstrap";
+import {  Jumbotron, Container } from "reactstrap";
 
 class Gamepage extends React.Component {
 	render() {

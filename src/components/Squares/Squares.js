@@ -20,7 +20,7 @@ class Squares extends React.Component {
                <Button 
                     style={styles.cardStyle}
                     id={this.props.id} 
-                    onClick={() => this.props.buttonClick(this.props.status, this.props.id)}
+                    onClick={() => this.props.buttonClick(this.props.id)}
                     >
                </Button>
           );
