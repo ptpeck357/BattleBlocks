@@ -69,4 +69,33 @@ router.post('/login', function(req, res, next) {
 	(req, res, next);
   });
 
+router.get('/leaderboard', function(req, res, next) {
+	
+	User.find().then((dbUsers) => {
+
+		// res.json(dbUsers);
+		// console.log("Users Found");
+		var result = [];
+      
+		for(var i=0; i<dbUsers.length; i++){
+
+			let resultsObj = {};
+
+			resultsObj.joindate = dbUsers[i].joindate;
+      		resultsObj.username = dbUsers[i].username;
+      		resultsObj.wins = dbUsers[i].wins;
+      		resultsObj.losses = dbUsers[i].losses;
+      		resultsObj.totalScore = dbUsers[i].totalScore;
+
+      		result.push(resultsObj);
+      		console.log(result);
+
+		}
+	res.json(result);
+	console.log(result);
+
+  })
+	
+});
+
 module.exports = router;
