@@ -53,9 +53,10 @@ class SignupForm extends Component {
 			path: null,
 			errorMsg: [],
 			modalIsOpen: false,
+			loggedin: false,
 			redirectTo: null
 		};
-  	};
+  };
 
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
@@ -82,9 +83,9 @@ class SignupForm extends Component {
 			this.openModal();
 			errArray = [];
 		} else {
-				this.setState({
-				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
-				});
+      this.setState({
+				email: '', username: '', password: '', confirmPassword: '', secretQuestion: '', redirectTo: "/lobby"
+      });
 		}
 
 		}).catch((error) => {
@@ -105,8 +106,10 @@ class SignupForm extends Component {
 			} else {
 				console.log("logged in");
 				this.setState({
-			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-				});
+			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby", loggedin: true
+        });
+
+        this.props.isAuthenticated = true;
 			}
 
 		}).catch(error => {
@@ -120,8 +123,10 @@ class SignupForm extends Component {
 		axios.get('/api/logout').then(response => {
 			console.log(response)
 			this.setState({
-				usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-		   });
+				usernameSignIn: '', passwordSignIn: '', loggedin: false, redirectTo: "/"
+      });
+
+      this.props.isAuthenticated = true;
 		})
 	}
 
@@ -295,7 +300,7 @@ class SignupForm extends Component {
 		<ul>
 			{errArray.map(function(errorMessgae, index){
 				return <li key={ index }>{errorMessgae}</li>;
-				})}
+			})}
         </ul>
         </Modal>
 

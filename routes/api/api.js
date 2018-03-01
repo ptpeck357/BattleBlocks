@@ -2,6 +2,17 @@ const router = require("express").Router();
 const passport = require('../../passport');
 const User = require('../../models/users.js');
 
+router.get("/", (req, res) => {
+	if(req.user){
+		res.json({message: "User found", isAuthenticated: true, user: req.user.username});
+		console.log(req.user);
+	} else {
+		res.json(
+			{message: "No user found",  isAuthenticated: false, user: null}
+		);
+	}
+});
+
 router.post('/signup', (req, res) => {
 
 	/*Getting user's inputs from form*/
