@@ -53,6 +53,8 @@ class SignupForm extends Component {
 			path: null,
 			errorMsg: [],
 			modalIsOpen: false,
+			loginError: false,
+			errorMessage: "",
 			redirectTo: null
 		};
   	};
@@ -95,23 +97,30 @@ class SignupForm extends Component {
 	/*Function to handle login on submit*/
   	handleSignin = (event) => {
 		event.preventDefault();
-		axios.post('/api/login', {
-			username: this.state.usernameSignIn,
-			password: this.state.passwordSignIn
-		}).then(response => {
-			console.log(response)
-			if(response.data.user === null){
-				console.log(response.data.message)
-			} else {
-				console.log("logged in");
-				this.setState({
-			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-				});
-			}
+		if(this.state.usernameSignIn === ""){
+			this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
+		} else if (this.state.passwordSignIn === ""){
+			this.setState({loginError: true, errorMessage: "Please Enter The Password."});
+		} else {
+			axios.post('/api/login', {
+				username: this.state.usernameSignIn,
+				password: this.state.passwordSignIn
+			}).then(response => {
+				console.log(response)
+				if(response.data.user === null){
+					this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
+					console.log(response.data.message);
+				} else {
+					console.log("logged in");
+					this.setState({
+				 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+					});
+				}
 
-		}).catch(error => {
-			console.log(error);
-		  });
+			}).catch(error => {
+				console.log(error);
+			  });
+		}
 	};
 
 	/*Function to handle logout on submit*/
@@ -169,6 +178,7 @@ class SignupForm extends Component {
 													/>
 												</div>
 											</div>
+											
 
 											<div className="control-group">
 												<label className="control-label" htmlFor="inputPassword">Password</label>
@@ -189,6 +199,12 @@ class SignupForm extends Component {
 													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 												</div>
 											</div>
+											{this.state.loginError &&
+												<div className="alert alert-danger" role="alert"> 
+	  												{this.state.errorMessage}
+												</div>
+											}
+											
 										</form>
 									</iron-form>
 								</div>

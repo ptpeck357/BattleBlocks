@@ -1,87 +1,78 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react'  
 import {  Jumbotron, Button, Container } from "reactstrap"
 import axios from 'axios'
-
+//import styles from "./leaderboard.css"
 import ReactTable from 'react-table'
 import { render } from "react-dom";
 import "react-table/react-table.css";
 
-const jsonToTable = require('json-to-table');
 
-
+// leaderboard class with the userData and isMounting variable to render the data
 class Leaderboard extends Component {  
     state = {
       userData:{},
       isMounting: ""
   };
   
+  // making axios call and getting response from api.js
+  // response comes from the database, then setting up the state
     componentDidMount() {
         axios.get('/api/leaderboard').then(
             response => { this.setState({ userData: response, isMounting:true })
               console.log(this.state.userData);
           })
             .catch(err => console.log(err));
-        console.log("Component Did Mount");
-
-
         }
-        
+ // rendering the data in a react table        
   render() {
     if(this.state.isMounting){
-      console.log("Rendering");
       return(
-        
-          <Container fluid>
-              <h1 className="header">Leaderboard</h1>
-              <h1 className="header">
-                  Value:  {this.state.userData.data[0].joindate}
-              </h1>
-                 
-            
-                  <div>
-                <ReactTable
-                  data={this.state.userData.data}
-                  columns={[
+        <Container fluid>
+          <h1 className="header">Leaderboard</h1>
+
+          <div>
+            <ReactTable
+              data={this.state.userData.data}
+              columns={[
+                {
+                  columns: [
                     {
-                      columns: [
-                        {
-                          Header: "Join Date",
-                          accessor: "joindate"
-                        },
-                        {
-                          Header: "User Name",
-                          id: "username",
-                          accessor: d => d.username
-                        },
-                        {
-                          Header: "Wins",
-                          accessor: "wins"
-                        },
-                        {
-                          Header: "Losses",
-                          accessor: "losses"
-                        },
-                        {
-                          Header: "Total Score",
-                          accessor: "totalScore"
-                        }
-                      ]
+                      Header: "Join Date",
+                      accessor: "joindate"
+                    },
+                    {
+                      Header: "User Name",
+                      id: "username",
+                      accessor: d => d.username
+                    },
+                    {
+                      Header: "Wins",
+                      accessor: "wins"
+                    },
+                    {
+                      Header: "Losses",
+                      accessor: "losses"
+                    },
+                    {
+                      Header: "Total Score",
+                      accessor: "totalScore"
                     }
-                  ]}
-                  defaultPageSize={10}
-                  className="-striped -highlight"
-                />
-                <br />
-               
-              </div>
-            </Container> 
-      
+                  ]
+                }
+              ]}
+              defaultPageSize={10}
+              className="-striped -highlight"
+            />
+            <br />
+           
+          </div>
+        </Container> 
       )
     }
     else{
       return(
             <h1 className="header">
-                  Loading ...
+                  Error ...
               </h1>
       )
     }

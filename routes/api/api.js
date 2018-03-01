@@ -61,8 +61,8 @@ router.post('/login', (req, res, next) =>{
 			return res.json(
 				{message: 'Incorrect username or password', path: "/", user: null}
 			);
-		};
-	  	req.login(user, (err) => {
+
+		}req.login(user, (err) => {
 			if (err) { return res.status(400).send(err); }
 			return res.json(
 				{message: 'You are now logged in!',  path: "/lobby", user: user.username}

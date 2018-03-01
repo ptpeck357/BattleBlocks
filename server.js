@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(
 	session({
 		secret: 'Secret',
-		store: new MongoStore({ uri: MONGODB_URI,collection:"users" }),
+		store: new MongoStore({ uri: MONGODB_URI,collection:"session" }),
 		resave: true,
         saveUninitialized: true,
         cookie: {
