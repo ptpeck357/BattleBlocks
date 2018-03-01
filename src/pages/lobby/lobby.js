@@ -1,5 +1,5 @@
 import React from "react";
-import {  Jumbotron, Button, Container } from "reactstrap";
+import {  Jumbotron, Container } from "reactstrap";
 import "./lobby.css";
 import Navbar from "../../components/Nav/index";
 import Newgame from "../../components/Newgame/index";
@@ -7,10 +7,6 @@ import Newgame from "../../components/Newgame/index";
 let headline = "Lobby";
 
 class Lobby extends React.Component{
-	
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 		return (

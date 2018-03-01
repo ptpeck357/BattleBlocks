@@ -5,7 +5,6 @@ var Schema = mongoose.Schema;
 // Create the User schema
 var userSchema = new Schema({
 
-
 	username: {
 		type: String,
 	    trim: true,
@@ -57,7 +56,7 @@ userSchema.methods = {
 	hashPassword: plainTextPassword => {
 		return bcrypt.hashSync(plainTextPassword, 9)
 	}
-}
+};
 
 const User = mongoose.model('User', userSchema);
 

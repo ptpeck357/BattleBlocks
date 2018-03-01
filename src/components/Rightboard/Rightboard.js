@@ -1,64 +1,127 @@
 import React from "react";
 import Squares from "../Squares";
-import buttons from "../rightbuttons.json";
-import leftButtons from "../leftbuttons.json";
-import { Jumbotron, Button, Container, Row, Col } from "reactstrap";
+import { Container } from "reactstrap";
+import URL from "url-parse";
+import fire from "../../fire.js";
 
 class Rightboard extends React.Component {
 
 	// Setups props
 	constructor(props) {
 		super(props);
-		this.buttonClick = this.buttonClick.bind(this);
-	}
-
-
-	//this is the button click handler
-	buttonClick(status, id) { 
-		if (this.props.coins < 1 && this.props.high !== this.props.player) {
-			console.log("nuh huh uhuh!")
-		} else {
-		this.changeActive(status, id);
-		this.props.add(this.addRightButton);
+		
+		this.state = {
+			gameID : null,
+			buttons : null,
+			leftButtons : null
 		}
 	}
 
-  	//This should randomly activate a new button
-	addRightButton() { 
-		let randomId = Math.floor(Math.random()*leftButtons.length)
-		console.log(randomId);
-	
-		if (leftButtons[randomId].active === 0) {
-			leftButtons[randomId].active = 1;
-			document.getElementById(leftButtons[randomId].id).style.visibility="visible";
-		} 
+// ----------------------- ------------- -----------------------//
+// --------------------------- SETUP ---------------------------//
+// ----------------------- ------------- -----------------------//
+
+	//Captures the gameID from the url
+    parseUrl = () => {
+		let gameUrl = window.location.href;
+		let path = new URL(gameUrl);
+
+		let gameID = path.pathname.slice(11);
+
+		this.setState({
+			gameID : gameID
+		})
+		// console.log(gameID);
+		this.getFirebaseButtons(gameID);
+	}  
+
+	//Get button object from firebase
+	getFirebaseButtons = gameID => {
+
+		//access values in firebase and return snapshot
+		fire.ref().on('child_added', snapshot => {
+
+			//access values in snapshot
+			let response = snapshot.val();
+
+			//create user button arrays
+			let user1_buttons = response.user1_buttons;
+			let user2_buttons = response.user2_buttons;
+			
+			this.setState({
+				buttons : user2_buttons, 
+				leftButtons : user1_buttons
+			})
+		})
+	};
+
+// ----------------------- ------------- -----------------------//
+// ----------------------- click actions -----------------------//
+// ----------------------- ------------- -----------------------//
+
+	//this is the button click handler
+	buttonClick = (id) => { 
+		console.log("rightboard.buttonClick fired");
+
+		//Test for legal move
+		if (this.props.coins < 1 && this.props.high !== this.props.player) {
+			console.log("illegal move - stop!")
+
+		} else {
+			console.log("legal move")
+
+		this.changeCoins();
+		this.changePoints();
+		this.deactivateButton(id);
+
+		//Activate new button 
+		this.props.add(this.addButton);
+		}
 	}
 
 	//Once a button is clicked, this triggers all the changes
-	changeActive(status, id) { 
-		for (let i=0; i<buttons.length; i++){
-			if(buttons[i].id === id && buttons[i].active === 1){
-				buttons[i].active = 0;
-				this.reDisplay(status, id);
-				this.changeCoin();
-				this.changePoints();
+	deactivateButton = (id) => {
+		console.log("rightboard.deactivateButton fired") 
+
+		//loop through all the buttons
+		for (let i=0; i<this.state.buttons.length; i++){
+
+			//if the button exists and is active
+			if(this.state.buttons[i].id === id && this.state.buttons[i].active === 1){
+				
+				//turn off status in state
+				this.state.buttons[i].active = 0;
+
+				//turn off status in firebase
+				fire.ref(this.state.gameID + "/user1_buttons/" + id).update({active : 0});
+
+				this.reDisplay();
 			}
 		}
 	}
 
 	//Once a button is clicked, this re-displays the "visible" buttons
-    reDisplay(status, id) { 
-          for (let i=0; i<buttons.length; i++){
-               if (buttons[i].active === 1) {
-                    document.getElementById(buttons[i].id).style.visibility="visible";
-               } else {
-                    document.getElementById(buttons[i].id).style.visibility="hidden";
-               }
-          }
-     }
+    reDisplay = () => { 
+    	console.log("rightboard.reDisplay fired")    	
+
+    	//loop through all the buttons
+        for (let i=0; i<this.state.buttons.length; i++){
+    	
+    		//if find active buttons
+            if (this.state.buttons[i].active === 1) {
+            	console.log(this.state.buttons)
+            	//turn button on
+                document.getElementById(this.state.buttons[i].id).style.visibility="visible";
+            } else {
+            
+            	//else turn button off
+                document.getElementById(this.state.buttons[i].id).style.visibility="hidden";
+            }
+        }
+    }
 
     //this changes coins based on player's click position
-	changeCoin() { 
+	changeCoins = () => { 
 		let coins = this.props.coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
@@ -67,21 +130,21 @@ class Rightboard extends React.Component {
 			coins = coins - 1;
 			// console.log(coins);
 		}
+		//update props with new coins total
 		this.props.rightCoins(coins)
 	}
 
 	//this should change points based on player's click position
-	changePoints() { 
+	changePoints = () => { 
 		let points = this.props.points;
 		let countActive = 0;
-		for (let i=0; i<buttons.length; i++){
-			if(buttons[i].active === 1) {
+		for (let i=0; i<this.state.buttons.length; i++){
+			if(this.state.buttons[i].active === 1) {
 				countActive = countActive + 1;
 			}
 		}
-		// console.log(points);
 
-		// update points
+		//calculate the new point total
 		switch (countActive) {
 			case 2:
 				points = points + 1
@@ -98,35 +161,62 @@ class Rightboard extends React.Component {
 			default:
 				points;
 		}
-		// console.log(points);
+		//update props with new points total
 		this.props.rightPoints(points)
 	}
 
-	//After the mount, read through the buttons and make them visible or hidden
-	componentDidMount() {
-	    for (let i=0; i<buttons.length; i++){
-	        if (buttons[i].active === 1) {
-	            document.getElementById(buttons[i].id).style.visibility="visible";
-	        } else {
-	            document.getElementById(buttons[i].id).style.visibility="hidden";
-	        }
-	    }    
+  	//Activate a random new button
+	addButton = () => { 
+		console.log("leftboard.addButton fired");
+		
+		//Pick a random Id that is in the range
+		let randomId = Math.floor(Math.random()*this.state.buttons.length)
+
+		//Check if the button is active
+		if (this.state.buttons[randomId].active === 0) {
+				
+				//update state
+				this.state.buttons[randomId].active = 1;
+
+				//update firebase
+				fire.ref(this.state.gameID + "/user2_buttons/" + randomId).update({active : 1});			
+		} 
+		this.reDisplay();
+	}	
+
+// ----------------------- ------------- -----------------------//
+// -------------------- Component Lifecycle --------------------//
+// ----------------------- ------------- -----------------------//
+
+	componentWillMount() {
+		this.parseUrl();
 	}
 
+// ----------------------- ------------- -----------------------//
+// ----------------------- Render Logic ------------------------//
+// ----------------------- ------------- -----------------------//
+
+	determineButtonRender = () => 
+	    !(this.state.buttons === null) ? 
+	        this.state.buttons.map((button, i) => 
+	       		<Squares 
+	       			key = {i}
+	       			id = {button.id}
+	       			coordinates = {button.coordinates}
+	       			status = {button.active}
+	       			buttonClick = {this.buttonClick} 
+	       		/>
+	        )
+	    : ""
 	//Render to Dom
 	render() {
 		return (
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
 		        <h4>$BlockCoins$: {this.props.coins} Total Points: {this.props.points}</h4>		        
-		        {buttons.map(button => (
-		       		<Squares 
-		       			id = {button.id}
-		       			coordinates = {button.coordinates}
-		       			status = {button.active}
-		       			buttonClick = {this.buttonClick} 
-		       		/>
-		        ))}
+
+		        {this.determineButtonRender()}
+
 		  	</Container>
 		)
 	}

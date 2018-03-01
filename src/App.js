@@ -16,7 +16,7 @@ const App = () =>
       <Switch>
         <Route exact path="/" component={Registration} />
         <Route exact path="/lobby" component={Lobby} />
-        <Route exact path="/gameboard" component={Gamepage} />
+        <Route exact path="/gameboard/:id" component={Gamepage} />
         <Route exact path="/leaderboard" component={Leaderboard} />
         <Route component={Nomatch} />
       </Switch>

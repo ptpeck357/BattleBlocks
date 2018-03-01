@@ -1,51 +1,42 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 import "./signup.css";
 import logo3 from './assests/images/Picture3.png';
-import signup from './assests/images/sign-up-here.jpg';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import _ from 'lodash';
-
 
 var errArray = [];
 var objrow;
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};	
+  	content : {
+		top: '50%',
+		left: '50%',
+		right: 'auto',
+		bottom: 'auto',
+		marginRight: '-50%',
+		transform: 'translate(-50%, -50%)'
+ 	}
+};
 
+const backdropStyle = {
+	position: 'fixed',
+	top: 0,
+	bottom: 0,
+	left: 0,
+	right: 0,
+	backgroundColor: 'rgba(0,0,0,0.3)',
+	padding: 50
+};
 
-
-    const backdropStyle = {
-      position: 'fixed',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
-    };
-
-
-    const modalStyle = {
-      backgroundColor: '#fff',
-      borderRadius: 5,
-      maxWidth: 500,
-      minHeight: 300,
-      margin: '0 auto',
-      padding: 30
-    };
-
-
-let headline = "Welcome to BattleBlocks!"
+const modalStyle = {
+	backgroundColor: '#fff',
+	borderRadius: 5,
+	maxWidth: 500,
+	minHeight: 300,
+	margin: '0 auto',
+	padding: 30
+};
 
 class SignupForm extends Component {
 
@@ -66,7 +57,6 @@ class SignupForm extends Component {
 		};
   	};
 
-
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
 		this.setState({
@@ -84,7 +74,6 @@ class SignupForm extends Component {
 			confirmPassword: this.state.confirmPassword
     }).then(response => {
 
-		
 	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
 		if(response.data.errors){
 			for(var i=0;i<response.data.errors.length;i++){
@@ -92,17 +81,15 @@ class SignupForm extends Component {
 			}
 			this.openModal();
 			errArray = [];
-			console.log(response);
-		}else{
+		} else {
 				this.setState({
 				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
 				});
-			console.log(response);
 		}
 
 		}).catch((error) => {
 			console.log(error);
-		  });
+		});
 	};
 
 	/*Function to handle login on submit*/
@@ -112,32 +99,44 @@ class SignupForm extends Component {
 			username: this.state.usernameSignIn,
 			password: this.state.passwordSignIn
 		}).then(response => {
-
-			console.log(response.errors);
-
-			 this.setState({
-			 	usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-			});
+			console.log(response)
+			if(response.data.user === null){
+				console.log(response.data.message)
+			} else {
+				console.log("logged in");
+				this.setState({
+			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+				});
+			}
 
 		}).catch(error => {
 			console.log(error);
-			console.log(error.message)
 		  });
 	};
 
-			openModal = () => {
-		    this.setState({modalIsOpen: true});
-		  }
+	/*Function to handle logout on submit*/
+	handlelogout = (event) => {
+		event.preventDefault();
+		axios.get('/api/logout').then(response => {
+			console.log(response)
+			this.setState({
+				usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+		   });
+		})
+	}
 
-		  afterOpenModal = () => {
-		    // references are now sync'd and can be accessed.
-		    this.subtitle.style.color = '#f00';
-		  }
+	openModal = () => {
+		this.setState({modalIsOpen: true});
+	}
 
-		  closeModal = () => {
-		    this.setState({modalIsOpen: false});
-		  }
+	afterOpenModal = () => {
+		// references are now sync'd and can be accessed.
+		this.subtitle.style.color = '#f00';
+	}
 
+	closeModal = () => {
+		this.setState({modalIsOpen: false});
+	}
 
 	/*Function to render HTML form*/
 	render() {
@@ -151,7 +150,7 @@ class SignupForm extends Component {
 				<img src={logo3} alt="Battle Blocks"/>
 					<div className="row-fluid">
 						<div className="span12">
-						
+
 							<div className="span6">
 								<div className="area">
 									<iron-form id="form1">
@@ -278,26 +277,26 @@ class SignupForm extends Component {
 											</div>
 										</form>
 									</iron-form>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					<div>
-					</div>
-					
+				</div>
+
         <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Error"
+         	isOpen={this.state.modalIsOpen}
+          	onAfterOpen={this.afterOpenModal}
+          	onRequestClose={this.closeModal}
+          	style={customStyles}
+          	contentLabel="Error"
         >
         <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
 		<ul>
-               {errArray.map(function(errorMessgae, index){
-                   return <li key={ index }>{errorMessgae}</li>;
-                 })}
-           </ul>          
+			{errArray.map(function(errorMessgae, index){
+				return <li key={ index }>{errorMessgae}</li>;
+				})}
+        </ul>
         </Modal>
 
 	</div>
@@ -306,6 +305,5 @@ class SignupForm extends Component {
 		};
 	};
 };
-
 
 export default SignupForm
