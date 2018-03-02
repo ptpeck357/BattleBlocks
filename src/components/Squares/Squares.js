@@ -3,10 +3,6 @@ import { Container, Button } from "reactstrap";
 
 
 class Squares extends React.Component {
-
-  componentDidMount() {
-    this.props.countBlocks();
-  }
   
   render() {
     return (

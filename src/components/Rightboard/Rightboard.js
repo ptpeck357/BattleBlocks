@@ -114,8 +114,6 @@ class Rightboard extends React.Component {
 				leftButtons: leftButtons
 			})
 		}
-		//update props with latest count
-		// this.props.countBlocks()
 	}
 
     //This changes coins based on player's click position
@@ -161,6 +159,8 @@ class Rightboard extends React.Component {
 		}
 		//update props with new points total
 		this.props.rightPoints(points)
+		//update props with latest count
+		this.props.countBlocks()
 	}	
 
 // ----------------------- ------------- -----------------------//
@@ -184,7 +184,6 @@ class Rightboard extends React.Component {
 	       			coordinates = {button.coordinates}
 	       			status = {button.active}
 	       			buttonClick = {this.buttonClick} 
-	       			countBlocks = {this.countBlocks}
 	       		/>
 	        )
 	    : ""

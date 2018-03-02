@@ -89,14 +89,16 @@ class Gameboard extends React.Component {
         u2_blocks = u2_blocks + 1
       }
     }
+
     console.log(u2_blocks)
-      this.setState({u2_blockcount : u2_blocks})
+    this.setState({u2_blockcount : u2_blocks})
 
     for (let i=0; i<this.state.leftButtons.length; i++){
       if(this.state.leftButtons[i].active == 1){
         u1_blocks = u1_blocks + 1
       }
     }
+    
     console.log(u1_blocks)
     this.setState({u1_blockcount : u1_blocks})
 

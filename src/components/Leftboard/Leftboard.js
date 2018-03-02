@@ -70,9 +70,9 @@ class Leftboard extends React.Component {
 		} else {
 			console.log("legal move")
 
+		this.deactivateButton(id);
 		this.changeCoins();
 		this.changePoints();
-		this.deactivateButton(id);
 
 		//Activate new button 
 		this.addButton()
@@ -114,8 +114,6 @@ class Leftboard extends React.Component {
 				rightButtons: rightButtons
 			})
 		}
-		//update props with latest count
-		// this.props.countBlocks()
 	}
 
     //This changes coins based on player's click position
@@ -162,6 +160,8 @@ class Leftboard extends React.Component {
 		}
 		//update props with new points total
 		this.props.leftPoints(points)
+		//update props with latest count
+		this.props.countBlocks()
 	}
 
 // ----------------------- ------------- -----------------------//
@@ -184,8 +184,7 @@ class Leftboard extends React.Component {
 	       			id = {button.id}
 	       			side = {button.side}
 	       			status = {button.active}
-	       			buttonClick = {this.buttonClick}
-	       			countBlocks = {this.countBlocks} 
+	       			buttonClick = {this.buttonClick} 
 	       		/>
 	        )
 	    : ""
