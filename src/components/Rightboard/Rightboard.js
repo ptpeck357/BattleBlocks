@@ -103,12 +103,9 @@ class Rightboard extends React.Component {
 
   	//This activates a random opponent button
 	addButton = () => { 
-		console.log("add a left button");
 		
 		let leftButtons = this.state.leftButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
-
-		console.log("Buttons = "+leftButtons)
 
 		if (leftButtons[randomId]. active == 0) {
 			leftButtons[randomId].active = 1
@@ -117,6 +114,8 @@ class Rightboard extends React.Component {
 				leftButtons: leftButtons
 			})
 		}
+		//update props with latest count
+		// this.props.countBlocks()
 	}
 
     //This changes coins based on player's click position
@@ -185,6 +184,7 @@ class Rightboard extends React.Component {
 	       			coordinates = {button.coordinates}
 	       			status = {button.active}
 	       			buttonClick = {this.buttonClick} 
+	       			countBlocks = {this.countBlocks}
 	       		/>
 	        )
 	    : ""

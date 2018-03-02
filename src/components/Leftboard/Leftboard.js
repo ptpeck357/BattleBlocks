@@ -81,7 +81,7 @@ class Leftboard extends React.Component {
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-		console.log("rightboard.deactivateButton fired") 
+		console.log("leftboard.deactivateButton fired") 
 		
 		let buttons = this.state.buttons;
 
@@ -103,12 +103,9 @@ class Leftboard extends React.Component {
 
   	//This activates a random opponent button
 	addButton = () => { 
-		console.log("add a left button");
 		
 		let rightButtons = this.state.rightButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
-
-		console.log("Buttons = "+rightButtons)
 
 		if (rightButtons[randomId]. active == 0) {
 			rightButtons[randomId].active = 1
@@ -117,6 +114,8 @@ class Leftboard extends React.Component {
 				rightButtons: rightButtons
 			})
 		}
+		//update props with latest count
+		// this.props.countBlocks()
 	}
 
     //This changes coins based on player's click position
@@ -154,6 +153,7 @@ class Leftboard extends React.Component {
 			case 0:
 				points = points + 3
 
+				console.log("Leftboard wins")
 				// declare winner
 				this.props.winner(this.props.player)
 				break;
@@ -184,7 +184,8 @@ class Leftboard extends React.Component {
 	       			id = {button.id}
 	       			side = {button.side}
 	       			status = {button.active}
-	       			buttonClick = {this.buttonClick} 
+	       			buttonClick = {this.buttonClick}
+	       			countBlocks = {this.countBlocks} 
 	       		/>
 	        )
 	    : ""
