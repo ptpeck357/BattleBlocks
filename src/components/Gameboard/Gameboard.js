@@ -1,8 +1,6 @@
 import React from "react";
 import Leftboard from "../../components/Leftboard";
 import Rightboard from "../../components/Rightboard";
-// import leftButtons from "../leftbuttons.json";
-// import rightButtons from "../rightbuttons.json";
 import { Container, Row, Col } from "reactstrap";
 import Navbar from "../../components/Nav/index";
 import fire from "../../fire.js";
@@ -57,7 +55,6 @@ class Gameboard extends React.Component {
     this.setState({
       gameID : gameID
     })
-    console.log(gameID);
   }  
 
 // ----------------------- ------------- -----------------------//
@@ -70,6 +67,8 @@ class Gameboard extends React.Component {
     let u1_blocks = 0;
 
     console.log("gameboard.countBlocks fired");
+
+    
 
     for (let i=0; i<this.state.rightButtons.length; i++){
       if(this.state.rightButtons[i].active === 1){
@@ -87,6 +86,8 @@ class Gameboard extends React.Component {
       this.setState({u1_blockcount : u1_blocks})
     }
       console.log(this.state.u1_blockcount);
+
+
 
     this.updateLeader(u1_blocks, u2_blocks)
   }
@@ -164,27 +165,6 @@ class Gameboard extends React.Component {
   componentWillMount() {
     this.parseUrl();
   }
-    //access values in firebase and return snapshot
-
-  componentDidMount() {
-    fire.ref(this.state.gameID).on('child_added', snapshot => {
-
-      //access values in snapshot
-      let response = snapshot.val();
-
-      console.log(response);
-
-      //create user button arrays
-      let user1_buttons = response.user1_buttons;
-      let user2_buttons = response.user2_buttons;
-
-      console.log(user1_buttons)
-      console.log(user2_buttons)
-      
-      this.setState({leftButtons : user1_buttons, rightButtons : user2_buttons})
-    })
-  };
-
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Render Logic ------------------------//

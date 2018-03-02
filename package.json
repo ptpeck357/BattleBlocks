@@ -33,6 +33,7 @@
     "mongoose": "^5.0.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "re-base": "^3.2.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-json-table": "^0.1.1",
