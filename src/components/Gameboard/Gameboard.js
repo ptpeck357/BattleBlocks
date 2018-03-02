@@ -9,7 +9,6 @@ class Gameboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.countBlocks = this.countBlocks.bind(this);
 
     this.state = {
       //Game state settings
@@ -25,16 +24,16 @@ class Gameboard extends React.Component {
       u1_points: 2,
      
       //User1 settings
-      u1_blockcoin: 3,
+      u1_blockcoin: "",
       u1_blockcount: 0,
      
       //User2 settings
-      u2_blockcoin: 3,
+      u2_blockcoin: "",
       u2_blockcount: 0,
 
       //Buttons
-      rightButtons : "",
       leftButtons : "",
+      rightButtons : "",
 
       //Game ID
       gameID : "",
@@ -55,7 +54,36 @@ class Gameboard extends React.Component {
     this.setState({
       gameID : gameID
     })
+    this.getFirebaseButtons(gameID);
   }  
+
+  //Get buttons from firebase
+  getFirebaseButtons = (gameID) => {
+    
+    //Synchronize firebase with state 'leftButtons'
+    fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
+      context: this,
+      state: 'leftButtons'
+    })
+
+    //Synchronize firebase with state 'buttons'
+    fire.syncState("Live_Games/"+gameID+'/user2_buttons', {
+      context: this,
+      state: 'rightButtons'
+    })
+
+    //Synchronize coins
+    fire.syncState("Live_Games/"+gameID+'/user1_userCoins', {
+      context: this,
+      state: 'u1_blockcoin'
+    })
+
+    //Synchronize coins
+    fire.syncState("Live_Games/"+gameID+'/user2_userCoins', {
+      context: this,
+      state: 'u2_blockcoin'
+    })
+  }
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Click Actions -----------------------//
@@ -63,38 +91,42 @@ class Gameboard extends React.Component {
 
   //Checks who is the boardleader
   countBlocks = () => {
+    console.log("gameboard.countBlocks =>");
+
     let u2_blocks = 0;
     let u1_blocks = 0;
 
-    console.log("gameboard.countBlocks fired");
-
-    
-
     for (let i=0; i<this.state.rightButtons.length; i++){
       if(this.state.rightButtons[i].active === 1){
-        console.log("WE HAVE CONTACT!")
         u2_blocks = u2_blocks + 1
       }
-      this.setState({u2_blockcount : u2_blocks})
     }
+    this.setState({u2_blockcount : u2_blocks})
 
     for (let i=0; i<this.state.leftButtons.length; i++){
       if(this.state.leftButtons[i].active === 1){
         u1_blocks = u1_blocks + 1
       }
-      // console.log(leftPlayer);
-      this.setState({u1_blockcount : u1_blocks})
     }
-      console.log(this.state.u1_blockcount);
+    this.setState({u1_blockcount : u1_blocks})
 
+    if (u1_blocks === 0) {
+      this.endGame(this.state.player)
+      this.setState({leftButtons : "", rightButtons : ""})
 
-
-    this.updateLeader(u1_blocks, u2_blocks)
+    } else if (u2_blocks === 0) {
+      this.endGame(this.state.opponent)
+      this.setState({leftButtons : "", rightButtons : ""})
+    
+    } else {
+      this.updateLeader(u1_blocks, u2_blocks)
+    }
   }
 
   //Updates the boardleader based on countBlocks()
   updateLeader = (u1_blocks, u2_blocks) => {
     let leader = "Neither"
+
     if (u1_blocks === u2_blocks) {
       this.setState({boardleader: "Both players are equal"});
     }  else
@@ -106,18 +138,6 @@ class Gameboard extends React.Component {
     this.setState({
       high_side: leader,
       boardleader: leader+" has the most blocks!"})
-  }
-
-  addRightButton(cb) {
-    cb()
-    console.log("gameboard.addRightButton fired")
-    this.countBlocks;
-  } 
-
-  addLeftButton(cb) {
-    cb()
-    console.log("gameboard.addLeftButton fired")
-    this.countBlocks;
   }
 
   leftCoins = update => {
@@ -149,6 +169,7 @@ class Gameboard extends React.Component {
   }
 
   endGame = winner => {
+    console.log("Winner function triggered")
     let name = winner;
     this.setState({
       high_side: "",
@@ -180,8 +201,8 @@ class Gameboard extends React.Component {
         <Row>
           <Col>
             <Leftboard
-              add = {this.addRightButton}
               winner = {this.endGame}
+              countBlocks = {this.countBlocks}
               leftCoins = {this.leftCoins}
               leftPoints = {this.leftPoints}
               high = {this.state.high_side}
@@ -192,8 +213,8 @@ class Gameboard extends React.Component {
           </Col>
           <Col>
             <Rightboard
-              add = {this.addLeftButton}
               winner = {this.endGame}
+              countBlocks = {this.countBlocks}
               rightCoins = {this.rightCoins}
               rightPoints = {this.rightPoints}
               high = {this.state.high_side}

@@ -9,7 +9,8 @@ class Leftboard extends React.Component {
 	// Setups props
 	constructor(props) {
 		super(props);
-		
+
+		//Initiate the state variables
 		this.state = {
 			gameID : null,
 			buttons : null,
@@ -58,10 +59,8 @@ class Leftboard extends React.Component {
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
 
-	//Once a button is clicked, this triggers all the changes
+	//Checks for legal move
 	buttonClick = (id) => { 
-		console.log(id)
-		console.log("leftbutton.buttonClick fired");
 
 		//Test for legal move
 		if (this.props.coins < 1 && this.props.high !== this.props.player) {
@@ -70,18 +69,21 @@ class Leftboard extends React.Component {
 		} else {
 			console.log("legal move")
 
-		this.changeCoins();
-		this.changePoints();
-		this.deactivateButton(id);
-
-		//Activate new button 
-		this.addButton()
+		this.changeButtonStatus(id);
 		}
 	}
 
+	//Handles the updates
+	async changeButtonStatus(id) {
+		await this.deactivateButton(id)
+		await this.addButton()
+		this.changeCoins();
+		this.changePoints()
+		this.props.countBlocks()
+	}
+
 	//This turns the button off and updates state
-	deactivateButton = (id) => {
-		console.log("rightboard.deactivateButton fired") 
+	deactivateButton = (id) => { 
 		
 		let buttons = this.state.buttons;
 
@@ -89,28 +91,24 @@ class Leftboard extends React.Component {
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
-			if(buttons[i].id == id && buttons[i].active == 1){
+			if(buttons[i].id === id && buttons[i].active === 1){
 				
 				buttons[i].active = 0
 
 				this.setState({
 					buttons: buttons
 				})	
-				console.log(this.state.buttons)
 			}
 		}
 	}
 
   	//This activates a random opponent button
 	addButton = () => { 
-		console.log("add a left button");
 		
 		let rightButtons = this.state.rightButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
-		console.log("Buttons = "+rightButtons)
-
-		if (rightButtons[randomId]. active == 0) {
+		if (rightButtons[randomId].active === 0) {
 			rightButtons[randomId].active = 1
 
 			this.setState({
@@ -154,6 +152,7 @@ class Leftboard extends React.Component {
 			case 0:
 				points = points + 3
 
+				console.log("Leftboard wins")
 				// declare winner
 				this.props.winner(this.props.player)
 				break;

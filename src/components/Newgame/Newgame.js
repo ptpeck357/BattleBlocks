@@ -21,12 +21,13 @@ class Newgame extends React.Component {
 		let myRef = fire.push('Live_Games', { 
 			data : { 
 				id: null,
+				game_status: 'open',
 				user1_userName: null,
 				user1_userPoints: null,
-				user1_userCoins: null,
+				user1_userCoins: 3,
 				user2_userName: null,
 				user2_userPoints: null,
-				user2_userCoins: null,
+				user2_userCoins: 3,
 				user1_buttons: leftButtons,
 				user2_buttons: rightButtons
 			},

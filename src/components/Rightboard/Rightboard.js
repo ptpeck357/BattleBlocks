@@ -59,10 +59,8 @@ class Rightboard extends React.Component {
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
 
-	//Once a button is clicked, this triggers all the changes
+	//Checks for legal move
 	buttonClick = (id) => { 
-		console.log(id)
-		console.log("rightboard.buttonClick fired");
 
 		//Test for legal move
 		if (this.props.coins < 1 && this.props.high !== this.props.player) {
@@ -71,31 +69,35 @@ class Rightboard extends React.Component {
 		} else {
 			console.log("legal move")
 
-		this.changeCoins();
-		this.changePoints();
-		this.deactivateButton(id);
-
-		//Activate new button 
-		this.addButton()
+		this.changeButtonStatus(id);
 		}
+	}
+
+	//Handles the updates
+	async changeButtonStatus(id) {
+		await this.deactivateButton(id)
+		await this.addButton()
+		this.changeCoins();
+		this.changePoints()
+		this.props.countBlocks()
 	}
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-		console.log("rightboard.deactivateButton fired") 
-		
+
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
-			if(buttons[i].id == id && buttons[i].active == 1){
+			if(buttons[i].id === id && buttons[i].active === 1){
 				
 				buttons[i].active = 0
 
 				this.setState({
 					buttons: buttons
+					
 				})	
 			}
 		}
@@ -103,14 +105,11 @@ class Rightboard extends React.Component {
 
   	//This activates a random opponent button
 	addButton = () => { 
-		console.log("add a left button");
 		
 		let leftButtons = this.state.leftButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
-		console.log("Buttons = "+leftButtons)
-
-		if (leftButtons[randomId]. active == 0) {
+		if (leftButtons[randomId].active === 0) {
 			leftButtons[randomId].active = 1
 
 			this.setState({
