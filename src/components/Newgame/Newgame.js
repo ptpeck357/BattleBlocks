@@ -18,18 +18,20 @@ class Newgame extends React.Component {
 
 	createGameData = () => {
 
-		let newData = {
-			id: null,
-			user1_userName: null,
-			user1_userPoints: null,
-			user1_userCoins: null,
-			user2_userName: null,
-			user2_userPoints: null,
-			user2_userCoins: null,
-			user1_buttons: leftButtons,
-			user2_buttons: rightButtons
-		}
-		let myRef = fire.ref().push(newData)
+		let myRef = fire.push('Live_Games', { 
+			data : { 
+				id: null,
+				user1_userName: null,
+				user1_userPoints: null,
+				user1_userCoins: null,
+				user2_userName: null,
+				user2_userPoints: null,
+				user2_userCoins: null,
+				user1_buttons: leftButtons,
+				user2_buttons: rightButtons
+			},
+		});
+
 		let gameRoute = '/gameboard/' + myRef.key;
 
 		this.setState({
