@@ -1,7 +1,6 @@
 import React from "react";
-import {  Jumbotron, Button, Container } from "reactstrap";
+import { Button } from "reactstrap";
 import { Redirect } from 'react-router-dom';
-import Navbar from "../../components/Nav/index";
 import leftButtons from "../leftbuttons.json";
 import rightButtons from "../rightbuttons.json";
 import fire from "../../fire.js";
@@ -11,28 +10,28 @@ class Newgame extends React.Component {
 
 	constructor(props){
 		super(props);
-		this.startGame = this.startGame.bind(this);
-		this.createGameData = this.createGameData.bind(this);
 
 		this.state = {
 			redirectTo : null,
 		}
 	}
 
-	createGameData() {
+	createGameData = () => {
 
-		let newData = {
-			id: null,
-			user1_userName: null,
-			user1_userPoints: null,
-			user1_userCoins: null,
-			user2_userName: null,
-			user2_userPoints: null,
-			user2_userCoins: null,
-			user1_buttons: leftButtons,
-			user2_buttons: rightButtons
-		}
-		let myRef = fire.ref().push(newData)
+		let myRef = fire.push('Live_Games', { 
+			data : { 
+				id: null,
+				user1_userName: null,
+				user1_userPoints: null,
+				user1_userCoins: null,
+				user2_userName: null,
+				user2_userPoints: null,
+				user2_userCoins: null,
+				user1_buttons: leftButtons,
+				user2_buttons: rightButtons
+			},
+		});
+
 		let gameRoute = '/gameboard/' + myRef.key;
 
 		this.setState({
@@ -40,7 +39,7 @@ class Newgame extends React.Component {
 		});
 	}
 
-	createNewUserInFirebase() {
+	// createNewUserInFirebase() {
 		//check fire for game with "status: open"
 
 		//if no "status: open":
@@ -49,14 +48,7 @@ class Newgame extends React.Component {
 			//call createButtons(key)
 			//push player objects to fire
 
-		//if "status: open" is found:
-			//assign player1 data to object
-			//push player object to game
-			//change status to "closed"
-	}
-
-
-	startGame() {
+	startGame = () => {
 		this.createGameData()
 		console.log("Yah suure, lemme get right on that for ye!")
 		//initiate fire

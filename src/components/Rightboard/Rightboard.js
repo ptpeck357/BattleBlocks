@@ -6,10 +6,11 @@ import fire from "../../fire.js";
 
 class Rightboard extends React.Component {
 
-	// Setups props
+	//Setups props
 	constructor(props) {
 		super(props);
 
+		//Initiate the state variables
 		this.state = {
 			gameID : null,
 			buttons : null,
@@ -35,32 +36,32 @@ class Rightboard extends React.Component {
 		this.getFirebaseButtons(gameID);
 	}
 
-	//Get button object from firebase
-	getFirebaseButtons = gameID => {
+	//Get buttons from firebase
+	getFirebaseButtons = (gameID) => {
 
-		//access values in firebase and return snapshot
-		fire.ref().on('child_added', snapshot => {
-
-			//access values in snapshot
-			let response = snapshot.val();
-
-			//create user button arrays
-			let user1_buttons = response.user1_buttons;
-			let user2_buttons = response.user2_buttons;
-
-			this.setState({
-				buttons : user2_buttons,
-				leftButtons : user1_buttons
-			})
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
+			context: this,
+			state: 'leftButtons',
+			asArray: true
 		})
-	};
+
+		//Synchronize firebase with state 'buttons'
+		fire.syncState("Live_Games/"+gameID+'/user2_buttons', {
+			context: this,
+			state: 'buttons',
+			asArray: true
+		})
+	}
+
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
 
-	//this is the button click handler
+	//Once a button is clicked, this triggers all the changes
 	buttonClick = (id) => {
+		console.log(id)
 		console.log("rightboard.buttonClick fired");
 
 		//Test for legal move
@@ -75,52 +76,50 @@ class Rightboard extends React.Component {
 		this.deactivateButton(id);
 
 		//Activate new button
-		this.props.add(this.addButton);
+		this.addButton()
 		}
 	}
 
-	//Once a button is clicked, this triggers all the changes
+	//This turns the button off and updates state
 	deactivateButton = (id) => {
 		console.log("rightboard.deactivateButton fired")
 
+		let buttons = this.state.buttons;
+
 		//loop through all the buttons
-		for (let i=0; i<this.state.buttons.length; i++){
+		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
-			if(this.state.buttons[i].id === id && this.state.buttons[i].active === 1){
+			if(buttons[i].id == id && buttons[i].active == 1){
 
-				//turn off status in state
-				this.state.buttons[i].active = 0;
+				buttons[i].active = 0
 
-				//turn off status in firebase
-				fire.ref(this.state.gameID + "/user1_buttons/" + id).update({active : 0});
-
-				this.reDisplay();
+				this.setState({
+					buttons: buttons
+				})
 			}
 		}
 	}
 
-	//Once a button is clicked, this re-displays the "visible" buttons
-    reDisplay = () => {
-    	console.log("rightboard.reDisplay fired")
+  	//This activates a random opponent button
+	addButton = () => {
+		console.log("add a left button");
 
-    	//loop through all the buttons
-        for (let i=0; i<this.state.buttons.length; i++){
+		let leftButtons = this.state.leftButtons;
+		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
-    		//if find active buttons
-            if (this.state.buttons[i].active === 1) {
-            	console.log(this.state.buttons)
-            	//turn button on
-                document.getElementById(this.state.buttons[i].id).style.visibility="visible";
-            } else {
+		console.log("Buttons = "+leftButtons)
 
-            	//else turn button off
-                document.getElementById(this.state.buttons[i].id).style.visibility="hidden";
-            }
-        }
-    }
+		if (leftButtons[randomId]. active == 0) {
+			leftButtons[randomId].active = 1
 
-    //this changes coins based on player's click position
+			this.setState({
+				leftButtons: leftButtons
+			})
+		}
+	}
+
+    //This changes coins based on player's click position
 	changeCoins = () => {
 		let coins = this.props.coins;
 		if (this.props.high === this.props.player){
@@ -134,7 +133,7 @@ class Rightboard extends React.Component {
 		this.props.rightCoins(coins)
 	}
 
-	//this should change points based on player's click position
+	//This changes points based on player's click position
 	changePoints = () => {
 		let points = this.props.points;
 		let countActive = 0;
@@ -155,7 +154,7 @@ class Rightboard extends React.Component {
 			case 0:
 				points = points + 3
 
-				// declare winner
+				//declare if winner
 				this.props.winner(this.props.player)
 				break;
 			default:
@@ -163,25 +162,6 @@ class Rightboard extends React.Component {
 		}
 		//update props with new points total
 		this.props.rightPoints(points)
-	}
-
-  	//Activate a random new button
-	addButton = () => {
-		console.log("leftboard.addButton fired");
-
-		//Pick a random Id that is in the range
-		let randomId = Math.floor(Math.random()*this.state.buttons.length)
-
-		//Check if the button is active
-		if (this.state.buttons[randomId].active === 0) {
-
-				//update state
-				this.state.buttons[randomId].active = 1;
-
-				//update firebase
-				fire.ref(this.state.gameID + "/user2_buttons/" + randomId).update({active : 1});
-		}
-		this.reDisplay();
 	}
 
 // ----------------------- ------------- -----------------------//
