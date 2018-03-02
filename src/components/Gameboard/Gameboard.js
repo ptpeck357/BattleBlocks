@@ -79,18 +79,16 @@ class Gameboard extends React.Component {
 
   //Checks who is the boardleader
   countBlocks = () => {
+    console.log("gameboard.countBlocks fired");
+
     let u2_blocks = 0;
     let u1_blocks = 0;
-
-    console.log("gameboard.countBlocks fired");
 
     for (let i=0; i<this.state.rightButtons.length; i++){
       if(this.state.rightButtons[i].active == 1){
         u2_blocks = u2_blocks + 1
       }
     }
-
-    console.log(u2_blocks)
     this.setState({u2_blockcount : u2_blocks})
 
     for (let i=0; i<this.state.leftButtons.length; i++){
@@ -98,11 +96,19 @@ class Gameboard extends React.Component {
         u1_blocks = u1_blocks + 1
       }
     }
-    
-    console.log(u1_blocks)
     this.setState({u1_blockcount : u1_blocks})
 
-    this.updateLeader(u1_blocks, u2_blocks)
+    if (u1_blocks == 0) {
+      this.endGame(this.state.player)
+      this.setState({leftButtons : "", rightButtons : ""})
+
+    } else if (u2_blocks == 0) {
+      this.endGame(this.state.opponent)
+      this.setState({leftButtons : "", rightButtons : ""})
+    
+    } else {
+      this.updateLeader(u1_blocks, u2_blocks)
+    }
   }
 
   //Updates the boardleader based on countBlocks()

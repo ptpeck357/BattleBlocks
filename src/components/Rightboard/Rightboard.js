@@ -59,10 +59,8 @@ class Rightboard extends React.Component {
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
 
-	//Once a button is clicked, this triggers all the changes
+	//Checks for legal move
 	buttonClick = (id) => { 
-		console.log(id)
-		console.log("rightboard.buttonClick fired");
 
 		//Test for legal move
 		if (this.props.coins < 1 && this.props.high !== this.props.player) {
@@ -71,19 +69,22 @@ class Rightboard extends React.Component {
 		} else {
 			console.log("legal move")
 
-		this.changeCoins();
-		this.changePoints();
-		this.deactivateButton(id);
-
-		//Activate new button 
-		this.addButton()
+		this.changeButtonStatus(id);
 		}
+	}
+
+	//Handles the updates
+	async changeButtonStatus(id) {
+		await this.deactivateButton(id)
+		await this.addButton()
+		this.changeCoins();
+		this.changePoints()
+		this.props.countBlocks()
 	}
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-		console.log("rightboard.deactivateButton fired") 
-		
+
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
@@ -96,6 +97,7 @@ class Rightboard extends React.Component {
 
 				this.setState({
 					buttons: buttons
+					
 				})	
 			}
 		}
@@ -159,8 +161,6 @@ class Rightboard extends React.Component {
 		}
 		//update props with new points total
 		this.props.rightPoints(points)
-		//update props with latest count
-		this.props.countBlocks()
 	}	
 
 // ----------------------- ------------- -----------------------//

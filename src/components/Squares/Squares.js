@@ -8,7 +8,7 @@ class Squares extends React.Component {
     return (
       <Button 
         style={{ 
-          visibility: this.props.status == 1? 'visible': 'hidden',
+          visibility: this.props.status === 1? 'visible': 'hidden',
           background: "#082c6d",
           color: "white",
           width: "40px",
