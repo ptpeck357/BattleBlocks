@@ -91,7 +91,7 @@ class Rightboard extends React.Component {
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
-			if(buttons[i].id == id && buttons[i].active == 1){
+			if(buttons[i].id === id && buttons[i].active === 1){
 				
 				buttons[i].active = 0
 
@@ -109,7 +109,7 @@ class Rightboard extends React.Component {
 		let leftButtons = this.state.leftButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
-		if (leftButtons[randomId]. active == 0) {
+		if (leftButtons[randomId].active === 0) {
 			leftButtons[randomId].active = 1
 
 			this.setState({

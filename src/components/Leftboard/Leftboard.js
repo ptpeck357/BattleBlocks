@@ -9,7 +9,7 @@ class Leftboard extends React.Component {
 	// Setups props
 	constructor(props) {
 		super(props);
-		
+
 		//Initiate the state variables
 		this.state = {
 			gameID : null,
@@ -91,7 +91,7 @@ class Leftboard extends React.Component {
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
-			if(buttons[i].id == id && buttons[i].active == 1){
+			if(buttons[i].id === id && buttons[i].active === 1){
 				
 				buttons[i].active = 0
 
@@ -108,14 +108,11 @@ class Leftboard extends React.Component {
 		let rightButtons = this.state.rightButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
-		if (rightButtons[randomId]. active == 0) {
+		if (rightButtons[randomId].active === 0) {
 			rightButtons[randomId].active = 1
 
 			this.setState({
 				rightButtons: rightButtons
-			}, () => {
-
-				this.props.countBlocks()
 			})
 		}
 	}

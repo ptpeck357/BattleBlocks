@@ -24,11 +24,11 @@ class Gameboard extends React.Component {
       u1_points: 2,
      
       //User1 settings
-      u1_blockcoin: 3,
+      u1_blockcoin: "",
       u1_blockcount: 0,
      
       //User2 settings
-      u2_blockcoin: 3,
+      u2_blockcoin: "",
       u2_blockcount: 0,
 
       //Buttons
@@ -71,6 +71,18 @@ class Gameboard extends React.Component {
       context: this,
       state: 'rightButtons'
     })
+
+    //Synchronize coins
+    fire.syncState("Live_Games/"+gameID+'/user1_userCoins', {
+      context: this,
+      state: 'u1_blockcoin'
+    })
+
+    //Synchronize coins
+    fire.syncState("Live_Games/"+gameID+'/user2_userCoins', {
+      context: this,
+      state: 'u2_blockcoin'
+    })
   }
 
 // ----------------------- ------------- -----------------------//
@@ -79,30 +91,30 @@ class Gameboard extends React.Component {
 
   //Checks who is the boardleader
   countBlocks = () => {
-    console.log("gameboard.countBlocks fired");
+    console.log("gameboard.countBlocks =>");
 
     let u2_blocks = 0;
     let u1_blocks = 0;
 
     for (let i=0; i<this.state.rightButtons.length; i++){
-      if(this.state.rightButtons[i].active == 1){
+      if(this.state.rightButtons[i].active === 1){
         u2_blocks = u2_blocks + 1
       }
     }
     this.setState({u2_blockcount : u2_blocks})
 
     for (let i=0; i<this.state.leftButtons.length; i++){
-      if(this.state.leftButtons[i].active == 1){
+      if(this.state.leftButtons[i].active === 1){
         u1_blocks = u1_blocks + 1
       }
     }
     this.setState({u1_blockcount : u1_blocks})
 
-    if (u1_blocks == 0) {
+    if (u1_blocks === 0) {
       this.endGame(this.state.player)
       this.setState({leftButtons : "", rightButtons : ""})
 
-    } else if (u2_blocks == 0) {
+    } else if (u2_blocks === 0) {
       this.endGame(this.state.opponent)
       this.setState({leftButtons : "", rightButtons : ""})
     

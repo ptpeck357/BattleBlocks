@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Button } from "reactstrap";
 
-
 class Squares extends React.Component {
   
   render() {
@@ -18,7 +17,7 @@ class Squares extends React.Component {
           boxShadow: "1px 1px 1px -1px rgb(8,19,40)"
         }}
         onClick={() => this.props.buttonClick(this.props.id, this.props.side)}
-      />      
+      />
     );
   }
 }
