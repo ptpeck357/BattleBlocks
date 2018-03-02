@@ -23,26 +23,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     fakeAuth.isAuthenticated === true
       ? <Component {...props} />
       : <Redirect to='/' />
-  )}/>
+  )} />
 )
 
-class App extends Component {
-  return(){
-    return(
-    <Router>
-      <div>
-        <Switch>
-          <Route exact path="/" render={() => <Registration isAuthenticated={fakeAuth.authenticate}/>}/>
-          <PrivateRoute path='/lobby' component={Lobby} />
-          <PrivateRoute path='/Gamepage' component={Gamepage} />
-          <PrivateRoute path='/leaderboard' component={Leaderboard} />
+const App = () =>
 
-          {/* <Route component={Nomatch} /> */}
-        </Switch>
-      </div>
-    </Router>
-    )
-  }
-};
+  <Router>
+    <div>
+      <Switch>
+        <Route exact path="/" component={Registration} />
+        <Route exact path="/lobby" component={Lobby} />
+        <Route exact path="/gameboard/:id" component={Gamepage} />
+        <Route exact path="/leaderboard" component={Leaderboard} />
+        <Route component={Nomatch} />
+      </Switch>
+    </div>
+  </Router>;
 
 export default App;

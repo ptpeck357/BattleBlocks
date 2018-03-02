@@ -40,6 +40,10 @@ const modalStyle = {
 
 class SignupForm extends Component {
 
+	componentDidMount(){
+		console.log(this.props.isAuthenticated)
+  }
+
 	constructor() {
 	super()
 		this.state = {
@@ -83,9 +87,9 @@ class SignupForm extends Component {
 			this.openModal();
 			errArray = [];
 		} else {
-      this.setState({
+				this.setState({
 				email: '', username: '', password: '', confirmPassword: '', secretQuestion: '', redirectTo: "/lobby"
-      });
+        });
 		}
 
 		}).catch((error) => {
@@ -152,7 +156,7 @@ class SignupForm extends Component {
 
 				<div className="container">
 
-				<img src={logo3} alt="Battle Blocks"/>
+				  <img src={logo3} alt="Battle Blocks"/>
 					<div className="row-fluid">
 						<div className="span12">
 
@@ -297,10 +301,10 @@ class SignupForm extends Component {
           	contentLabel="Error"
         >
         <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
-		<ul>
-			{errArray.map(function(errorMessgae, index){
-				return <li key={ index }>{errorMessgae}</li>;
-			})}
+        <ul>
+          {errArray.map(function(errorMessgae, index){
+            return <li key={ index }>{errorMessgae}</li>;
+          })}
         </ul>
         </Modal>
 
