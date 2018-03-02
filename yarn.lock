@@ -2849,7 +2849,7 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase@^4.10.1:
+firebase@^4.10.1, firebase@^4.5.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.10.1.tgz#68724a6f680ca5759bd870dcb18b5f6e09a176b1"
   dependencies:
@@ -5653,6 +5653,12 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+re-base@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/re-base/-/re-base-3.2.2.tgz#a840cbe84a6bbf9e94cadcb7752d16695d0bad85"
+  dependencies:
+    firebase "^4.5.0"
 
 react-dev-utils@^5.0.0:
   version "5.0.0"
