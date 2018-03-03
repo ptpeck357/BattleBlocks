@@ -14,6 +14,8 @@ class Rightboard extends React.Component {
 		this.state = {
 			gameID : null,
 			buttons : null,
+			coins: 3,
+			points: 1,
 			leftButtons : null
 		}
 	}
@@ -33,12 +35,13 @@ class Rightboard extends React.Component {
 			gameID : gameID
 		})
 		// console.log(gameID);
-		this.getFirebaseButtons(gameID);
+		this.syncFirebase(gameID);
 	}  
 
-	//Get buttons from firebase
-	getFirebaseButtons = (gameID) => {
-		
+	//Sync firebase with state
+	syncFirebase = (gameID) => {
+
+//BUTTONS		
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
 			context: this,
@@ -52,6 +55,20 @@ class Rightboard extends React.Component {
 			state: 'buttons',
 			asArray: true
 		})
+
+//COINS
+		//Synchronize firebase 
+		fire.syncState("Live_Games/"+gameID+'/user2_coins', {
+			context: this,
+			state: 'user2_coins'
+		})
+
+//POINTS
+		//Synchronize firebase 
+		fire.syncState("Live_Games/"+gameID+'/user2_points', {
+			context: this,
+			state: 'user2_points'
+		})
 	}
 
 
@@ -63,7 +80,7 @@ class Rightboard extends React.Component {
 	buttonClick = (id) => { 
 
 		//Test for legal move
-		if (this.props.coins < 1 && this.props.high !== this.props.player) {
+		if (this.props.user2_coins < 1 && this.props.high !== this.props.player) {
 			console.log("illegal move - stop!")
 
 		} else {
@@ -120,7 +137,7 @@ class Rightboard extends React.Component {
 
     //This changes coins based on player's click position
 	changeCoins = () => { 
-		let coins = this.props.coins;
+		let coins = this.state.user2_coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
 			// console.log(coins);
@@ -129,12 +146,14 @@ class Rightboard extends React.Component {
 			// console.log(coins);
 		}
 		//update props with new coins total
-		this.props.rightCoins(coins)
+		this.setState({
+			user2_coins: coins
+		})
 	}
 
 	//This changes points based on player's click position
 	changePoints = () => { 
-		let points = this.props.points;
+		let points = this.state.user2_points;
 		let countActive = 0;
 		for (let i=0; i<this.state.buttons.length; i++){
 			if(this.state.buttons[i].active === 1) {
@@ -160,7 +179,9 @@ class Rightboard extends React.Component {
 				points;
 		}
 		//update props with new points total
-		this.props.rightPoints(points)
+		this.setState({
+			user2_points: points
+		})
 	}	
 
 // ----------------------- ------------- -----------------------//
@@ -192,7 +213,7 @@ class Rightboard extends React.Component {
 		return (
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
-		        <h4>$BlockCoins$: {this.props.coins} Total Points: {this.props.points}</h4>		        
+		        <h4>$BlockCoins$: {this.state.user2_coins} Total Points: {this.state.user2_points}</h4>		        
 
 		        {this.determineButtonRender()}
 
@@ -202,4 +223,3 @@ class Rightboard extends React.Component {
 }
 
 export default Rightboard;
-

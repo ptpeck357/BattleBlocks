@@ -19,18 +19,6 @@ class Gameboard extends React.Component {
       boardleader: "Click a block to begin",
       leader: 0,
 
-      //Need from database!!
-      u2_points: 2,
-      u1_points: 2,
-     
-      //User1 settings
-      u1_blockcoin: "",
-      u1_blockcount: 0,
-     
-      //User2 settings
-      u2_blockcoin: "",
-      u2_blockcount: 0,
-
       //Buttons
       leftButtons : "",
       rightButtons : "",
@@ -70,18 +58,6 @@ class Gameboard extends React.Component {
     fire.syncState("Live_Games/"+gameID+'/user2_buttons', {
       context: this,
       state: 'rightButtons'
-    })
-
-    //Synchronize coins
-    fire.syncState("Live_Games/"+gameID+'/user1_userCoins', {
-      context: this,
-      state: 'u1_blockcoin'
-    })
-
-    //Synchronize coins
-    fire.syncState("Live_Games/"+gameID+'/user2_userCoins', {
-      context: this,
-      state: 'u2_blockcoin'
     })
   }
 
@@ -140,34 +116,6 @@ class Gameboard extends React.Component {
       boardleader: leader+" has the most blocks!"})
   }
 
-  leftCoins = update => {
-    let coins = update;
-    this.setState({
-      u1_blockcoin: coins
-    })
-  }
-
-  leftPoints = update => {
-    let points = update;
-    this.setState({
-      u1_points: points
-    })
-  }
-
-  rightCoins = update => {
-    let coins = update;
-    this.setState({
-      u2_blockcoin: coins
-    })
-  }
-
-  rightPoints = update => {
-    let points = update;
-    this.setState({
-      u2_points: points
-    })
-  }
-
   endGame = winner => {
     console.log("Winner function triggered")
     let name = winner;
@@ -201,26 +149,18 @@ class Gameboard extends React.Component {
         <Row>
           <Col>
             <Leftboard
-              winner = {this.endGame}
-              countBlocks = {this.countBlocks}
-              leftCoins = {this.leftCoins}
-              leftPoints = {this.leftPoints}
-              high = {this.state.high_side}
               player = {this.state.player}
-              coins = {this.state.u1_blockcoin}
-              points = {this.state.u1_points}
+              countBlocks = {this.countBlocks}
+              high = {this.state.high_side}
+              winner = {this.endGame}
             />
           </Col>
           <Col>
             <Rightboard
-              winner = {this.endGame}
-              countBlocks = {this.countBlocks}
-              rightCoins = {this.rightCoins}
-              rightPoints = {this.rightPoints}
-              high = {this.state.high_side}
               player = {this.state.opponent}
-              coins = {this.state.u2_blockcoin}
-              points = {this.state.u2_points}
+              countBlocks = {this.countBlocks}
+              high = {this.state.high_side}
+              winner = {this.endGame}
             />
           </Col>
         </Row>
