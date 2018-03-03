@@ -80,7 +80,7 @@ class Rightboard extends React.Component {
 	buttonClick = (id) => { 
 
 		//Test for legal move
-		if (this.props.user2_coins < 1 && this.props.high !== this.props.player) {
+		if (this.state.user2_coins < 1 && this.props.high !== this.props.player) {
 			console.log("illegal move - stop!")
 
 		} else {
