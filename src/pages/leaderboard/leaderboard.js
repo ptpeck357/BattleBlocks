@@ -1,5 +1,6 @@
 import React from "react";
 import {  Jumbotron, Button, Container } from "reactstrap";
+import Charts from "../../components/Squares/Charts.js"
 
 const Leaderboard = () =>
   <Container fluid>

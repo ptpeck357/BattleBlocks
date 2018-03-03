@@ -11,20 +11,21 @@ class Gameboard extends React.Component {
     super(props);
 
     this.state = {
+      //Game ID
+      gameID : "",
+
       //Game state settings
       player: "David", // from user login!
       opponent: "Goliath", // from user login!
-      high_side: "David",
+
       headline: "Game is live",
+      high_side: "David",
       boardleader: "Click a block to begin",
       leader: 0,
 
       //Buttons
       leftButtons : "",
       rightButtons : "",
-
-      //Game ID
-      gameID : "",
     }
   }
 
@@ -47,7 +48,25 @@ class Gameboard extends React.Component {
 
   //Get buttons from firebase
   getFirebaseButtons = (gameID) => {
-    
+
+    //Synchronize firebase with state 'buttons'
+    fire.syncState("Live_Games/"+gameID+'/headline', {
+      context: this,
+      state: 'headline'
+    })
+
+    //Synchronize firebase with state 'buttons'
+    fire.syncState("Live_Games/"+gameID+'/high_side', {
+      context: this,
+      state: 'high_side'
+    })
+
+    //Synchronize firebase with state 'buttons'
+    fire.syncState("Live_Games/"+gameID+'/boardleader', {
+      context: this,
+      state: 'boardleader'
+    })
+
     //Synchronize firebase with state 'leftButtons'
     fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
       context: this,
