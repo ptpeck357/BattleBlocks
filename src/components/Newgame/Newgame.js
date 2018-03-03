@@ -21,13 +21,18 @@ class Newgame extends React.Component {
 		let myRef = fire.push('Live_Games', { 
 			data : { 
 				id: null,
-				user1_userName: null,
-				user1_userPoints: null,
-				user1_userCoins: null,
-				user2_userName: null,
-				user2_userPoints: null,
-				user2_userCoins: null,
+				game_status: 'open',
+				
+				//user one data
+				user1_name: "David",
+				user1_points: 1,
+				user1_coins: 3,
 				user1_buttons: leftButtons,
+
+				//user two data
+				user2_name: "Goliath",
+				user2_points: 1,
+				user2_coins: 3,
 				user2_buttons: rightButtons
 			},
 		});
@@ -39,22 +44,9 @@ class Newgame extends React.Component {
 		});
 	}
 
-	// createNewUserInFirebase() {
-		//check fire for game with "status: open"
-
-		//if no "status: open":
-			//create player1 object with "status: open"
-			//create id: key
-			//call createButtons(key)
-			//push player objects to fire
-
 	startGame = () => {
 		this.createGameData()
 		console.log("Yah suure, lemme get right on that for ye!")
-		//initiate fire
-		//create game name
-		//add user1 to game
-		//
 	}
 
 	render() {

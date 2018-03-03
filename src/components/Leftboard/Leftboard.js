@@ -10,9 +10,12 @@ class Leftboard extends React.Component {
 	constructor(props) {
 		super(props);
 
+		//Initiate the state variables
 		this.state = {
 			gameID : null,
 			buttons : null,
+			user1_coins: 3,
+			user1_points: 1,
 			rightButtons : null
 		}
 	}
@@ -31,13 +34,13 @@ class Leftboard extends React.Component {
 		this.setState({
 			gameID : gameID
 		})
-		// console.log(gameID);
-		this.getFirebaseButtons(gameID);
-	}
+		this.syncFirebase(gameID);
+	}  
 
-	//Get buttons from firebase
-	getFirebaseButtons = (gameID) => {
+	//Sync firebase with state
+	syncFirebase = (gameID) => {
 
+//BUTTONS
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
 			context: this,
@@ -51,65 +54,78 @@ class Leftboard extends React.Component {
 			state: 'rightButtons',
 			asArray: true
 		})
+
+//COINS
+		//Synchronize firebase 
+		fire.syncState("Live_Games/"+gameID+'/user1_coins', {
+			context: this,
+			state: 'user1_coins'
+		})
+
+//POINTS
+		//Synchronize firebase 
+		fire.syncState("Live_Games/"+gameID+'/user1_points', {
+			context: this,
+			state: 'user1_points'
+		})
+
 	}
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
 
-	//Once a button is clicked, this triggers all the changes
-	buttonClick = (id) => {
-		console.log(id)
-		console.log("leftbutton.buttonClick fired");
+	//Checks for legal move
+	buttonClick = (id) => { 
 
 		//Test for legal move
-		if (this.props.coins < 1 && this.props.high !== this.props.player) {
+		if (this.state.user1_coins < 1 && this.props.high !== this.props.player) {
 			console.log("illegal move - stop!")
 
 		} else {
 			console.log("legal move")
 
-		this.changeCoins();
-		this.changePoints();
-		this.deactivateButton(id);
-
-		//Activate new button
-		this.addButton()
+		this.changeButtonStatus(id);
 		}
 	}
 
-	//This turns the button off and updates state
-	deactivateButton = (id) => {
-		console.log("rightboard.deactivateButton fired")
+	//Handles the updates
+	async changeButtonStatus(id) {
+		await this.deactivateButton(id)
+		await this.addButton()
+		this.changeCoins();
+		this.changePoints()
+		this.props.countBlocks()
+	}
 
+	//This turns the button off and updates state
+	deactivateButton = (id) => { 
+		
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
-			if(buttons[i].id == id && buttons[i].active == 1){
-
+			if(buttons[i].id === id && buttons[i].active === 1){
+				
 				buttons[i].active = 0
 
 				this.setState({
 					buttons: buttons
-				})
-				console.log(this.state.buttons)
+
+				})	
 			}
 		}
 	}
 
   	//This activates a random opponent button
-	addButton = () => {
-		console.log("add a left button");
-
+	addButton = () => { 
+		
 		let rightButtons = this.state.rightButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
-		console.log("Buttons = "+rightButtons)
-
-		if (rightButtons[randomId]. active == 0) {
+		if (rightButtons[randomId].active === 0) {
 			rightButtons[randomId].active = 1
 
 			this.setState({
@@ -119,8 +135,8 @@ class Leftboard extends React.Component {
 	}
 
     //This changes coins based on player's click position
-	changeCoins = () => {
-		let coins = this.props.coins;
+	changeCoins = () => { 
+		let coins = this.state.user1_coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
 			// console.log(coins);
@@ -128,13 +144,15 @@ class Leftboard extends React.Component {
 			coins = coins - 1;
 			// console.log(coins);
 		}
-		//update props with new coins total
-		this.props.leftCoins(coins)
+		//update state with new coins total
+		this.setState({
+			user1_coins: coins
+		})
 	}
 
 	//This changes points based on player's click position
-	changePoints = () => {
-		let points = this.props.points;
+	changePoints = () => { 
+		let points = this.state.user1_points;
 		let countActive = 0;
 		for (let i=0; i<this.state.buttons.length; i++){
 			if(this.state.buttons[i].active === 1) {
@@ -153,6 +171,7 @@ class Leftboard extends React.Component {
 			case 0:
 				points = points + 3
 
+				console.log("Leftboard wins")
 				// declare winner
 				this.props.winner(this.props.player)
 				break;
@@ -160,7 +179,9 @@ class Leftboard extends React.Component {
 				points;
 		}
 		//update props with new points total
-		this.props.leftPoints(points)
+		this.setState({
+			user1_points: points
+		})
 	}
 
 // ----------------------- ------------- -----------------------//
@@ -192,7 +213,7 @@ class Leftboard extends React.Component {
 		return (
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
-		        <h4>$BlockCoins$: {this.props.coins} Total Points: {this.props.points}</h4>
+		        <h4>$BlockCoins$: {this.state.user1_coins} Total Points: {this.state.user1_points}</h4>		        
 
 		        {this.determineButtonRender()}
 
