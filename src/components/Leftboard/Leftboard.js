@@ -171,7 +171,6 @@ class Leftboard extends React.Component {
 			case 0:
 				points = points + 3
 
-				console.log("Leftboard wins")
 				// declare winner
 				this.props.winner(this.props.player)
 				break;
