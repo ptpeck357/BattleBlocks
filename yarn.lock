@@ -4347,10 +4347,6 @@ loader-utils@^1.0.2, loader-utils@^1.1.0:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
-loadjs@^3.3.1:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/loadjs/-/loadjs-3.5.2.tgz#add0e0e0322859840b362598f762c02f5539ce0b"
-
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -5596,11 +5592,7 @@ prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-<<<<<<< HEAD
-prop-types@^15.5.7:
-=======
-prop-types@^15.5.6:
->>>>>>> c23953f3bf738cc4ca3c77b9a1f099a35b5d792a
+prop-types@^15.5.6, prop-types@^15.5.7:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -5772,7 +5764,7 @@ react-dev-utils@^5.0.0:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-react-dom@^15.3.1, react-dom@^15.3.2:
+react-dom@^15.3.1:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.2.tgz#41cfadf693b757faf2708443a1d1fd5a02bef730"
   dependencies:
@@ -5801,21 +5793,9 @@ react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
-<<<<<<< HEAD
 react-json-table@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/react-json-table/-/react-json-table-0.1.1.tgz#712beb9a729167c2d6651987f42c73143217a1d6"
-=======
-react-google-charts@^1.5.5:
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-1.5.5.tgz#ffeaeca752a820a05029bd6a23516be2432d7df5"
-  dependencies:
-    debug "^2.2.0"
-    loadjs "^3.3.1"
-    prop-types "^15.5.8"
-    react "^15.3.2"
-    react-dom "^15.3.2"
->>>>>>> c23953f3bf738cc4ca3c77b9a1f099a35b5d792a
 
 react-modal@^3.3.1:
   version "3.3.1"
@@ -5892,13 +5872,12 @@ react-scripts@1.1.1:
   optionalDependencies:
     fsevents "^1.1.3"
 
-<<<<<<< HEAD
 react-table@^6.8.0:
   version "6.8.0"
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.8.0.tgz#5ce402eb735df68534c03dabb3faa031478b6a58"
   dependencies:
     classnames "^2.2.5"
-=======
+
 react-transition-group@^1.1.3:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.2.1.tgz#e11f72b257f921b213229a774df46612346c7ca6"
@@ -5908,7 +5887,6 @@ react-transition-group@^1.1.3:
     loose-envify "^1.3.1"
     prop-types "^15.5.6"
     warning "^3.0.0"
->>>>>>> c23953f3bf738cc4ca3c77b9a1f099a35b5d792a
 
 react-transition-group@^2.2.1:
   version "2.2.1"
@@ -5930,7 +5908,7 @@ react-transitions@^1.0.0:
     react-dom "^15.3.1"
     react-transition-group "^1.1.3"
 
-react@^15.3.1, react@^15.3.2:
+react@^15.3.1:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
   dependencies:
