@@ -10,6 +10,7 @@ const strategy = new LocalStrategy(
 			}
 			if (!userMatch) {
 				return done(null, false)
+				
 			}
 			if (!userMatch.checkPassword(password)) {
 				return done(null, false)

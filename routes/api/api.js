@@ -1,6 +1,11 @@
 const router = require("express").Router();
 const passport = require('../../passport');
 const User = require('../../models/users.js');
+var multer  = require('multer');
+const uploadPicture = multer({
+	dest: '../../public/profilePicture'
+});
+const fs = require("fs");
 
 /*Route to see ff the user is arleady signed in, go to lobby*/
 router.get("/", (req, res) => {
@@ -15,13 +20,39 @@ router.get("/", (req, res) => {
 });
 
 /*Route to add new users in MongoDB*/
-router.post('/signup', (req, res) => {
+router.post('/signup', uploadPicture.any(), (req, res) => {
 
 	/*Getting user's inputs from form*/
 	const email = req.body.email;
-	const username= req.body.username;
-	const password= req.body.password;
-	const confirmPassword= req.body.confirmPassword;
+	const username = req.body.username;
+	const password = req.body.password;
+	const confirmPassword = req.body.confirmPassword;
+
+
+	/* Requesting Files for profile picture*/
+
+	if(req.files){
+		console.log(req.files[0]);
+		console.log(req.files);
+		switch (req.files[0].mimetype) {
+               case 'image/jpeg':
+                   fileExtension = '.jpeg';
+                   break;
+               case 'image/jpg':
+                   fileExtension = '.jpg';
+                   break;
+               case 'image/png':
+                   fileExtension = '.png';
+                   break;
+               case 'image/gif':
+                   fileExtension = '.gif';
+                   break;
+           }
+           fs.renameSync(req.files[0].path, req.files[0].destination + "/" + req.files[0].filename + fileExtension, function (err) {
+               if (err) throw err;
+           });
+	}
+
 
 	/*Checking forms for validity*/
 	req.checkBody('email', 'Please provide a valid email address').isEmail();
@@ -56,6 +87,7 @@ router.post('/signup', (req, res) => {
 				newUser.losses = 0;
 				newUser.totalScore = 0;
 				newUser.totalGame = 0;
+				newUser.profilePicture = req.files[0].filename + fileExtension;
 
 				/*Save new user*/
 				newUser.save().then((dbUser) => {
@@ -75,8 +107,8 @@ router.post('/login', (req, res, next) =>{
 			return res.json(
 				{message: 'Incorrect username or password', path: "/", user: null}
 			);
-		};
-	  	req.login(user, (err) => {
+
+		}req.login(user, (err) => {
 			if (err) { return res.status(400).send(err); }
 			return res.json(
 				{message: 'You are now logged in!',  path: "/lobby", user: user.username}
@@ -141,6 +173,35 @@ router.get('/logout', (req, res) => {
 	} else {
 		console.log("Already signed out");
 	}
+});
+
+router.get('/leaderboard', function(req, res, next) {
+	
+	User.find().then((dbUsers) => {
+
+		// res.json(dbUsers);
+		// console.log("Users Found");
+		var result = [];
+      
+		for(var i=0; i<dbUsers.length; i++){
+
+			let resultsObj = {};
+
+			resultsObj.joindate = dbUsers[i].joindate;
+      		resultsObj.username = dbUsers[i].username;
+      		resultsObj.wins = dbUsers[i].wins;
+      		resultsObj.losses = dbUsers[i].losses;
+      		resultsObj.totalScore = dbUsers[i].totalScore;
+      		resultsObj.profilePicture = dbUsers[i].profilePicture;
+
+      		result.push(resultsObj);
+      		console.log(result);
+		}
+	res.json(result);
+	console.log(result);
+
+  })
+	
 });
 
 module.exports = router;

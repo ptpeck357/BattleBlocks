@@ -5,6 +5,7 @@ import "./signup.css";
 import logo3 from './assets/images/Picture3.png';
 // import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import Dropzone from 'react-dropzone'
 import { Container, Row, Col, Button, } from "reactstrap";
 import Center from 'react-center';
 
@@ -36,6 +37,9 @@ class SignupForm extends Component {
 			path: null,
 			errorMsg: [],
 			modalIsOpen: false,
+			loginError: false,
+			errorMessage: '',
+			profilePicture: '',
 			loggedin: false,
 			redirectTo: null
 		};
@@ -62,12 +66,17 @@ class SignupForm extends Component {
 	/*Function to handle signup on submit*/
 	handleSubmit = (event) => {
     	event.preventDefault()
-    	axios.post('/api/signup', {
-			email: this.state.email,
-			username: this.state.username,
-			password: this.state.password,
-			confirmPassword: this.state.confirmPassword
-    }).then(response => {
+    	const config = {headers: {'Content-type': 'miltipart/form-data'}
+    	}
+    	let data = new FormData();
+    	//form data
+    	data.append('email', this.state.email);
+		data.append('username', this.state.username);
+		data.append('password', this.state.password);
+		data.append('confirmPassword', this.state.confirmPassword);
+		data.append('profilePicture', this.state.profilePicture[0]);
+
+    	axios.post('/api/signup',data,config).then(response => {
 
 	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
 		if(response.data.errors){
@@ -90,24 +99,30 @@ class SignupForm extends Component {
 	/*Function to handle login on submit*/
   	handleSignin = (event) => {
 		event.preventDefault();
-		axios.post('/api/login', {
-			username: this.state.usernameSignIn,
-			password: this.state.passwordSignIn
-		}).then(response => {
-			console.log(response)
-			if(response.data.user === null){
-				console.log(response.data.message)
-			} else {
-				console.log("logged in");
-				this.setState({
-			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby", loggedin: true
-        });
+		if(this.state.usernameSignIn === ""){
+			this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
+		} else if (this.state.passwordSignIn === ""){
+			this.setState({loginError: true, errorMessage: "Please Enter The Password."});
+		} else {
+			axios.post('/api/login', {
+				username: this.state.usernameSignIn,
+				password: this.state.passwordSignIn
+			}).then(response => {
+				console.log(response)
+				if(response.data.user === null){
+					this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
+					console.log(response.data.message);
+				} else {
+					console.log("logged in");
+					this.setState({
+				 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+					});
+				}
 
-			}
-
-		}).catch(error => {
-			console.log(error);
-		  });
+			}).catch(error => {
+				console.log(error);
+			  });
+		}
 	};
 
 	/*Function to handle logout on submit*/
@@ -134,6 +149,14 @@ class SignupForm extends Component {
 	closeModal = () => {
 		this.setState({modalIsOpen: false});
 	}
+	
+	// onDrop Event for Picture Upload
+	onDrop = (acceptedFiles) => {
+       this.setState({
+           profilePicture: acceptedFiles
+       });
+       console.log(this.state.profilePicture);
+   }
 
 	/*Function to render HTML form*/
 	render() {
@@ -175,6 +198,7 @@ class SignupForm extends Component {
 													/>
 												</div>
 											</div>
+											
 
 											<div className="control-group">
 												<label className="control-label" htmlFor="inputPassword">Password</label>
@@ -195,6 +219,12 @@ class SignupForm extends Component {
 													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 												</div>
 											</div>
+											{this.state.loginError &&
+												<div className="alert alert-danger" role="alert"> 
+	  												{this.state.errorMessage}
+												</div>
+											}
+											
 										</form>
 									</iron-form>
 								</div>
@@ -275,6 +305,22 @@ class SignupForm extends Component {
 													/>
 												</div>
 											</div>
+											
+											<Dropzone
+                                                onDrop={ this.onDrop }
+                                                accept="image/jpeg,image/jpg,image/png,image/gif"
+                                                multiple={ false }
+                                                className= "form-control">
+                                                   Upload Or Drag n Drop Profile Picture
+                                            </Dropzone>
+
+											<div className="controls">
+												{this.state.profilePicture && 
+	                                                <img data-value={this.state.profilePicture.name} src={this.state.profilePicture[0].preview} className="img-thumbnail preview m-1" alt={this.state.profilePicture.name} key={this.state.profilePicture.name}/> 
+												
+												}
+                                            </div>
+
 
 											<div className="control-group">
 												<div className="controls">
