@@ -41,6 +41,17 @@ class SignupForm extends Component {
 		};
   };
 
+	componentWillMount(){
+		axios.get('/api/').then(response => {
+			console.log(response.data)
+			if(response.data.isAuthenticated === true){
+				this.setState({
+					redirectTo: "/lobby"
+      	});
+			};
+		});
+	};
+
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
 		this.setState({
@@ -108,7 +119,6 @@ class SignupForm extends Component {
 				usernameSignIn: '', passwordSignIn: '', loggedin: false, redirectTo: "/"
       });
 
-      this.props.isAuthenticated = true;
 		})
 	}
 
@@ -143,8 +153,6 @@ class SignupForm extends Component {
 						<Col></Col>
 						<Col></Col>
         	</Row> */}
-
-
 
 					 <div className="row-fluid">
 						<div className="span12">

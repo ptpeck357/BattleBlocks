@@ -4,7 +4,7 @@ const User = require('../../models/users.js');
 
 router.get("/", (req, res) => {
 	if(req.user){
-		res.json({message: "User found", isAuthenticated: true, user: req.user.username});
+		res.json({message: "Already signed in", isAuthenticated: true, path: "/lobby"});
 		console.log(req.user);
 	} else {
 		res.json(
@@ -85,7 +85,6 @@ router.post('/login', (req, res, next) =>{
 router.get('/lobby', (req, res) => {
 	if(req.user){
 		res.json(req.user);
-		// console.log(req.user);
 	} else {
 		res.json(
 			{message: "No user found",  path: "/lobby", user: null}
@@ -93,11 +92,33 @@ router.get('/lobby', (req, res) => {
 	}
 });
 
+/*If winner on leftboard, update MongoDB databse*/
+router.post('/leftboard', (req, res) => {
+
+	const {username, opponent, points} = req.body;
+
+	User.findOneAndUpdate({username: "pp"}, {$inc:{totalscore:points, wins: 1}}, {new: true});
+
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses: 1}}, {new: true}});
+
+});
+
+/*If winner on rightboard, update MongoDB databse*/
+router.post('/rightboard', (req, res) => {
+
+	const {username, opponent, points} = req.body;
+
+	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1}}, {new: true});
+
+	User.findOneAndUpdate({username: opponent}, {$inc: { totalscore: points, losses: 1}}, {new: true});
+
+});
+
 router.get('/logout', (req, res) => {
 	if(req.user){
 		req.session.destroy();
 		res.clearCookie('connect.sid');
-		req.json({message: "You are logged out", path: "/"})
+		req.json({message: "You are logged out", isAuthenticated: false, path: "/"})
 	} else {
 		console.log("Already signed out");
 	}

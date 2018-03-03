@@ -32,11 +32,11 @@ var userSchema = new Schema({
     type: Number
   },
 
-  totalScore: {
+  totalscore: {
     type: Number
   },
 
-  totalGames: {
+  totalgames: {
     type: Number
   },
 
