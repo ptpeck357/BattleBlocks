@@ -44,8 +44,33 @@ class Newgame extends React.Component {
 		});
 	}
 
+	joinGame = () => {
+		fire.fetch('Live_Games',{
+			context: this,
+			asArray: true,
+			then(data){
+				for (let i = 0; i < data.length; i++){
+					console.log(i);
+					if(data[i].game_status === "open"){
+						fire.update('Live_Games/' + data[i].key,{
+							data: {game_status: "closed", user2_name: "Brett"}
+						});
+						let gameRoute = '/gameboard/' + data[i].key;
+						this.setState({
+							redirectTo : gameRoute
+						});
+						break;
+					} else if(i === data.length-1){
+						this.createGameData();
+					}
+				}
+			}
+		});
+	}	
+
 	startGame = () => {
-		this.createGameData()
+	
+  		this.joinGame();
 		console.log("Yah suure, lemme get right on that for ye!")
 	}
 

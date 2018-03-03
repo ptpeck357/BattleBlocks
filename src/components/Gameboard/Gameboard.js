@@ -59,6 +59,10 @@ class Gameboard extends React.Component {
       context: this,
       state: 'rightButtons'
     })
+      fire.syncState("Live_Games/"+gameID+'/user2_name', {
+      context: this,
+      state: 'opponent'
+    }) 
   }
 
 // ----------------------- ------------- -----------------------//
