@@ -25,7 +25,7 @@ app.use(
         cookie: {
             maxAge: 18000000
         }
-	});
+	})
 );
 
 // ===== Passport ====

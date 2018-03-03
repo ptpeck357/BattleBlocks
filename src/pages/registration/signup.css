@@ -18,11 +18,10 @@ h2{
     margin:200px;
     height: 300px;
     width:550px;
-
+}
 img{
     width:200%;
 }
-
 @keyframes slidebg {
   to {
     background-position:20vw;
