@@ -9,7 +9,7 @@ class Rightboard extends React.Component {
 	//Setups props
 	constructor(props) {
 		super(props);
-		
+
 		//Initiate the state variables
 		this.state = {
 			gameID : null,
@@ -101,7 +101,6 @@ class Rightboard extends React.Component {
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
@@ -120,7 +119,7 @@ class Rightboard extends React.Component {
 		}
 	}
 
-  	//This activates a random opponent button
+  //This activates a random opponent button
 	addButton = () => { 
 		
 		let leftButtons = this.state.leftButtons;
@@ -196,15 +195,15 @@ class Rightboard extends React.Component {
 // ----------------------- Render Logic ------------------------//
 // ----------------------- ------------- -----------------------//
 
-	determineButtonRender = () => 
-	    !(this.state.buttons === null) ? 
-	        this.state.buttons.map((button, i) => 
-	       		<Squares 
+	determineButtonRender = () =>
+	    !(this.state.buttons === null) ?
+	        this.state.buttons.map((button, i) =>
+	       		<Squares
 	       			key = {i}
 	       			id = {button.id}
 	       			coordinates = {button.coordinates}
 	       			status = {button.active}
-	       			buttonClick = {this.buttonClick} 
+	       			buttonClick = {this.buttonClick}
 	       		/>
 	        )
 	    : ""
