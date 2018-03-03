@@ -15,6 +15,7 @@ class Leftboard extends React.Component {
 			owner: null,
 			gameID : null,
 			buttons : null,
+			user1_name: null,
 			user1_coins: 3,
 			user1_points: 1,
 			rightButtons : null
@@ -45,6 +46,13 @@ class Leftboard extends React.Component {
 		fire.syncState("Live_Games/"+gameID+'/owner', {
 			context: this,
 			state: 'owner'
+		})	
+
+//USER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/user1_name', {
+			context: this,
+			state: 'user1_name'
 		})		
 
 //BUTTONS
@@ -84,9 +92,9 @@ class Leftboard extends React.Component {
 
 	//Checks for legal move
 	buttonClick = (id) => { 
-
+		console.log(this.props.owner)
 		//Test for side 
-		if (this.props.owner !== this.state.owner) {
+		if (this.state.user1_name !== this.state.owner) {
 			console.log("illegal move - alto!")
 		} 
 

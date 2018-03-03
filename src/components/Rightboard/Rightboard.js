@@ -47,6 +47,13 @@ class Rightboard extends React.Component {
 			state: 'owner'
 		})	
 
+//USER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/user1_name', {
+			context: this,
+			state: 'user2_name'
+		})		
+
 //BUTTONS		
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
@@ -86,7 +93,7 @@ class Rightboard extends React.Component {
 	buttonClick = (id) => { 
 
 		//Test for side
-		if (this.props.owner === this.state.owner) {
+		if (this.state.user1_name === this.state.owner) {
 			console.log("illegal move - alto!")
 		}
 
