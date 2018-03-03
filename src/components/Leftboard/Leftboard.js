@@ -71,7 +71,6 @@ class Leftboard extends React.Component {
 
 	}
 
-
 // ----------------------- ------------- -----------------------//
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
@@ -114,6 +113,7 @@ class Leftboard extends React.Component {
 
 				this.setState({
 					buttons: buttons
+
 				})	
 			}
 		}
@@ -196,15 +196,15 @@ class Leftboard extends React.Component {
 // ----------------------- Render Logic ------------------------//
 // ----------------------- ------------- -----------------------//
 
-	determineButtonRender = () => 
-	    !(this.state.buttons === null) ? 
-	        this.state.buttons.map((button, i) => 
-	       		<Squares 
+	determineButtonRender = () =>
+	    !(this.state.buttons === null) ?
+	        this.state.buttons.map((button, i) =>
+	       		<Squares
 	       			key = {i}
 	       			id = {button.id}
 	       			side = {button.side}
 	       			status = {button.active}
-	       			buttonClick = {this.buttonClick} 
+	       			buttonClick = {this.buttonClick}
 	       		/>
 	        )
 	    : ""

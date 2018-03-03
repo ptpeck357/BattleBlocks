@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import "./signup.css";
-import logo3 from './assests/images/Picture3.png';
+import logo3 from './assets/images/Picture3.png';
 // import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import { Container, Row, Col, Button, } from "reactstrap";
+import Center from 'react-center';
 
 var errArray = [];
-var objrow;
 const customStyles = {
   	content : {
 		top: '50%',
@@ -19,29 +20,11 @@ const customStyles = {
  	}
 };
 
-const backdropStyle = {
-	position: 'fixed',
-	top: 0,
-	bottom: 0,
-	left: 0,
-	right: 0,
-	backgroundColor: 'rgba(0,0,0,0.3)',
-	padding: 50
-};
-
-const modalStyle = {
-	backgroundColor: '#fff',
-	borderRadius: 5,
-	maxWidth: 500,
-	minHeight: 300,
-	margin: '0 auto',
-	padding: 30
-};
-
 class SignupForm extends Component {
 
 	constructor() {
 	super()
+
 		this.state = {
 			usernameSignIn: '',
 			passwordSignIn: '',
@@ -53,9 +36,10 @@ class SignupForm extends Component {
 			path: null,
 			errorMsg: [],
 			modalIsOpen: false,
+			loggedin: false,
 			redirectTo: null
 		};
-  	};
+  };
 
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
@@ -83,8 +67,8 @@ class SignupForm extends Component {
 			errArray = [];
 		} else {
 				this.setState({
-				email: '', username: '', password: '', confirmPassword: '', secretQuestion: ''
-				});
+				email: '', username: '', password: '', confirmPassword: '', secretQuestion: '', redirectTo: "/lobby"
+        });
 		}
 
 		}).catch((error) => {
@@ -105,8 +89,9 @@ class SignupForm extends Component {
 			} else {
 				console.log("logged in");
 				this.setState({
-			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-				});
+			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby", loggedin: true
+        });
+
 			}
 
 		}).catch(error => {
@@ -120,8 +105,10 @@ class SignupForm extends Component {
 		axios.get('/api/logout').then(response => {
 			console.log(response)
 			this.setState({
-				usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
-		   });
+				usernameSignIn: '', passwordSignIn: '', loggedin: false, redirectTo: "/"
+      });
+
+      this.props.isAuthenticated = true;
 		})
 	}
 
@@ -140,15 +127,26 @@ class SignupForm extends Component {
 
 	/*Function to render HTML form*/
 	render() {
+
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
+				<Container>
+				  <img src={logo3} alt="Battle Blocks"/>
 
-				<div className="container">
+					{/* <Row>
+						<Col></Col>
+						<Col></Col>
+          	<Col><Center><Button color="success" size="lg">Return Users</Button></Center></Col>
+          	<Col><Center><Button color="success" size="lg">New Users</Button></Center></Col>
+						<Col></Col>
+						<Col></Col>
+        	</Row> */}
 
-				<img src={logo3} alt="Battle Blocks"/>
-					<div className="row-fluid">
+
+
+					 <div className="row-fluid">
 						<div className="span12">
 
 							<div className="span6">
@@ -291,15 +289,16 @@ class SignupForm extends Component {
           	style={customStyles}
           	contentLabel="Error"
         >
+
         <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
-		<ul>
-			{errArray.map(function(errorMessgae, index){
-				return <li key={ index }>{errorMessgae}</li>;
-				})}
+        <ul>
+          {errArray.map(function(errorMessgae, index){
+            return <li key={ index }>{errorMessgae}</li>;
+          })}
         </ul>
         </Modal>
 
-	</div>
+				</Container>
 
 			)
 		};
