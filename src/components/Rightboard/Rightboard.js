@@ -242,7 +242,7 @@ class Rightboard extends React.Component {
 	render() {
 		return (
 		  	<Container fluid>
-		        <h2>Player name: {this.props.player}</h2>
+		        <h3>Player name: {this.state.user2_name}</h3>
 		        <h4>$BlockCoins$: {this.state.user2_coins} Total Points: {this.state.user2_points}</h4>
 
 		        {this.determineButtonRender()}

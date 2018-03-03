@@ -218,6 +218,7 @@ class Leftboard extends React.Component {
 
 	identifyPlayer = () => {
 		axios.get("/api/lobby").then(response => {
+			console.log(response)
 			this.setState({
 				owner: response.data.username
 			})
@@ -253,7 +254,7 @@ class Leftboard extends React.Component {
 	render() {
 		return (
 		  	<Container fluid>
-		        <h2>Player name: {this.props.player}</h2>
+		        <h3>Player name: {this.state.user1_name}</h3>
 		        <h4>$BlockCoins$: {this.state.user1_coins} Total Points: {this.state.user1_points}</h4>
 
 		        {this.determineButtonRender()}

@@ -56,6 +56,9 @@ class Newgame extends React.Component {
 			context: this,
 			asArray: true,
 			then(data){
+				if(data.length === 0){
+					this.createGameData();
+				}
 				for (let i = 0; i < data.length; i++){
 					console.log(i);
 					if(data[i].game_status === "open"){
