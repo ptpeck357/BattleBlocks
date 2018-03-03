@@ -43,6 +43,10 @@ var userSchema = new Schema({
   joindate: {
      type: Date,
      default: Date.now
+  },
+
+  profilePicture: {
+    type: String
   }
 
 });

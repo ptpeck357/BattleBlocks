@@ -25,17 +25,26 @@ class Leaderboard extends Component {
         }
  // rendering the data in a react table        
   render() {
+              const id =1;
+
     if(this.state.isMounting){
       return(
         <Container fluid>
           <h1 className="header">Leaderboard</h1>
-
           <div>
             <ReactTable
               data={this.state.userData.data}
               columns={[
                 {
+
                   columns: [
+                    {
+                      Header: "Picture",
+                      Cell: (row) => {
+                        console.log(row);
+                      return <div><img className="imgSize" style={{ height: "150px"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
+                      }
+                    },
                     {
                       Header: "Join Date",
                       accessor: "joindate"

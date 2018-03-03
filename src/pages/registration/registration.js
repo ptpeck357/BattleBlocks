@@ -5,6 +5,7 @@ import "./signup.css";
 import logo3 from './assests/images/Picture3.png';
 // import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import Dropzone from 'react-dropzone'
 
 var errArray = [];
 var objrow;
@@ -54,7 +55,8 @@ class SignupForm extends Component {
 			errorMsg: [],
 			modalIsOpen: false,
 			loginError: false,
-			errorMessage: "",
+			errorMessage: '',
+			profilePicture: '',
 			redirectTo: null
 		};
   	};
@@ -69,12 +71,17 @@ class SignupForm extends Component {
 	/*Function to handle signup on submit*/
 	handleSubmit = (event) => {
     	event.preventDefault()
-    	axios.post('/api/signup', {
-			email: this.state.email,
-			username: this.state.username,
-			password: this.state.password,
-			confirmPassword: this.state.confirmPassword
-    }).then(response => {
+    	const config = {headers: {'Content-type': 'miltipart/form-data'}
+    	}
+    	let data = new FormData();
+    	//form data
+    	data.append('email', this.state.email);
+		data.append('username', this.state.username);
+		data.append('password', this.state.password);
+		data.append('confirmPassword', this.state.confirmPassword);
+		data.append('profilePicture', this.state.profilePicture[0]);
+
+    	axios.post('/api/signup',data,config).then(response => {
 
 	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
 		if(response.data.errors){
@@ -146,6 +153,14 @@ class SignupForm extends Component {
 	closeModal = () => {
 		this.setState({modalIsOpen: false});
 	}
+	
+	// onDrop Event for Picture Upload
+	onDrop = (acceptedFiles) => {
+       this.setState({
+           profilePicture: acceptedFiles
+       });
+       console.log(this.state.profilePicture);
+   }
 
 	/*Function to render HTML form*/
 	render() {
@@ -285,6 +300,22 @@ class SignupForm extends Component {
 													/>
 												</div>
 											</div>
+											
+											<Dropzone
+                                                onDrop={ this.onDrop }
+                                                accept="image/jpeg,image/jpg,image/png,image/gif"
+                                                multiple={ false }
+                                                className= "form-control">
+                                                   Upload Or Drag n Drop Profile Picture
+                                            </Dropzone>
+
+											<div className="controls">
+												{this.state.profilePicture && 
+	                                                <img data-value={this.state.profilePicture.name} src={this.state.profilePicture[0].preview} className="img-thumbnail preview m-1" alt={this.state.profilePicture.name} key={this.state.profilePicture.name}/> 
+												
+												}
+                                            </div>
+
 
 											<div className="control-group">
 												<div className="controls">
