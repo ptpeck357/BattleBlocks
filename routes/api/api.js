@@ -97,9 +97,17 @@ router.post('/leftboard', (req, res) => {
 
 	const {username, opponent, points} = req.body;
 
-	User.findOneAndUpdate({username: "pp"}, {$inc:{totalscore:points, wins: 1}}, {new: true});
+	User.findOneAndUpdate({username: username}, {$inc:{totalscore:points, wins:1}}, {new: true}, function(err, doc){
+    if(err){
+        console.log("Something wrong when updating data!");
+    }
+	});
 
-	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses: 1}}, {new: true}});
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1}}, {new: true}, function(err, doc){
+    if(err){
+        console.log("Something wrong when updating data!");
+    }
+	});
 
 });
 
@@ -108,9 +116,15 @@ router.post('/rightboard', (req, res) => {
 
 	const {username, opponent, points} = req.body;
 
-	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1}}, {new: true});
+	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1}}, {new: true}, function(){
+		console.log("Updated")
+	});
 
-	User.findOneAndUpdate({username: opponent}, {$inc: { totalscore: points, losses: 1}}, {new: true});
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1}}, {new: true}, function(err, doc){
+    if(err){
+        console.log("Something wrong when updating data!");
+    }
+	});
 
 });
 
