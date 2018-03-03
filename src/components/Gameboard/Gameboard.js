@@ -44,7 +44,7 @@ class Gameboard extends React.Component {
       gameID : gameID
     })
     this.getFirebaseButtons(gameID);
-  }  
+  }
 
   //Get buttons from firebase
   getFirebaseButtons = (gameID) => {
@@ -112,7 +112,7 @@ class Gameboard extends React.Component {
     } else if (u2_blocks === 0) {
       this.endGame(this.state.opponent)
       this.setState({leftButtons : "", rightButtons : ""})
-    
+
     } else {
       this.updateLeader(u1_blocks, u2_blocks)
     }
@@ -143,7 +143,7 @@ class Gameboard extends React.Component {
       headline: "The game is over",
       boardleader: "The winner is: "+name
     })
-  }
+  };
 
 // ----------------------- ------------- -----------------------//
 // -------------------- Component Lifecycle --------------------//
@@ -169,6 +169,7 @@ class Gameboard extends React.Component {
           <Col>
             <Leftboard
               player = {this.state.player}
+              opponent = {this.state.opponent}
               countBlocks = {this.countBlocks}
               high = {this.state.high_side}
               winner = {this.endGame}
@@ -177,6 +178,7 @@ class Gameboard extends React.Component {
           <Col>
             <Rightboard
               player = {this.state.opponent}
+              opponent = {this.state.player}
               countBlocks = {this.countBlocks}
               high = {this.state.high_side}
               winner = {this.endGame}

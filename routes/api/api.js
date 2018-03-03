@@ -2,9 +2,10 @@ const router = require("express").Router();
 const passport = require('../../passport');
 const User = require('../../models/users.js');
 
+/*Route to see ff the user is arleady signed in, go to lobby*/
 router.get("/", (req, res) => {
 	if(req.user){
-		res.json({message: "User found", isAuthenticated: true, user: req.user.username});
+		res.json({message: "Already signed in", isAuthenticated: true, path: "/lobby"});
 		console.log(req.user);
 	} else {
 		res.json(
@@ -13,6 +14,7 @@ router.get("/", (req, res) => {
 	}
 });
 
+/*Route to add new users in MongoDB*/
 router.post('/signup', (req, res) => {
 
 	/*Getting user's inputs from form*/
@@ -65,6 +67,7 @@ router.post('/signup', (req, res) => {
 	};
 });
 
+/*Route that logs user and authenticates them through passport */
 router.post('/login', (req, res, next) =>{
 	passport.authenticate('local', function(err, user, info) {
 	  	if (err) { return res.status(400).send(err);}
@@ -82,10 +85,10 @@ router.post('/login', (req, res, next) =>{
 	})(req, res, next);
 });
 
+/*Gets user from session and sends to lobby route in front end*/
 router.get('/lobby', (req, res) => {
 	if(req.user){
 		res.json(req.user);
-		// console.log(req.user);
 	} else {
 		res.json(
 			{message: "No user found",  path: "/lobby", user: null}
@@ -93,11 +96,48 @@ router.get('/lobby', (req, res) => {
 	}
 });
 
+/*If winner on leftboard, update MongoDB databse*/
+router.post('/leftboard', (req, res) => {
+
+	const {username, opponent, points} = req.body;
+
+	User.findOneAndUpdate({username: username}, {$inc:{totalscore:points, wins:1}}, {new: true}, function(err, doc){
+		if(err) throw err;
+		console.log("Winner updated")
+	});
+
+	/*Updates looser data*/
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1}}, {new: true}, function(err, doc){
+		if(err) throw err;
+		console.log("Looser updated")
+	});
+
+});
+
+/*If winner on rightboard, update MongoDB databse*/
+router.post('/rightboard', (req, res) => {
+
+	const {username, opponent, points} = req.body;
+
+	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1}}, {new: true}, function(){
+		if(err) throw err;
+		console.log("Winner updated")
+	});
+
+	/*Updates looser data*/
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1}}, {new: true}, function(err, doc){
+		if(err) throw err;
+		console.log("Looser updated")
+	});
+
+});
+
+/*Route to log user out of session*/
 router.get('/logout', (req, res) => {
 	if(req.user){
 		req.session.destroy();
 		res.clearCookie('connect.sid');
-		req.json({message: "You are logged out", path: "/"})
+		req.json({message: "You are logged out", isAuthenticated: false, path: "/"})
 	} else {
 		console.log("Already signed out");
 	}
