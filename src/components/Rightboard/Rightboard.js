@@ -16,6 +16,7 @@ class Rightboard extends React.Component {
 			owner: null,
 			gameID : null,
 			buttons : null,
+			user2_name: null,
 			user2_coins: 3,
 			user2_points: 1,
 			leftButtons : null
@@ -42,19 +43,20 @@ class Rightboard extends React.Component {
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
 //OWNER
-		//Synchronize firebase with state 'leftButtons'
-		fire.syncState("Live_Games/"+gameID+'/owner', {
-			context: this,
-			state: 'owner'
-		})
+		// //Synchronize firebase with state 'leftButtons'
+		// fire.syncState("Live_Games/"+gameID+'/owner', {
+		// 	context: this,
+		// 	state: 'owner'
+		// })
 
 //USER
 		//Synchronize firebase with state 'leftButtons'
-		fire.syncState("Live_Games/"+gameID+'/user1_name', {
+		fire.syncState("Live_Games/"+gameID+'/user2_name', {
 			context: this,
 			state: 'user2_name'
 		})		
 
+//BUTTONS
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
 			context: this,
@@ -93,7 +95,7 @@ class Rightboard extends React.Component {
 	buttonClick = (id) => {
 
 		//Test for side
-		if (this.state.user1_name === this.state.owner) {
+		if (this.state.owner !== this.state.user2_name) {
 			console.log("illegal move - alto!")
 		}
 

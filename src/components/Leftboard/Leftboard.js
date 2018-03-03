@@ -43,11 +43,11 @@ class Leftboard extends React.Component {
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
 //OWNER
-		//Synchronize firebase with state 'leftButtons'
-		fire.syncState("Live_Games/"+gameID+'/owner', {
-			context: this,
-			state: 'owner'
-		})	
+		// //Synchronize firebase with state 'leftButtons'
+		// fire.syncState("Live_Games/"+gameID+'/owner', {
+		// 	context: this,
+		// 	state: 'owner'
+		// })	
 
 //USER
 		//Synchronize firebase with state 'leftButtons'
@@ -84,7 +84,6 @@ class Leftboard extends React.Component {
 			context: this,
 			state: 'user1_points'
 		})
-
 	}
 
 // ----------------------- ------------- -----------------------//
@@ -93,9 +92,10 @@ class Leftboard extends React.Component {
 
 	//Checks for legal move
 	buttonClick = (id) => { 
-		console.log(this.props.owner)
+		console.log("The side owner is: "+this.state.owner)
+		console.log("The user 1 is: "+this.state.user1_name)
 		//Test for side 
-		if (this.state.user1_name !== this.state.owner) {
+		if (this.state.owner !== this.state.user1_name) {
 
 			console.log("illegal move - alto!")
 		}
@@ -216,12 +216,21 @@ class Leftboard extends React.Component {
 		})
 	}
 
+	identifyPlayer = () => {
+		axios.get("/api/lobby").then(response => {
+			this.setState({
+				owner: response.data.username
+			})
+		});
+	}
+
 // ----------------------- ------------- -----------------------//
 // -------------------- Component Lifecycle --------------------//
 // ----------------------- ------------- -----------------------//
 
 	componentWillMount() {
 		this.parseUrl();
+		this.identifyPlayer();
 	}
 
 // ----------------------- ------------- -----------------------//
