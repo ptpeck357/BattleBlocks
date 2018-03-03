@@ -20,21 +20,26 @@ class Newgame extends React.Component {
 
 		let myRef = fire.push('Live_Games', { 
 			data : { 
+				//Gameboard data
 				id: null,
+				owner: this.props.owner,
 				game_status: 'open',
-				
-				//user one data
-				user1_name: "David",
+				headline: 'Game is live',
+				high_side: 'Click a block to begin',
+				boardleader: 'Click a block to begin',
+
+				//Leftboard data
+				user1_name: this.props.owner,
 				user1_points: 1,
 				user1_coins: 3,
 				user1_buttons: leftButtons,
 
-				//user two data
+				//Rightboard data
 				user2_name: "Goliath",
 				user2_points: 1,
 				user2_coins: 3,
 				user2_buttons: rightButtons
-			},
+			}
 		});
 
 		let gameRoute = '/gameboard/' + myRef.key;

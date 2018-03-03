@@ -11,20 +11,21 @@ class Gameboard extends React.Component {
     super(props);
 
     this.state = {
+      //Game ID
+      gameID : "",
+
       //Game state settings
       player: "David", // from user login!
       opponent: "Goliath", // from user login!
-      high_side: "David",
+
       headline: "Game is live",
-      boardleader: "Click a block to begin",
+      high_side: "David",
+      boardleader: "Waiting for player 2...",
       leader: 0,
 
       //Buttons
       leftButtons : "",
       rightButtons : "",
-
-      //Game ID
-      gameID : "",
     }
   }
 
@@ -43,11 +44,29 @@ class Gameboard extends React.Component {
       gameID : gameID
     })
     this.getFirebaseButtons(gameID);
-  }  
+  }
 
   //Get buttons from firebase
   getFirebaseButtons = (gameID) => {
-    
+
+    //Synchronize firebase with state 'buttons'
+    fire.syncState("Live_Games/"+gameID+'/headline', {
+      context: this,
+      state: 'headline'
+    })
+
+    //Synchronize firebase with state 'buttons'
+    fire.syncState("Live_Games/"+gameID+'/high_side', {
+      context: this,
+      state: 'high_side'
+    })
+
+    //Synchronize firebase with state 'buttons'
+    fire.syncState("Live_Games/"+gameID+'/boardleader', {
+      context: this,
+      state: 'boardleader'
+    })
+
     //Synchronize firebase with state 'leftButtons'
     fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
       context: this,
@@ -97,7 +116,7 @@ class Gameboard extends React.Component {
     } else if (u2_blocks === 0) {
       this.endGame(this.state.opponent)
       this.setState({leftButtons : "", rightButtons : ""})
-    
+
     } else {
       this.updateLeader(u1_blocks, u2_blocks)
     }
@@ -128,7 +147,7 @@ class Gameboard extends React.Component {
       headline: "The game is over",
       boardleader: "The winner is: "+name
     })
-  }
+  };
 
 // ----------------------- ------------- -----------------------//
 // -------------------- Component Lifecycle --------------------//
@@ -154,6 +173,7 @@ class Gameboard extends React.Component {
           <Col>
             <Leftboard
               player = {this.state.player}
+              opponent = {this.state.opponent}
               countBlocks = {this.countBlocks}
               high = {this.state.high_side}
               winner = {this.endGame}
@@ -162,6 +182,7 @@ class Gameboard extends React.Component {
           <Col>
             <Rightboard
               player = {this.state.opponent}
+              opponent = {this.state.player}
               countBlocks = {this.countBlocks}
               high = {this.state.high_side}
               winner = {this.endGame}

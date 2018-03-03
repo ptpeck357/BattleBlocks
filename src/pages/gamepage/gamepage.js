@@ -5,12 +5,12 @@ import {  Jumbotron, Container } from "reactstrap";
 class Gamepage extends React.Component {
 	render() {
 		return(
-		  	<Container fluid>
-		        <Jumbotron>
-		          	<Gameboard />
-		        </Jumbotron>
-		  	</Container>
-		)
+			<Container fluid>
+				<Jumbotron>
+					<Gameboard />
+				</Jumbotron>
+			</Container>
+	)
 	}
 }
 
