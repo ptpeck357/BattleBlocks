@@ -3,17 +3,21 @@ import Squares from "../Squares";
 import { Container } from "reactstrap";
 import URL from "url-parse";
 import fire from "../../fire.js";
+import axios from 'axios';
 
 class Rightboard extends React.Component {
 
 	//Setups props
 	constructor(props) {
 		super(props);
-		
+
 		//Initiate the state variables
 		this.state = {
+			owner: null,
 			gameID : null,
 			buttons : null,
+			user2_coins: 3,
+			user2_points: 1,
 			leftButtons : null
 		}
 	}
@@ -22,7 +26,7 @@ class Rightboard extends React.Component {
 // --------------------------- SETUP ---------------------------//
 // ----------------------- ------------- -----------------------//
 
-	//Captures the gameID from the url
+		//Captures the gameID from the url
     parseUrl = () => {
 		let gameUrl = window.location.href;
 		let path = new URL(gameUrl);
@@ -32,13 +36,25 @@ class Rightboard extends React.Component {
 		this.setState({
 			gameID : gameID
 		})
-		// console.log(gameID);
-		this.getFirebaseButtons(gameID);
-	}  
+		this.syncFirebase(gameID);
+	}
 
-	//Get buttons from firebase
-	getFirebaseButtons = (gameID) => {
-		
+	//Sync firebase with state
+	syncFirebase = (gameID) => {
+//OWNER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/owner', {
+			context: this,
+			state: 'owner'
+		})
+
+//USER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/user1_name', {
+			context: this,
+			state: 'user2_name'
+		})		
+
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
 			context: this,
@@ -52,6 +68,20 @@ class Rightboard extends React.Component {
 			state: 'buttons',
 			asArray: true
 		})
+
+//COINS
+		//Synchronize firebase
+		fire.syncState("Live_Games/"+gameID+'/user2_coins', {
+			context: this,
+			state: 'user2_coins'
+		})
+
+//POINTS
+		//Synchronize firebase
+		fire.syncState("Live_Games/"+gameID+'/user2_points', {
+			context: this,
+			state: 'user2_points'
+		})
 	}
 
 
@@ -59,58 +89,61 @@ class Rightboard extends React.Component {
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
 
-	//Once a button is clicked, this triggers all the changes
-	buttonClick = (id) => { 
-		console.log(id)
-		console.log("rightboard.buttonClick fired");
+	//Checks for legal move
+	buttonClick = (id) => {
 
-		//Test for legal move
-		if (this.props.coins < 1 && this.props.high !== this.props.player) {
+		//Test for side
+		if (this.state.user1_name === this.state.owner) {
+			console.log("illegal move - alto!")
+		}
+
+		//Test for coins
+		else if (this.state.user2_coins < 1 && this.props.high !== this.props.player) {
 			console.log("illegal move - stop!")
 
+		//Allow move
 		} else {
 			console.log("legal move")
-
-		this.changeCoins();
-		this.changePoints();
-		this.deactivateButton(id);
-
-		//Activate new button 
-		this.addButton()
+		this.changeButtonStatus(id);
 		}
+	}
+
+	//Handles the updates
+	async changeButtonStatus(id) {
+		await this.deactivateButton(id)
+		await this.addButton()
+		this.changeCoins();
+		this.changePoints()
+		this.props.countBlocks()
 	}
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-		console.log("rightboard.deactivateButton fired") 
-		
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
-			if(buttons[i].id == id && buttons[i].active == 1){
-				
+			if(buttons[i].id === id && buttons[i].active === 1){
+
 				buttons[i].active = 0
 
 				this.setState({
 					buttons: buttons
-				})	
+
+				})
 			}
 		}
 	}
 
-  	//This activates a random opponent button
-	addButton = () => { 
-		console.log("add a left button");
-		
+  //This activates a random opponent button
+	addButton = () => {
+
 		let leftButtons = this.state.leftButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
-		console.log("Buttons = "+leftButtons)
-
-		if (leftButtons[randomId]. active == 0) {
+		if (leftButtons[randomId].active === 0) {
 			leftButtons[randomId].active = 1
 
 			this.setState({
@@ -119,9 +152,9 @@ class Rightboard extends React.Component {
 		}
 	}
 
-    //This changes coins based on player's click position
-	changeCoins = () => { 
-		let coins = this.props.coins;
+  //This changes coins based on player's click position
+	changeCoins = () => {
+		let coins = this.state.user2_coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
 			// console.log(coins);
@@ -130,12 +163,14 @@ class Rightboard extends React.Component {
 			// console.log(coins);
 		}
 		//update props with new coins total
-		this.props.rightCoins(coins)
+		this.setState({
+			user2_coins: coins
+		})
 	}
 
 	//This changes points based on player's click position
-	changePoints = () => { 
-		let points = this.props.points;
+	changePoints = () => {
+		let points = this.state.user2_points;
 		let countActive = 0;
 		for (let i=0; i<this.state.buttons.length; i++){
 			if(this.state.buttons[i].active === 1) {
@@ -154,6 +189,17 @@ class Rightboard extends React.Component {
 			case 0:
 				points = points + 3
 
+				/*Calls mongoDB*/
+				axios.post('/api/rightboard', {
+					username: this.props.player,
+					opponent: this.props.opponent,
+					points: points
+				}).then(response => {
+					console.log(response)
+				}).catch(error => {
+					console.log(error);
+				  });
+
 				//declare if winner
 				this.props.winner(this.props.player)
 				break;
@@ -161,8 +207,10 @@ class Rightboard extends React.Component {
 				points;
 		}
 		//update props with new points total
-		this.props.rightPoints(points)
-	}	
+		this.setState({
+			user2_points: points
+		})
+	}
 
 // ----------------------- ------------- -----------------------//
 // -------------------- Component Lifecycle --------------------//
@@ -176,15 +224,15 @@ class Rightboard extends React.Component {
 // ----------------------- Render Logic ------------------------//
 // ----------------------- ------------- -----------------------//
 
-	determineButtonRender = () => 
-	    !(this.state.buttons === null) ? 
-	        this.state.buttons.map((button, i) => 
-	       		<Squares 
+	determineButtonRender = () =>
+	    !(this.state.buttons === null) ?
+	        this.state.buttons.map((button, i) =>
+	       		<Squares
 	       			key = {i}
 	       			id = {button.id}
 	       			coordinates = {button.coordinates}
 	       			status = {button.active}
-	       			buttonClick = {this.buttonClick} 
+	       			buttonClick = {this.buttonClick}
 	       		/>
 	        )
 	    : ""
@@ -193,7 +241,7 @@ class Rightboard extends React.Component {
 		return (
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
-		        <h4>$BlockCoins$: {this.props.coins} Total Points: {this.props.points}</h4>		        
+		        <h4>$BlockCoins$: {this.state.user2_coins} Total Points: {this.state.user2_points}</h4>
 
 		        {this.determineButtonRender()}
 
@@ -203,4 +251,3 @@ class Rightboard extends React.Component {
 }
 
 export default Rightboard;
-

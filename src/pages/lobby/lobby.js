@@ -3,17 +3,36 @@ import {  Jumbotron, Container } from "reactstrap";
 import "./lobby.css";
 import Navbar from "../../components/Nav/index";
 import Newgame from "../../components/Newgame/index";
+import axios from 'axios';
 
 let headline = "Lobby";
 
 class Lobby extends React.Component{
 
+	constructor(props){
+		super(props)
+
+		this.state = {
+			owner: "tbd"
+		}
+	}
+
+	//Sets up the game owner
+	componentDidMount(){
+		axios.get("/api/lobby").then(response => {
+			this.setState({
+				owner: response.data.username
+			})
+		});
+	};
+
 	render() {
+			console.log(this.state.owner)
 		return (
 			<Container fluid>
 			    <Navbar headline = {headline}/>
-			    <Jumbotron> 
-			    <div>In each round you will play against one opponent for <strong>BlockCoins and Points</strong></div> 
+			    <Jumbotron>
+			    <div>In each round you will play against one opponent for <strong>BlockCoins and Points</strong></div>
 			    <div>Points last forever, BlockCoins do not</div>
 			    <hr />
 				    <h2>The Object of Battle Blocks:</h2>
@@ -29,11 +48,12 @@ class Lobby extends React.Component{
 				    		<li>The game ends when one player clears all their blocks</li>
 			    		</ul>
 			    </Jumbotron>
-			    <Newgame />
+			    <Newgame
+			    	owner={this.state.owner}
+					/>
 			</Container>
 		)
 	}
 }
-
 
 export default Lobby;
