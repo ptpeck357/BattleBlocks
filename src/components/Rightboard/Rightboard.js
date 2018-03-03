@@ -12,6 +12,7 @@ class Rightboard extends React.Component {
 
 		//Initiate the state variables
 		this.state = {
+			owner: null,
 			gameID : null,
 			buttons : null,
 			user2_coins: 3,
@@ -34,12 +35,17 @@ class Rightboard extends React.Component {
 		this.setState({
 			gameID : gameID
 		})
-		// console.log(gameID);
 		this.syncFirebase(gameID);
 	}  
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
+//OWNER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/owner', {
+			context: this,
+			state: 'owner'
+		})	
 
 //BUTTONS		
 		//Synchronize firebase with state 'leftButtons'
@@ -79,13 +85,18 @@ class Rightboard extends React.Component {
 	//Checks for legal move
 	buttonClick = (id) => { 
 
-		//Test for legal move
-		if (this.props.user2_coins < 1 && this.props.high !== this.props.player) {
+		//Test for side
+		if (this.props.owner === this.state.owner) {
+			console.log("illegal move - alto!")
+		}
+
+		//Test for coins
+		else if (this.state.user2_coins < 1 && this.props.high !== this.props.player) {
 			console.log("illegal move - stop!")
 
+		//Allow move
 		} else {
 			console.log("legal move")
-
 		this.changeButtonStatus(id);
 		}
 	}

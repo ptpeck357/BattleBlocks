@@ -20,7 +20,7 @@ class Gameboard extends React.Component {
 
       headline: "Game is live",
       high_side: "David",
-      boardleader: "Click a block to begin",
+      boardleader: "Waiting for player 2...",
       leader: 0,
 
       //Buttons

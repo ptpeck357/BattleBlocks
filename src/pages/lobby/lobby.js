@@ -9,13 +9,25 @@ let headline = "Lobby";
 
 class Lobby extends React.Component{
 
+	constructor(props){
+		super(props)
+
+		this.state = {
+			owner: "tbd"
+		}
+	}
+
+	//Sets up the game owner
 	componentDidMount(){
 		axios.get("/api/lobby").then(response => {
-			console.log(response)
+			this.setState({
+				owner: response.data.username
+			})
 		});
 	};
 
 	render() {
+			console.log(this.state.owner)
 		return (
 			<Container fluid>
 			    <Navbar headline = {headline}/>
@@ -37,6 +49,7 @@ class Lobby extends React.Component{
 			    		</ul>
 			    </Jumbotron>
 			    <Newgame
+			    	owner={this.state.owner}
 					/>
 			</Container>
 		)
