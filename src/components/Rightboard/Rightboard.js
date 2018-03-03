@@ -14,8 +14,8 @@ class Rightboard extends React.Component {
 		this.state = {
 			gameID : null,
 			buttons : null,
-			coins: 3,
-			points: 1,
+			user2_coins: 3,
+			user2_points: 1,
 			leftButtons : null
 		}
 	}
