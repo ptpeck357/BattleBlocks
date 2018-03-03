@@ -37,13 +37,10 @@ class SignupForm extends Component {
 			path: null,
 			errorMsg: [],
 			modalIsOpen: false,
-<<<<<<< HEAD
 			loginError: false,
 			errorMessage: '',
 			profilePicture: '',
-=======
 			loggedin: false,
->>>>>>> c23953f3bf738cc4ca3c77b9a1f099a35b5d792a
 			redirectTo: null
 		};
   };
@@ -102,7 +99,6 @@ class SignupForm extends Component {
 	/*Function to handle login on submit*/
   	handleSignin = (event) => {
 		event.preventDefault();
-<<<<<<< HEAD
 		if(this.state.usernameSignIn === ""){
 			this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
 		} else if (this.state.passwordSignIn === ""){
@@ -127,26 +123,6 @@ class SignupForm extends Component {
 				console.log(error);
 			  });
 		}
-=======
-		axios.post('/api/login', {
-			username: this.state.usernameSignIn,
-			password: this.state.passwordSignIn
-		}).then(response => {
-			console.log(response)
-			if(response.data.user === null){
-				console.log(response.data.message)
-			} else {
-				console.log("logged in");
-				this.setState({
-			 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby", loggedin: true
-        });
-
-			}
-
-		}).catch(error => {
-			console.log(error);
-		  });
->>>>>>> c23953f3bf738cc4ca3c77b9a1f099a35b5d792a
 	};
 
 	/*Function to handle logout on submit*/
