@@ -3,6 +3,7 @@ import Squares from "../Squares";
 import { Container } from "reactstrap";
 import URL from "url-parse";
 import fire from "../../fire.js";
+import axios from 'axios';
 
 class Leftboard extends React.Component {
 
@@ -15,6 +16,7 @@ class Leftboard extends React.Component {
 			owner: null,
 			gameID : null,
 			buttons : null,
+			user1_name: null,
 			user1_coins: 3,
 			user1_points: 1,
 			rightButtons : null
@@ -36,7 +38,7 @@ class Leftboard extends React.Component {
 			gameID : gameID
 		})
 		this.syncFirebase(gameID);
-	}  
+	}
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
@@ -45,6 +47,13 @@ class Leftboard extends React.Component {
 		fire.syncState("Live_Games/"+gameID+'/owner', {
 			context: this,
 			state: 'owner'
+		})	
+
+//USER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/user1_name', {
+			context: this,
+			state: 'user1_name'
 		})		
 
 //BUTTONS
@@ -63,14 +72,14 @@ class Leftboard extends React.Component {
 		})
 
 //COINS
-		//Synchronize firebase 
+		//Synchronize firebase
 		fire.syncState("Live_Games/"+gameID+'/user1_coins', {
 			context: this,
 			state: 'user1_coins'
 		})
 
 //POINTS
-		//Synchronize firebase 
+		//Synchronize firebase
 		fire.syncState("Live_Games/"+gameID+'/user1_points', {
 			context: this,
 			state: 'user1_points'
@@ -84,11 +93,12 @@ class Leftboard extends React.Component {
 
 	//Checks for legal move
 	buttonClick = (id) => { 
-
+		console.log(this.props.owner)
 		//Test for side 
-		if (this.props.owner !== this.state.owner) {
+		if (this.state.user1_name !== this.state.owner) {
+
 			console.log("illegal move - alto!")
-		} 
+		}
 
 		//Test for coins
 		else if (this.state.user1_coins < 1 && this.props.high !== this.props.player) {
@@ -111,8 +121,8 @@ class Leftboard extends React.Component {
 	}
 
 	//This turns the button off and updates state
-	deactivateButton = (id) => { 
-		
+	deactivateButton = (id) => {
+
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
@@ -120,20 +130,20 @@ class Leftboard extends React.Component {
 
 			//if the button exists and is active
 			if(buttons[i].id === id && buttons[i].active === 1){
-				
+
 				buttons[i].active = 0
 
 				this.setState({
 					buttons: buttons
 
-				})	
+				})
 			}
 		}
 	}
 
   	//This activates a random opponent button
-	addButton = () => { 
-		
+	addButton = () => {
+
 		let rightButtons = this.state.rightButtons;
 		let randomId = Math.floor(Math.random()*this.state.buttons.length)
 
@@ -146,8 +156,8 @@ class Leftboard extends React.Component {
 		}
 	}
 
-    //This changes coins based on player's click position
-	changeCoins = () => { 
+  //This changes coins based on player's click position
+	changeCoins = () => {
 		let coins = this.state.user1_coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
@@ -163,7 +173,7 @@ class Leftboard extends React.Component {
 	}
 
 	//This changes points based on player's click position
-	changePoints = () => { 
+	changePoints = () => {
 		let points = this.state.user1_points;
 		let countActive = 0;
 		for (let i=0; i<this.state.buttons.length; i++){
@@ -183,7 +193,18 @@ class Leftboard extends React.Component {
 			case 0:
 				points = points + 3
 
-				// declare winner
+				/*Calls mongoDB*/
+				axios.post('/api/leftboard', {
+					username: this.props.player,
+					opponent: this.props.opponent,
+					points: points
+				}).then(response => {
+					console.log(response)
+				}).catch(error => {
+					console.log(error);
+				  });
+
+				//declare if winner
 				this.props.winner(this.props.player)
 				break;
 			default:
@@ -224,7 +245,7 @@ class Leftboard extends React.Component {
 		return (
 		  	<Container fluid>
 		        <h2>Player name: {this.props.player}</h2>
-		        <h4>$BlockCoins$: {this.state.user1_coins} Total Points: {this.state.user1_points}</h4>		        
+		        <h4>$BlockCoins$: {this.state.user1_coins} Total Points: {this.state.user1_points}</h4>
 
 		        {this.determineButtonRender()}
 
