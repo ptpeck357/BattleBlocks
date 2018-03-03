@@ -85,7 +85,7 @@ router.post('/login', (req, res, next) =>{
 router.get('/lobby', (req, res) => {
 	if(req.user){
 		res.json(req.user);
-		console.log(req.user);
+		// console.log(req.user);
 	} else {
 		res.json(
 			{message: "No user found",  path: "/lobby", user: null}
