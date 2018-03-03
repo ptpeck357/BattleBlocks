@@ -11,6 +11,14 @@ li{
 h2{
   text-align: center;
 }
+.preview{
+  width: 200px;
+}
+#logo{
+    margin:200px;
+    height: 300px;
+    width:550px;
+
 img{
     width:200%;
 }
