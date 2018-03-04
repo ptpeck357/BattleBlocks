@@ -49,7 +49,7 @@ class Lobby extends React.Component{
 			    		</ul>
 			    </Jumbotron>
 			    <Newgame
-			    	owner={this.state.owner}
+			    	player={this.state.owner}
 					/>
 			</Container>
 		)

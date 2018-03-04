@@ -16,20 +16,21 @@ class Newgame extends React.Component {
 		}
 	}
 
+	//Creates brand new game
 	createGameData = () => {
 
 		let myRef = fire.push('Live_Games', { 
 			data : { 
 				//Gameboard data
 				id: null,
-				owner: this.props.owner,
+				owner: this.props.player,
 				game_status: 'open',
 				headline: 'Game is live',
 				high_side: 'Click a block to begin',
 				boardleader: 'Click a block to begin',
 
 				//Leftboard data
-				user1_name: this.props.owner,
+				user1_name: this.props.player,
 				user1_points: 1,
 				user1_coins: 3,
 				user1_buttons: leftButtons,
@@ -49,16 +50,20 @@ class Newgame extends React.Component {
 		});
 	}
 
+	//Checks for available game - if no game - calls "createGameData"
 	joinGame = () => {
 		fire.fetch('Live_Games',{
 			context: this,
 			asArray: true,
 			then(data){
+				if(data.length === 0){
+					this.createGameData();
+				}
 				for (let i = 0; i < data.length; i++){
 					console.log(i);
 					if(data[i].game_status === "open"){
 						fire.update('Live_Games/' + data[i].key,{
-							data: {game_status: "closed", user2_name: "Brett"}
+							data: {game_status: "closed", user2_name: this.props.player}
 						});
 						let gameRoute = '/gameboard/' + data[i].key;
 						this.setState({
@@ -73,8 +78,8 @@ class Newgame extends React.Component {
 		});
 	}	
 
+	//Click initiates a start game
 	startGame = () => {
-	
   		this.joinGame();
 		console.log("Yah suure, lemme get right on that for ye!")
 	}
