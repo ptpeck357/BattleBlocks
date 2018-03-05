@@ -1,9 +1,8 @@
-# Synopsis
 
 <h2>BattleBlocks!</h2>
 A Northwestern University Bootcamp Final MERN Project
-<hr>
-<strong>Summary</strong>
+
+### Synopsis
 <ul>
   <li>BattleBlocks is a multi-player strategy board game</li>
   <li>The game is played in "rounds" between two players</li>
