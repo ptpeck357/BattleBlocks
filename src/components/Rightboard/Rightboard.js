@@ -48,14 +48,14 @@ class Rightboard extends React.Component {
 		fire.syncState("Live_Games/"+gameID+'/owner', {
 			context: this,
 			state: 'Game_owner'
-		})		
-	
+		})
+
 //USER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user2_name', {
 			context: this,
 			state: 'user2_name'
-		})		
+		})
 
 //BUTTONS
 		//Synchronize firebase with state 'leftButtons'
@@ -230,6 +230,7 @@ class Rightboard extends React.Component {
 
 	componentWillMount() {
 		this.parseUrl();
+		this.identifyPlayer();
 	}
 
 // ----------------------- ------------- -----------------------//

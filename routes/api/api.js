@@ -147,7 +147,7 @@ router.post('/rightboard', (req, res) => {
 
 	const {username, opponent, points} = req.body;
 
-	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1}}, {new: true}, function(){
+	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Winner updated")
 	});
@@ -176,8 +176,6 @@ router.get('/leaderboard', function(req, res, next) {
 
 	User.find().then((dbUsers) => {
 
-		// res.json(dbUsers);
-		// console.log("Users Found");
 		var result = [];
 
 		for(var i=0; i<dbUsers.length; i++){

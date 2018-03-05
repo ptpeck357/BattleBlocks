@@ -33,7 +33,7 @@ class Navbar extends Component {
 					<nav className="navbar navbar-dark bg-gunmetal fixed-top">
 						<h4 id="title"> {this.props.headline} </h4>
 						<button onClick={this.handleSubmit} type="submit">Log out</button>
-						<button>Lobby</button>
+					<a href="/lobby">	<button>Lobby</button></a>
 					</nav>
 				</div>
 			);
