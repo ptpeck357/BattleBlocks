@@ -63,9 +63,10 @@ class Newgame extends React.Component {
 				for (let i = 0; i < data.length; i++){
 					console.log(i);
 					if(data[i].game_status === "open"){
+						console.log(this.props.player)
 						fire.update('Live_Games/' + data[i].key,{
 							data: {
-								game_status: "closed", 
+								game_status: "closed",
 								user2_name: this.props.player,
 								user2_points: this.props.score
 							}
@@ -90,7 +91,7 @@ class Newgame extends React.Component {
 	};
 
 	render(){
-		
+
 		if(this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {

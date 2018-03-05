@@ -48,14 +48,14 @@ class Leftboard extends React.Component {
 		fire.syncState("Live_Games/"+gameID+'/owner', {
 			context: this,
 			state: 'Game_owner'
-		})		
-	
+		})
+
 //USER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_name', {
 			context: this,
 			state: 'user1_name'
-		})		
+		})
 
 //BUTTONS
 		//Synchronize firebase with state 'leftButtons'
@@ -92,9 +92,9 @@ class Leftboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 
 	//Checks for legal move
-	buttonClick = (id) => { 
+	buttonClick = (id) => {
 
-		//Test for side 
+		//Test for side
 		if (this.state.Mongo_owner !== this.state.Game_owner) {
 
 			console.log("illegal move - alto!")
@@ -195,7 +195,7 @@ class Leftboard extends React.Component {
 				axios.post('/api/leftboard', {
 					username: this.props.player,
 					opponent: this.props.opponent,
-					points: points
+					points: points-this.state.user1_points
 				}).then(response => {
 					console.log(response)
 				}).catch(error => {

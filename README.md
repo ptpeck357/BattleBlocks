@@ -1,8 +1,8 @@
 
 <h2>BattleBlocks!</h2>
 A Northwestern University Bootcamp Final MERN Project
-<hr>
-<strong>Summary</strong>
+
+### Synopsis
 <ul>
   <li>BattleBlocks is a multi-player strategy board game</li>
   <li>The game is played in "rounds" between two players</li>
@@ -74,10 +74,57 @@ Continual Play
 
 <hr>
 
-## Contributors
+## Try It
+
++ [Live]()
+
+### Built With
++ Mongo
++ Express JS
++ React JS
++ Node JS
++ Bootstrap 4
++ Mongoose
++ Firebase
++ Passport JS
+
+### Resources
++
+
+### Node Package Dependencies Reference
++ [axios](https://www.npmjs.com/package/axios)
++ [bcryptjs](https://www.npmjs.com/package/bcryptjs)
++ [body-parser](https://www.npmjs.com/package/body-parser)
++ [connect-mongodb-session](https://www.npmjs.com/package/connect-mongodb-session)
++ [express](https://www.npmjs.com/package/express)
++ [express-session](https://www.npmjs.com/package/express-session)
++ [express-validator](https://www.npmjs.com/package/express-validator)
++ [firebase](https://www.npmjs.com/package/firebase)
++ [mongoose](https://www.npmjs.com/package/mongoose)
++ [multer](https://www.npmjs.com/package/multer)
++ [passport](https://www.npmjs.com/package/passport)
++ [passport-local](https://www.npmjs.com/package/passport-local)
++ [re-base](https://www.npmjs.com/package/re-base)
++ [react](https://www.npmjs.com/package/react)
++ [react-center](https://www.npmjs.com/package/react-center)
++ [react-dom](https://www.npmjs.com/package/react-dom)
++ [react-dropzone](https://www.npmjs.com/package/react-dropzone)
++ [react-json-table](https://www.npmjs.com/package/react-json-table)
++ [react-modal](https://www.npmjs.com/package/react-modal)
++ [react-router-dom](https://www.npmjs.com/package/react-router-dom)
++ [react-scripts](https://www.npmjs.com/package/react-scripts)
++ [react-table](https://www.npmjs.com/package/react-table)
++ [react-transition-group](https://www.npmjs.com/package/react-transition-group)
++ [react-transitions](https://www.npmjs.com/package/react-transitions)
++ [reactstrap](https://www.npmjs.com/package/reactstrap)
++ [router](https://www.npmjs.com/package/router)
+
+### Contributors
 + [Brett Barnes](https://github.com/bigbert836)
 + [Israel Peck](https://github.com/therealizzi)
 + [Peter Peck](https://github.com/ptpeck357)
 + [Vinnie Sharma](https://github.com/vasmarm)
 
-<strong>END Of README</strong>
+### License
++ Open Source
+

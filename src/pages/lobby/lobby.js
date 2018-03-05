@@ -34,6 +34,7 @@ class Lobby extends React.Component{
 	//Sets up the game owner
 	componentDidMount(){
 		axios.get("/api/lobby").then(response => {
+			console.log(response)
 			this.setState({
 				owner: response.data.username,
 				score: response.data.totalscore
@@ -47,7 +48,7 @@ class Lobby extends React.Component{
 		} else {
 			return (
 				<Container fluid>
-				    <Navbar 
+				    <Navbar
 				    	headline = {headline}
 				        navClick = {this.logout}
 				        navAction = {"Logout"}

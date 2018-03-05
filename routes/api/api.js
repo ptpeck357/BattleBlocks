@@ -18,6 +18,16 @@ router.get("/", (req, res) => {
 	}
 });
 
+router.get("/authenticate", (req, res) => {
+	if(req.user){
+		res.json({isAuthenticated: true});
+	} else {
+		res.json(
+			{isAuthenticated: false}
+		);
+	}
+});
+
 /*Route to add new users in MongoDB*/
 router.post('/signup', uploadPicture.any(), (req, res) => {
 
@@ -51,7 +61,6 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 	}
 
 	/*Checking forms for validity*/
-	req.checkBody('email', 'Please provide a valid email address').isEmail();
 	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('password', 'Password is required').notEmpty();
 	req.checkBody('password', 'Passwords must be at least 6 characters long').isLength({ min: 6 })
@@ -75,13 +84,12 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 
 				/*Adding new user*/
 				const newUser = new User();
-				newUser.email = email,
 				newUser.username = username,
 				newUser.password = newUser.hashPassword(password);
 				newUser.wins = 0;
 				newUser.losses = 0;
-				newUser.totalScore = 0;
-				newUser.totalGame = 0;
+				newUser.totalscore = 0;
+				newUser.totalgames = 0;
 				newUser.profilePicture = req.files[0].filename + fileExtension;
 
 				/*Save new user*/
@@ -129,13 +137,13 @@ router.post('/leftboard', (req, res) => {
 
 	const {username, opponent, points} = req.body;
 
-	User.findOneAndUpdate({username: username}, {$inc:{totalscore:points, wins:1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: username}, {$inc:{totalscore:points, wins:1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Winner updated")
 	});
 
 	/*Updates looser data*/
-	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Looser updated")
 	});
@@ -147,13 +155,13 @@ router.post('/rightboard', (req, res) => {
 
 	const {username, opponent, points} = req.body;
 
-	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Winner updated")
 	});
 
 	/*Updates looser data*/
-	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Looser updated")
 	});
