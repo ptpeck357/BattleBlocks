@@ -13,7 +13,8 @@ class Rightboard extends React.Component {
 
 		//Initiate the state variables
 		this.state = {
-			owner: null,
+			Mongo_owner: null,
+			Game_owner: null,
 			gameID : null,
 			buttons : null,
 			user2_name: null,
@@ -42,19 +43,19 @@ class Rightboard extends React.Component {
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
-//OWNER
-		// //Synchronize firebase with state 'leftButtons'
-		// fire.syncState("Live_Games/"+gameID+'/owner', {
-		// 	context: this,
-		// 	state: 'owner'
-		// })
+//GAME_OWNER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/owner', {
+			context: this,
+			state: 'Game_owner'
+		})
 
 //USER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user2_name', {
 			context: this,
 			state: 'user2_name'
-		})		
+		})
 
 //BUTTONS
 		//Synchronize firebase with state 'leftButtons'
@@ -95,7 +96,7 @@ class Rightboard extends React.Component {
 	buttonClick = (id) => {
 
 		//Test for side
-		if (this.state.owner !== this.state.user2_name) {
+		if (this.state.Mongo_owner === this.state.Game_owner) {
 			console.log("illegal move - alto!")
 		}
 
@@ -121,9 +122,9 @@ class Rightboard extends React.Component {
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-		let buttons = this.state.buttons;
 
 		//loop through all the buttons
+		let buttons = this.state.buttons;
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
@@ -133,7 +134,6 @@ class Rightboard extends React.Component {
 
 				this.setState({
 					buttons: buttons
-
 				})
 			}
 		}
@@ -214,12 +214,22 @@ class Rightboard extends React.Component {
 		})
 	}
 
+	identifyPlayer = () => {
+		axios.get("/api/lobby").then(response => {
+			console.log(response)
+			this.setState({
+				Mongo_owner: response.data.username
+			})
+		});
+	}
+
 // ----------------------- ------------- -----------------------//
 // -------------------- Component Lifecycle --------------------//
 // ----------------------- ------------- -----------------------//
 
 	componentWillMount() {
 		this.parseUrl();
+		this.identifyPlayer();
 	}
 
 // ----------------------- ------------- -----------------------//
