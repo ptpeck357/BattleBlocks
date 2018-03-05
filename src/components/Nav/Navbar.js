@@ -1,15 +1,44 @@
-import React from "react";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 import "./Navbar.css";
 
-const Navbar = props => (
+class Navbar extends Component {
 
-<div >
-    <nav className="navbar navbar-dark bg-gunmetal fixed-top">
-            <h4 id="title"> {props.headline} </h4>
-            <button>Lobby</button>
-    </nav>
-</div>
+	constructor() {
+		super()
+			this.state = {
+				loggedin: true
+			};
+		};
 
-);
+	/*Function to handle logout on submit*/
+	handleSubmit = (event) => {
+		event.preventDefault()
+		axios.get('/api/logout').then(response => {
+			if(response.data.isAuthenticated === false){
+				this.setState({
+					loggedin: false
+      	});
+			};
+		});
+	};
+
+	render(){
+		if (this.state.loggedin === false) {
+			return <Redirect to={{ pathname: "/" }} />
+		} else {
+			return(
+				<div >
+					<nav className="navbar navbar-dark bg-gunmetal fixed-top">
+						<h4 id="title"> {this.props.headline} </h4>
+						<button onClick={this.handleSubmit} type="submit">Log out</button>
+						<button>Lobby</button>
+					</nav>
+				</div>
+			);
+		};
+	};
+};
 
 export default Navbar;

@@ -11,10 +11,9 @@ const fs = require("fs");
 router.get("/", (req, res) => {
 	if(req.user){
 		res.json({message: "Already signed in", isAuthenticated: true, path: "/lobby"});
-		console.log(req.user);
 	} else {
 		res.json(
-			{message: "No user found",  isAuthenticated: false, user: null}
+			{message: "No user found",  isAuthenticated: false, path: "/"}
 		);
 	}
 });
@@ -28,31 +27,28 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 	const password = req.body.password;
 	const confirmPassword = req.body.confirmPassword;
 
-
 	/* Requesting Files for profile picture*/
-
 	if(req.files){
 		console.log(req.files[0]);
 		console.log(req.files);
 		switch (req.files[0].mimetype) {
-               case 'image/jpeg':
-                   fileExtension = '.jpeg';
-                   break;
-               case 'image/jpg':
-                   fileExtension = '.jpg';
-                   break;
-               case 'image/png':
-                   fileExtension = '.png';
-                   break;
-               case 'image/gif':
-                   fileExtension = '.gif';
-                   break;
-           }
-           fs.renameSync(req.files[0].path, req.files[0].destination + "/" + req.files[0].filename + fileExtension, function (err) {
-               if (err) throw err;
-           });
+			case 'image/jpeg':
+					fileExtension = '.jpeg';
+					break;
+			case 'image/jpg':
+					fileExtension = '.jpg';
+					break;
+			case 'image/png':
+					fileExtension = '.png';
+					break;
+			case 'image/gif':
+					fileExtension = '.gif';
+					break;
+		}
+		fs.renameSync(req.files[0].path, req.files[0].destination + "/" + req.files[0].filename + fileExtension, function (err) {
+			if (err) throw err;
+		});
 	}
-
 
 	/*Checking forms for validity*/
 	req.checkBody('email', 'Please provide a valid email address').isEmail();
@@ -71,7 +67,6 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 
 			/*If there is a userame already in the database return message*/
 			if (userMatch) {
-				console.log("Username taken")
 				return res.json({
 					errors: [{msg: `Sorry, already a user with the username: ${username}`}]
 				})
@@ -108,11 +103,12 @@ router.post('/login', (req, res, next) =>{
 				{message: 'Incorrect username or password', path: "/", user: null}
 			);
 
-		}req.login(user, (err) => {
-			if (err) { return res.status(400).send(err); }
-			return res.json(
-				{message: 'You are now logged in!',  path: "/lobby", user: user.username}
-			);
+			}
+			req.login(user, (err) => {
+				if (err) { return res.status(400).send(err); }
+				return res.json(
+					{message: 'You are now logged in!',  path: "/lobby", user: user.username}
+				);
 	  	});
 	})(req, res, next);
 });
@@ -169,39 +165,39 @@ router.get('/logout', (req, res) => {
 	if(req.user){
 		req.session.destroy();
 		res.clearCookie('connect.sid');
-		req.json({message: "You are logged out", isAuthenticated: false, path: "/"})
+		res.json({isAuthenticated: false})
 	} else {
 		console.log("Already signed out");
 	}
 });
 
+/*Route for displaying users on leaderboard*/
 router.get('/leaderboard', function(req, res, next) {
-	
+
 	User.find().then((dbUsers) => {
 
 		// res.json(dbUsers);
 		// console.log("Users Found");
 		var result = [];
-      
+
 		for(var i=0; i<dbUsers.length; i++){
 
 			let resultsObj = {};
 
 			resultsObj.joindate = dbUsers[i].joindate;
-      		resultsObj.username = dbUsers[i].username;
-      		resultsObj.wins = dbUsers[i].wins;
-      		resultsObj.losses = dbUsers[i].losses;
-      		resultsObj.totalScore = dbUsers[i].totalScore;
-      		resultsObj.profilePicture = dbUsers[i].profilePicture;
+			resultsObj.username = dbUsers[i].username;
+			resultsObj.wins = dbUsers[i].wins;
+			resultsObj.losses = dbUsers[i].losses;
+			resultsObj.totalScore = dbUsers[i].totalScore;
+			resultsObj.profilePicture = dbUsers[i].profilePicture;
 
-      		result.push(resultsObj);
-      		console.log(result);
+			result.push(resultsObj);
+			console.log(result);
 		}
+
 	res.json(result);
 	console.log(result);
-
   })
-	
 });
 
 module.exports = router;
