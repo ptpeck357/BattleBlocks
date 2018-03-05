@@ -13,7 +13,8 @@ class Rightboard extends React.Component {
 
 		//Initiate the state variables
 		this.state = {
-			owner: null,
+			Mongo_owner: null,
+			Game_owner: null,
 			gameID : null,
 			buttons : null,
 			user2_name: null,
@@ -42,13 +43,13 @@ class Rightboard extends React.Component {
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
-//OWNER
-		// //Synchronize firebase with state 'leftButtons'
-		// fire.syncState("Live_Games/"+gameID+'/owner', {
-		// 	context: this,
-		// 	state: 'owner'
-		// })
-
+//GAME_OWNER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/owner', {
+			context: this,
+			state: 'Game_owner'
+		})		
+	
 //USER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user2_name', {
@@ -95,7 +96,7 @@ class Rightboard extends React.Component {
 	buttonClick = (id) => {
 
 		//Test for side
-		if (this.state.owner !== this.state.user2_name) {
+		if (this.state.Mongo_owner !== this.state.user2_name) {
 			console.log("illegal move - alto!")
 		}
 
@@ -212,6 +213,15 @@ class Rightboard extends React.Component {
 		this.setState({
 			user2_points: points
 		})
+	}
+
+	identifyPlayer = () => {
+		axios.get("/api/lobby").then(response => {
+			console.log(response)
+			this.setState({
+				Mongo_owner: response.data.username
+			})
+		});
 	}
 
 // ----------------------- ------------- -----------------------//

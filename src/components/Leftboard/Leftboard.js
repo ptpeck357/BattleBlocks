@@ -13,7 +13,8 @@ class Leftboard extends React.Component {
 
 		//Initiate the state variables
 		this.state = {
-			owner: null,
+			Mongo_owner: null,
+			Game_owner: null,
 			gameID : null,
 			buttons : null,
 			user1_name: null,
@@ -42,13 +43,13 @@ class Leftboard extends React.Component {
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
-//OWNER
-		// //Synchronize firebase with state 'leftButtons'
-		// fire.syncState("Live_Games/"+gameID+'/owner', {
-		// 	context: this,
-		// 	state: 'owner'
-		// })	
-
+//GAME_OWNER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/owner', {
+			context: this,
+			state: 'Game_owner'
+		})		
+	
 //USER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_name', {
@@ -92,10 +93,10 @@ class Leftboard extends React.Component {
 
 	//Checks for legal move
 	buttonClick = (id) => { 
-		console.log("The side owner is: "+this.state.owner)
-		console.log("The user 1 is: "+this.state.user1_name)
+		console.log("The side Mongo_owner is: "+this.state.Mongo_owner)
+		console.log("The user 1 is: "+this.state.Game_owner)
 		//Test for side 
-		if (this.state.owner !== this.state.user1_name) {
+		if (this.state.Mongo_owner !== this.state.user1_name) {
 
 			console.log("illegal move - alto!")
 		}
@@ -220,7 +221,7 @@ class Leftboard extends React.Component {
 		axios.get("/api/lobby").then(response => {
 			console.log(response)
 			this.setState({
-				owner: response.data.username
+				Mongo_owner: response.data.username
 			})
 		});
 	}
