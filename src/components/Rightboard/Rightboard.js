@@ -96,7 +96,7 @@ class Rightboard extends React.Component {
 	buttonClick = (id) => {
 
 		//Test for side
-		if (this.state.Mongo_owner !== this.state.user2_name) {
+		if (this.state.Mongo_owner === this.state.Game_owner) {
 			console.log("illegal move - alto!")
 		}
 

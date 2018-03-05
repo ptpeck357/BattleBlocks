@@ -96,7 +96,7 @@ class Leftboard extends React.Component {
 		console.log("The side Mongo_owner is: "+this.state.Mongo_owner)
 		console.log("The user 1 is: "+this.state.Game_owner)
 		//Test for side 
-		if (this.state.Mongo_owner !== this.state.user1_name) {
+		if (this.state.Mongo_owner !== this.state.Game_owner) {
 
 			console.log("illegal move - alto!")
 		}
