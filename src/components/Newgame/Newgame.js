@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import leftButtons from "../leftbuttons.json";
 import rightButtons from "../rightbuttons.json";
 import fire from "../../fire.js";
+import axios from 'axios';
 
 //This component sits in "Lobby" button and initiates a new game
 class Newgame extends React.Component {
@@ -12,15 +13,29 @@ class Newgame extends React.Component {
 		super(props);
 
 		this.state = {
-			redirectTo : null,
+			redirectTo : null
+			// loggedIn: null
 		}
-	}
+	};
+
+	// componentWillMount(){
+	// 	axios.get('/api/').then(response => {
+	// 		console.log(response.data)
+	// 		if(response.data.isAuthenticated === true){
+	// 			this.setState({
+	// 				loggedIn: true
+	// 			})
+	// 		} else {
+	// 			this.setState({redirectTo: "/", loggedIn: false})
+	// 		};
+	// 	});
+	// };
 
 	//Creates brand new game
 	createGameData = () => {
 
-		let myRef = fire.push('Live_Games', { 
-			data : { 
+		let myRef = fire.push('Live_Games', {
+			data : {
 				//Gameboard data
 				id: null,
 				owner: this.props.player,
@@ -76,27 +91,29 @@ class Newgame extends React.Component {
 				}
 			}
 		});
-	}	
+	};
 
 	//Click initiates a start game
 	startGame = () => {
-  		this.joinGame();
+  	this.joinGame();
 		console.log("Yah suure, lemme get right on that for ye!")
-	}
+	};
 
-	render() {
-		if (this.state.redirectTo) {
-			return <Redirect to={{ pathname: this.state.redirectTo }} />
-		}
-		else
-		{
-			return (
-				<Button onClick ={this.startGame}>
-					Start A Round
-				</Button>
-			)
-		}
-	}
-}
+	render(){
+		// if(this.state.loggedIn === true) {
+			if(this.state.redirectTo) {
+				return <Redirect to={{ pathname: this.state.redirectTo }} />
+			} else {
+				return (
+					<Button onClick ={this.startGame}>
+						Start A Round
+					</Button>
+				)
+			}
+		// } else {
+		// 	return <Redirect to={{ pathname: "/"}} />
+		// };
+	};
+};
 
 export default Newgame;

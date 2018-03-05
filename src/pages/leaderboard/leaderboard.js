@@ -1,4 +1,4 @@
-import React, { Component } from 'react'  
+import React, { Component } from 'react'
 import {  Jumbotron, Button, Container } from "reactstrap"
 import axios from 'axios'
 //import styles from "./leaderboard.css"
@@ -8,24 +8,24 @@ import "react-table/react-table.css";
 
 
 // leaderboard class with the userData and isMounting variable to render the data
-class Leaderboard extends Component {  
-    state = {
-      userData:{},
-      isMounting: ""
+class Leaderboard extends Component {
+  state = {
+    userData:{},
+    isMounting: ""
   };
-  
+
   // making axios call and getting response from api.js
   // response comes from the database, then setting up the state
     componentDidMount() {
-        axios.get('/api/leaderboard').then(
-            response => { this.setState({ userData: response, isMounting:true })
-              console.log(this.state.userData);
-          })
-            .catch(err => console.log(err));
-        }
- // rendering the data in a react table        
+      axios.get('/api/leaderboard').then(
+        response => { this.setState({ userData: response, isMounting:true })
+          console.log(this.state.userData);
+      }).catch(err => console.log(err));
+    }
+
+ // rendering the data in a react table
   render() {
-              const id =1;
+    const id =1;
 
     if(this.state.isMounting){
       return(
@@ -36,7 +36,6 @@ class Leaderboard extends Component {
               data={this.state.userData.data}
               columns={[
                 {
-
                   columns: [
                     {
                       Header: "Picture",
@@ -73,19 +72,18 @@ class Leaderboard extends Component {
               className="-striped -highlight"
             />
             <br />
-           
+
           </div>
-        </Container> 
+        </Container>
       )
-    }
-    else{
+    } else {
       return(
-            <h1 className="header">
-                  Error ...
-              </h1>
+        <h1 className="header">
+          Error ...
+        </h1>
       )
     }
-  } 
+  }
 }
 
 export default Leaderboard

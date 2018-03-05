@@ -33,8 +33,6 @@ class SignupForm extends Component {
 			username: '',
 			password: '',
 			confirmPassword: '',
-			secretQuestion: '',
-			path: null,
 			errorMsg: [],
 			modalIsOpen: false,
 			loginError: false,
@@ -47,10 +45,9 @@ class SignupForm extends Component {
 
 	componentWillMount(){
 		axios.get('/api/').then(response => {
-			console.log(response.data)
 			if(response.data.isAuthenticated === true){
 				this.setState({
-					redirectTo: "/lobby"
+					loggedin: true,
       	});
 			};
 		});
@@ -65,20 +62,19 @@ class SignupForm extends Component {
 
 	/*Function to handle signup on submit*/
 	handleSubmit = (event) => {
-    	event.preventDefault()
-    	const config = {headers: {'Content-type': 'miltipart/form-data'}
-    	}
+    event.preventDefault()
+    const config = {headers: {'Content-type': 'miltipart/form-data'}}
     	let data = new FormData();
-    	//form data
-    	data.append('email', this.state.email);
+    //form data
+    data.append('email', this.state.email);
 		data.append('username', this.state.username);
 		data.append('password', this.state.password);
 		data.append('confirmPassword', this.state.confirmPassword);
 		data.append('profilePicture', this.state.profilePicture[0]);
 
-    	axios.post('/api/signup',data,config).then(response => {
+    axios.post('/api/signup',data,config).then(response => {
 
-	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
+		/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
 		if(response.data.errors){
 			for(var i=0;i<response.data.errors.length;i++){
 				errArray.push(response.data.errors[i].msg);
@@ -86,9 +82,9 @@ class SignupForm extends Component {
 			this.openModal();
 			errArray = [];
 		} else {
-				this.setState({
-				email: '', username: '', password: '', confirmPassword: '', secretQuestion: '', redirectTo: "/lobby"
-        });
+			this.setState({
+			email: '', username: '', password: '', confirmPassword: '',  loggedin: true
+			});
 		}
 
 		}).catch((error) => {
@@ -108,34 +104,19 @@ class SignupForm extends Component {
 				username: this.state.usernameSignIn,
 				password: this.state.passwordSignIn
 			}).then(response => {
-				console.log(response)
 				if(response.data.user === null){
 					this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
 					console.log(response.data.message);
 				} else {
-					console.log("logged in");
 					this.setState({
-				 		usernameSignIn: '', passwordSignIn: '', redirectTo: "/lobby"
+				 		usernameSignIn: '', passwordSignIn: '', loggedin: true
 					});
 				}
-
 			}).catch(error => {
 				console.log(error);
 			  });
-		}
+		};
 	};
-
-	/*Function to handle logout on submit*/
-	handlelogout = (event) => {
-		event.preventDefault();
-		axios.get('/api/logout').then(response => {
-			console.log(response)
-			this.setState({
-				usernameSignIn: '', passwordSignIn: '', loggedin: false, redirectTo: "/"
-      });
-
-		})
-	}
 
 	openModal = () => {
 		this.setState({modalIsOpen: true});
@@ -149,7 +130,7 @@ class SignupForm extends Component {
 	closeModal = () => {
 		this.setState({modalIsOpen: false});
 	}
-	
+
 	// onDrop Event for Picture Upload
 	onDrop = (acceptedFiles) => {
        this.setState({
@@ -161,8 +142,8 @@ class SignupForm extends Component {
 	/*Function to render HTML form*/
 	render() {
 
-		if (this.state.redirectTo) {
-			return <Redirect to={{ pathname: this.state.redirectTo }} />
+		if (this.state.loggedin === true) {
+			return <Redirect to={{ pathname: "/lobby" }} />
 		} else {
 			return (
 				<Container>
@@ -198,7 +179,7 @@ class SignupForm extends Component {
 													/>
 												</div>
 											</div>
-											
+
 
 											<div className="control-group">
 												<label className="control-label" htmlFor="inputPassword">Password</label>
@@ -215,16 +196,15 @@ class SignupForm extends Component {
 
 											<div className="control-group">
 												<div className="controls">
-													<a className="btn btn-link" href="#">Forgot my password</a>
 													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 												</div>
 											</div>
 											{this.state.loginError &&
-												<div className="alert alert-danger" role="alert"> 
+												<div className="alert alert-danger" role="alert">
 	  												{this.state.errorMessage}
 												</div>
 											}
-											
+
 										</form>
 									</iron-form>
 								</div>
@@ -290,37 +270,20 @@ class SignupForm extends Component {
 												</div>
 											</div>
 
-											<div className="control-group">
-												<label className="control-label" htmlFor="inputUser">Secret Question</label>
-
-												<label className="controls" htmlFor="inputUser">In Which City Your Father Was Born?</label>
-
-												<div className="controls">
-													<input id="secretQuestion"
-														placeholder= "E.g. Chicago"
-														type="text"
-														value={this.state.secretQuestion}
-														onChange={this.handleChange}
-														name="secretQuestion"
-													/>
-												</div>
-											</div>
-											
 											<Dropzone
-                                                onDrop={ this.onDrop }
-                                                accept="image/jpeg,image/jpg,image/png,image/gif"
-                                                multiple={ false }
-                                                className= "form-control">
-                                                   Upload Or Drag n Drop Profile Picture
-                                            </Dropzone>
+												onDrop={ this.onDrop }
+												accept="image/jpeg,image/jpg,image/png,image/gif"
+												multiple={ false }
+												className= "form-control">
+												Upload Or Drag n Drop Profile Picture
+											</Dropzone>
 
 											<div className="controls">
-												{this.state.profilePicture && 
-	                                                <img data-value={this.state.profilePicture.name} src={this.state.profilePicture[0].preview} className="img-thumbnail preview m-1" alt={this.state.profilePicture.name} key={this.state.profilePicture.name}/> 
-												
-												}
-                                            </div>
+												{this.state.profilePicture &&
+													<img data-value={this.state.profilePicture.name} src={this.state.profilePicture[0].preview} className="img-thumbnail preview m-1" alt={this.state.profilePicture.name} key={this.state.profilePicture.name}/>
 
+												}
+											</div>
 
 											<div className="control-group">
 												<div className="controls">
