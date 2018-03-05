@@ -14,22 +14,8 @@ class Newgame extends React.Component {
 
 		this.state = {
 			redirectTo : null
-			// loggedIn: null
 		}
 	};
-
-	// componentWillMount(){
-	// 	axios.get('/api/').then(response => {
-	// 		console.log(response.data)
-	// 		if(response.data.isAuthenticated === true){
-	// 			this.setState({
-	// 				loggedIn: true
-	// 			})
-	// 		} else {
-	// 			this.setState({redirectTo: "/", loggedIn: false})
-	// 		};
-	// 	});
-	// };
 
 	//Creates brand new game
 	createGameData = () => {
@@ -46,13 +32,13 @@ class Newgame extends React.Component {
 
 				//Leftboard data
 				user1_name: this.props.player,
-				user1_points: 1,
+				user1_points: this.props.score,
 				user1_coins: 3,
 				user1_buttons: leftButtons,
 
 				//Rightboard data
 				user2_name: "Goliath",
-				user2_points: 1,
+				user2_points: "player 2 points",
 				user2_coins: 3,
 				user2_buttons: rightButtons
 			}
@@ -78,7 +64,11 @@ class Newgame extends React.Component {
 					console.log(i);
 					if(data[i].game_status === "open"){
 						fire.update('Live_Games/' + data[i].key,{
-							data: {game_status: "closed", user2_name: this.props.player}
+							data: {
+								game_status: "closed",
+								user2_name: this.props.player,
+								user2_points: this.props.score
+							}
 						});
 						let gameRoute = '/gameboard/' + data[i].key;
 						this.setState({
@@ -100,19 +90,16 @@ class Newgame extends React.Component {
 	};
 
 	render(){
-		// if(this.state.loggedIn === true) {
-			if(this.state.redirectTo) {
-				return <Redirect to={{ pathname: this.state.redirectTo }} />
-			} else {
-				return (
-					<Button onClick ={this.startGame}>
-						Start A Round
-					</Button>
-				)
-			}
-		// } else {
-		// 	return <Redirect to={{ pathname: "/"}} />
-		// };
+
+		if(this.state.redirectTo) {
+			return <Redirect to={{ pathname: this.state.redirectTo }} />
+		} else {
+			return (
+				<Button onClick ={this.startGame}>
+					Start A Round
+				</Button>
+			)
+		}
 	};
 };
 

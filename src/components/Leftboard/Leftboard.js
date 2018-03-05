@@ -122,9 +122,9 @@ class Leftboard extends React.Component {
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-		let buttons = this.state.buttons;
 
 		//loop through all the buttons
+		let buttons = this.state.buttons;
 		for (let i=0; i<buttons.length; i++){
 
 			//if the button exists and is active
@@ -195,7 +195,7 @@ class Leftboard extends React.Component {
 				axios.post('/api/leftboard', {
 					username: this.props.player,
 					opponent: this.props.opponent,
-					points: points
+					points: points-this.state.user1_points
 				}).then(response => {
 					console.log(response)
 				}).catch(error => {

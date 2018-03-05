@@ -66,7 +66,6 @@ class SignupForm extends Component {
     const config = {headers: {'Content-type': 'miltipart/form-data'}}
     	let data = new FormData();
     //form data
-    data.append('email', this.state.email);
 		data.append('username', this.state.username);
 		data.append('password', this.state.password);
 		data.append('confirmPassword', this.state.confirmPassword);
@@ -216,19 +215,6 @@ class SignupForm extends Component {
 										<form className="form-horizontal" id="c">
 											<div className="heading">
 												<h4 className="form-heading">Sign Up</h4>
-											</div>
-
-											<div className="control-group">
-												<label className="control-label"htmlFor="inputEmail">Email</label>
-												<div className="controls">
-													<input id="email"
-														placeholder="E.g. johnsmith@gmail.com"
-														type="text"
-														value={this.state.email}
-														onChange={this.handleChange}
-														name="email"
-													/>
-												</div>
 											</div>
 
 											<div className="control-group">
