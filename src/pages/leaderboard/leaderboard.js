@@ -30,6 +30,7 @@ class Leaderboard extends Component {
     if(this.state.isMounting){
       return(
         <Container fluid>
+        <Jumbotron>
           <h1 className="header">Leaderboard</h1>
           <div>
             <ReactTable
@@ -63,7 +64,7 @@ class Leaderboard extends Component {
                     },
                     {
                       Header: "Total Score",
-                      accessor: "totalScore"
+                      accessor: "totalscore"
                     }
                   ]
                 }
@@ -74,6 +75,7 @@ class Leaderboard extends Component {
             <br />
 
           </div>
+        </Jumbotron>
         </Container>
       )
     } else {

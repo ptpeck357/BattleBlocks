@@ -96,7 +96,9 @@ class Newgame extends React.Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
-				<Button onClick ={this.startGame}>
+				<Button 
+					className="btn btn-success"
+					onClick ={this.startGame}>
 					Start A Round
 				</Button>
 			)

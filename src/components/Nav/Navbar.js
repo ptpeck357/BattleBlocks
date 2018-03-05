@@ -16,6 +16,7 @@ class Navbar extends Component {
 					<h4 id="title"> {this.props.headline} </h4>
 					<Link to={this.props.href}>
 						<button 
+							className="btn"
 							onClick={this.props.navClick} 
 							type="button"
 							>

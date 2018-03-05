@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { Container, Row, Col, Button, Jumbotron } from "reactstrap";
 import { Redirect } from 'react-router-dom';
-import "./signup.css";
-import logo3 from './assets/images/Picture3.png';
+import logo3 from './assets/images/picture4.png';
 // import ReactDOM from 'react-dom';
-import Modal from 'react-modal';
 import Dropzone from 'react-dropzone'
-import { Container, Row, Col, Button, } from "reactstrap";
+import Modal from 'react-modal';
+import axios from 'axios';
+import "./signup.css";
 import Center from 'react-center';
 
 var errArray = [];
@@ -146,16 +146,10 @@ class SignupForm extends Component {
 		} else {
 			return (
 				<Container>
+				<Jumbotron>
 				  <img src={logo3} alt="Battle Blocks"/>
 
-					{/* <Row>
-						<Col></Col>
-						<Col></Col>
-          	<Col><Center><Button color="success" size="lg">Return Users</Button></Center></Col>
-          	<Col><Center><Button color="success" size="lg">New Users</Button></Center></Col>
-						<Col></Col>
-						<Col></Col>
-        	</Row> */}
+				  	<br/>
 
 					 <div className="row-fluid">
 						<div className="span12">
@@ -300,7 +294,7 @@ class SignupForm extends Component {
           })}
         </ul>
         </Modal>
-
+        		</Jumbotron>
 				</Container>
 
 			)
