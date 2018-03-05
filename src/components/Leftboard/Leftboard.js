@@ -93,8 +93,7 @@ class Leftboard extends React.Component {
 
 	//Checks for legal move
 	buttonClick = (id) => { 
-		console.log("The side Mongo_owner is: "+this.state.Mongo_owner)
-		console.log("The user 1 is: "+this.state.Game_owner)
+
 		//Test for side 
 		if (this.state.Mongo_owner !== this.state.Game_owner) {
 
@@ -123,7 +122,6 @@ class Leftboard extends React.Component {
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
@@ -136,7 +134,6 @@ class Leftboard extends React.Component {
 
 				this.setState({
 					buttons: buttons
-
 				})
 			}
 		}
