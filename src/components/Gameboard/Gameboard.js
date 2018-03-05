@@ -148,6 +148,22 @@ class Gameboard extends React.Component {
       boardleader: leader+" has the most blocks!"})
   }
 
+  endFirebase = () => {
+    console.log("gameboard.endFirebase =>")
+
+    fire.remove("Live_Games/"+this.state.gameID, function(err) {
+      if(err) {
+        console.log("Error deleting firebase end-point")
+      }
+    })
+  }
+
+
+  componentWillUnmount() {
+    this.endFirebase();
+  }
+
+
   endGame = winner => {
     console.log("Winner function triggered")
     let name = winner;
