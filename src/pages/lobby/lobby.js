@@ -14,39 +14,45 @@ class Lobby extends React.Component{
 		super(props)
 		this.state = {
 			owner: null,
-			loggedIn: false
+			score: null,
+			loggedIn: true
 		}
 	};
 
-	// componentWillMount(){
-	// 	axios.get('/api/').then(response => {
-	// 		console.log(response.data)
-	// 		if(response.data.isAuthenticated === true){
-	// 			this.setState({
-	// 				loggedIn: true
-	// 			});
-	// 		} else {
-	// 			this.setState({
-	// 				loggedIn: false
-	// 			});
-	// 		}
-	// 	});
-	// };
+	/*Function to handle logout on submit*/
+	logout = (event) => {
+		event.preventDefault()
+		axios.get('/api/logout').then(response => {
+			if(response.data.isAuthenticated === false){
+				this.setState({
+					loggedin: false
+      			});
+			};
+		});
+	};
 
 	//Sets up the game owner
 	componentDidMount(){
 		axios.get("/api/lobby").then(response => {
 			this.setState({
-				owner: response.data.username
+				owner: response.data.username,
+				score: response.data.totalscore
 			})
 		});
 	};
 
 	render() {
-		console.log(this.state.owner)
+		if (this.state.loggedin === false) {
+			return <Redirect to={{ pathname: "/" }} />
+		} else {
 			return (
 				<Container fluid>
-				    <Navbar headline = {headline}/>
+				    <Navbar 
+				    	headline = {headline}
+				        navClick = {this.logout}
+				        navAction = {"Logout"}
+				        href = {""}
+				    />
 				    <Jumbotron>
 				    <div>In each round you will play against one opponent for <strong>BlockCoins and Points</strong></div>
 				    <div>Points last forever, BlockCoins do not</div>
@@ -66,10 +72,11 @@ class Lobby extends React.Component{
 				    </Jumbotron>
 				    <Newgame
 				    	player={this.state.owner}
+				    	score={this.state.score}
 						/>
 				</Container>
 			)
-
+		}
 	}
 }
 

@@ -4,6 +4,7 @@ import Rightboard from "../../components/Rightboard";
 import { Container, Row, Col } from "reactstrap";
 import Navbar from "../../components/Nav/index";
 import fire from "../../fire.js";
+import axios from 'axios';
 
 class Gameboard extends React.Component {
 
@@ -173,7 +174,11 @@ class Gameboard extends React.Component {
   render() {
     return (
       <Container fluid>
-      <Navbar headline = {this.state.headline}/>
+      <Navbar 
+        headline = {this.state.headline}
+        href = {"/lobby"}
+        navAction = {"Lobby"}
+      />
         <Row>
           <h2>{this.state.boardleader}</h2>
         </Row>
