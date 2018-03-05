@@ -18,20 +18,18 @@ class Lobby extends React.Component{
 		}
 	};
 
-	// componentWillMount(){
-	// 	axios.get('/api/').then(response => {
-	// 		console.log(response.data)
-	// 		if(response.data.isAuthenticated === true){
-	// 			this.setState({
-	// 				loggedIn: true
-	// 			});
-	// 		} else {
-	// 			this.setState({
-	// 				loggedIn: false
-	// 			});
-	// 		}
-	// 	});
-	// };
+	componentWillMount(){
+		axios.get('/api/authenticate').then(response => {
+			console.log(response.data)
+			if(response.data.isAuthenticated === true){
+				this.setState({
+					loggedIn: true
+				});
+			// } else {
+			// 	return <Redirect to={{ pathname: "/" }} />
+			}
+		});
+	};
 
 	//Sets up the game owner
 	componentDidMount(){
@@ -44,6 +42,7 @@ class Lobby extends React.Component{
 
 	render() {
 		console.log(this.state.owner)
+
 			return (
 				<Container fluid>
 				    <Navbar headline = {headline}/>

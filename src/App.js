@@ -6,38 +6,69 @@ import Gamepage from "./pages/gamepage";
 import Leaderboard from "./pages/leaderboard";
 import Nomatch from "./pages/nomatch";
 
-// const fakeAuth = {
-//   isAuthenticated: false,
-//   authenticate(cb) {
-//     this.isAuthenticated = true
-//     setTimeout(cb, 100)
-//   },
-//   signout(cb) {
-//     this.isAuthenticated = false
-//     setTimeout(cb, 100)
-//   }
-// }
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true
+    setTimeout(cb, 100)
+  },
+  signout(cb) {
+    this.isAuthenticated = false
+    setTimeout(cb, 100)
+  }
+}
 
-// const PrivateRoute = ({ component: Component, ...rest }) => (
-//   <Route {...rest} render={(props) => (
-//     fakeAuth.isAuthenticated === true
-//       ? <Component {...props} />
-//       : <Redirect to='/' />
-//   )} />
-// )
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    fakeAuth.isAuthenticated === true
+      ? <Component {...props} />
+      : <Redirect to='/' />
+  )} />
+)
 
-const App = () =>
+class Login extends React.Component {
+  state = {
+    redirectToReferrer: false
+  }
+  login = () => {
+    fakeAuth.authenticate(() => {
+      this.setState(() => ({
+        redirectToReferrer: true
+      }))
+    })
+  }
+  render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirectToReferrer } = this.state
 
-  <Router>
-    <div>
-      <Switch>
-        <Route exact path="/" component={Registration} />
-        <Route exact path="/lobby" component={Lobby} />
-        <Route exact path="/gameboard/:id" component={Gamepage} />
-        <Route exact path="/leaderboard" component={Leaderboard} />
-        <Route component={Nomatch} />
-      </Switch>
-    </div>
-  </Router>;
+    if (redirectToReferrer === true) {
+      <Redirect to={from} />
+    }
+
+    return (
+      <div>
+        <p>You must log in to view the page</p>
+        <button onClick={this.login}>Log in</button>
+      </div>
+    )
+  }
+}
+
+const App = () => {
+
+  return(
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/" component={Registration} />
+          <Route exact path="/lobby" component={Lobby} />
+          <Route exact path="/gameboard/:id" component={Gamepage} />
+          <Route exact path="/leaderboard" component={Leaderboard} />
+          <Route component={Nomatch} />
+        </Switch>
+      </div>
+    </Router>
+  )
+}
 
 export default App;

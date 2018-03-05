@@ -18,6 +18,16 @@ router.get("/", (req, res) => {
 	}
 });
 
+router.get("/authenticate", (req, res) => {
+	if(req.user){
+		res.json({isAuthenticated: true});
+	} else {
+		res.json(
+			{isAuthenticated: false}
+		);
+	}
+});
+
 /*Route to add new users in MongoDB*/
 router.post('/signup', uploadPicture.any(), (req, res) => {
 
