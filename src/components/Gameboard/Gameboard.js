@@ -78,10 +78,18 @@ class Gameboard extends React.Component {
       context: this,
       state: 'rightButtons'
     })
-      fire.syncState("Live_Games/"+gameID+'/user2_name', {
+    
+    //Synchronize firebase with player 2
+    fire.syncState("Live_Games/"+gameID+'/user2_name', {
       context: this,
       state: 'opponent'
     }) 
+    
+    //Synchronize firebase with player 1
+    fire.syncState("Live_Games/"+gameID+'/user1_name', {
+      context: this,
+      state: 'player'
+    })
   }
 
 // ----------------------- ------------- -----------------------//

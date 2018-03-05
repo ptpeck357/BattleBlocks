@@ -13,7 +13,8 @@ class Leftboard extends React.Component {
 
 		//Initiate the state variables
 		this.state = {
-			owner: null,
+			Mongo_owner: null,
+			Game_owner: null,
 			gameID : null,
 			buttons : null,
 			user1_name: null,
@@ -42,19 +43,19 @@ class Leftboard extends React.Component {
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
-//OWNER
-		// //Synchronize firebase with state 'leftButtons'
-		// fire.syncState("Live_Games/"+gameID+'/owner', {
-		// 	context: this,
-		// 	state: 'owner'
-		// })	
+//GAME_OWNER
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/owner', {
+			context: this,
+			state: 'Game_owner'
+		})
 
 //USER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_name', {
 			context: this,
 			state: 'user1_name'
-		})		
+		})
 
 //BUTTONS
 		//Synchronize firebase with state 'leftButtons'
@@ -91,11 +92,10 @@ class Leftboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 
 	//Checks for legal move
-	buttonClick = (id) => { 
-		console.log("The side owner is: "+this.state.owner)
-		console.log("The user 1 is: "+this.state.user1_name)
-		//Test for side 
-		if (this.state.owner !== this.state.user1_name) {
+	buttonClick = (id) => {
+
+		//Test for side
+		if (this.state.Mongo_owner !== this.state.Game_owner) {
 
 			console.log("illegal move - alto!")
 		}
@@ -122,7 +122,6 @@ class Leftboard extends React.Component {
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
-
 		let buttons = this.state.buttons;
 
 		//loop through all the buttons
@@ -135,7 +134,6 @@ class Leftboard extends React.Component {
 
 				this.setState({
 					buttons: buttons
-
 				})
 			}
 		}
@@ -220,7 +218,7 @@ class Leftboard extends React.Component {
 		axios.get("/api/lobby").then(response => {
 			console.log(response)
 			this.setState({
-				owner: response.data.username
+				Mongo_owner: response.data.username
 			})
 		});
 	}
