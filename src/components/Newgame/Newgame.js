@@ -63,6 +63,7 @@ class Newgame extends React.Component {
 				for (let i = 0; i < data.length; i++){
 					console.log(i);
 					if(data[i].game_status === "open"){
+						console.log(this.props.player)
 						fire.update('Live_Games/' + data[i].key,{
 							data: {
 								game_status: "closed",
