@@ -79,7 +79,7 @@ Continual Play
 
 + [Live]()
 
-## Built With
+### Built With
 + Mongo
 + Express JS
 + React JS
@@ -89,10 +89,10 @@ Continual Play
 + Firebase
 + Passport JS
 
-## Resources
+### Resources
 +
 
-## Node Package Dependencies Reference
+### Node Package Dependencies Reference
 + [axios](https://www.npmjs.com/package/axios)
 + [bcryptjs](https://www.npmjs.com/package/bcryptjs)
 + [body-parser](https://www.npmjs.com/package/body-parser)
@@ -120,12 +120,12 @@ Continual Play
 + [reactstrap](https://www.npmjs.com/package/reactstrap)
 + [router](https://www.npmjs.com/package/router)
 
-## Contributors
+### Contributors
 + [Brett Barnes](https://github.com/bigbert836)
 + [Israel Peck](https://github.com/therealizzi)
 + [Peter Peck](https://github.com/ptpeck357)
 + [Vinnie Sharma](https://github.com/vasmarm)
 
-## License
+### License
 + Open Source
 
