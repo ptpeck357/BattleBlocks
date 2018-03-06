@@ -1,9 +1,9 @@
-// Loading evnironmental variables here
-if (process.env.NODE_ENV !== 'production') {
-	console.log('loading dev environments')
-	require('dotenv').config()
-}
-require('dotenv').config()
+// // Loading evnironmental variables here
+// if (process.env.NODE_ENV !== 'production') {
+// 	console.log('loading dev environments')
+// 	require('dotenv').config()
+// }
+// require('dotenv').config()
 
 const bodyParser = require("body-parser");
 const expressValidator = require('express-validator');
@@ -16,7 +16,7 @@ const routes = require("./routes/index.js");
 const express = require("express");
 const path = require("path");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/battleblocks";
 mongoose.Promise = Promise;
 
