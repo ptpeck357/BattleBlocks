@@ -2,9 +2,7 @@ const router = require("express").Router();
 const passport = require('../../passport');
 const User = require('../../models/users.js');
 var multer  = require('multer');
-const uploadPicture = multer({
-	dest: 'public/profilePicture'
-});
+const uploadPicture = multer({ dest: 'public/profilepicture' });
 const fs = require("fs");
 
 /*Route to see ff the user is arleady signed in, go to lobby*/

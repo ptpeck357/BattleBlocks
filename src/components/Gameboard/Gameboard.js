@@ -16,11 +16,11 @@ class Gameboard extends React.Component {
       gameID : "",
 
       //Game state settings
-      player: "David", // from user login!
-      opponent: "Goliath", // from user login!
+      player: null, // from user login!
+      opponent: "waiting for player", // from user login!
 
       headline: "Game is live",
-      high_side: "David",
+      high_side: null,
       boardleader: "Waiting for player 2...",
       leader: 0,
 
@@ -79,13 +79,13 @@ class Gameboard extends React.Component {
       context: this,
       state: 'rightButtons'
     })
-    
+
     //Synchronize firebase with player 2
     fire.syncState("Live_Games/"+gameID+'/user2_name', {
       context: this,
       state: 'opponent'
-    }) 
-    
+    })
+
     //Synchronize firebase with player 1
     fire.syncState("Live_Games/"+gameID+'/user1_name', {
       context: this,
@@ -190,7 +190,7 @@ class Gameboard extends React.Component {
   render() {
     return (
       <Container fluid>
-      <Navbar 
+      <Navbar
         headline = {this.state.headline}
         href = {"/lobby"}
         navAction = {"Lobby"}

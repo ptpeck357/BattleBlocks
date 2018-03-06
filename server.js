@@ -1,3 +1,10 @@
+// Loading evnironmental variables here
+if (process.env.NODE_ENV !== 'production') {
+	console.log('loading dev environments')
+	require('dotenv').config()
+}
+require('dotenv').config()
+
 const bodyParser = require("body-parser");
 const expressValidator = require('express-validator');
 const session = require('express-session');
@@ -7,12 +14,12 @@ const dbConnection = require('./models/users.js') // loads our connection to the
 const passport = require("./passport/index.js");
 const routes = require("./routes/index.js");
 const express = require("express");
+const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 8080;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/battleblocks";
 mongoose.Promise = Promise;
 
-app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -34,21 +41,31 @@ app.use(passport.session()); // will call the deserializeUser
 
 /* Express Validator */
 app.use(expressValidator({
-    errorFormatter: (param, msg, value) => {
-        const namespace = param.split('.')
-        , root    = namespace.shift()
-        , formParam = root;
+	errorFormatter: (param, msg, value) => {
+		const namespace = param.split('.')
+		, root    = namespace.shift()
+		, formParam = root;
 
-        while(namespace.length) {
-            formParam += '[' + namespace.shift() + ']';
-        }
-        return {
-            param : formParam,
-            msg   : msg,
-            value : value
-        };
-    }
+		while(namespace.length) {
+				formParam += '[' + namespace.shift() + ']';
+		}
+		return {
+				param : formParam,
+				msg   : msg,
+				value : value
+		};
+	}
 }));
+
+// ==== if its production environment!
+if (process.env.NODE_ENV === 'production') {
+	const path = require('path')
+	console.log('YOU ARE IN THE PRODUCTION ENV')
+	app.use('/static', express.static(path.join(__dirname, '../build/static')))
+	app.get('/', (req, res) => {
+		res.sendFile(path.join(__dirname, '../build/'))
+	})
+}
 
 app.use(routes);
 
