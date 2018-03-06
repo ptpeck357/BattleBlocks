@@ -56,6 +56,14 @@ class SignupForm extends Component {
 		});
 	};
 
+
+	/*Function for Forgot Password*/
+
+	forgotPassword = (event) => {
+		event.preventDefault();
+		this.openModal();
+	}
+
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
 		this.setState({
@@ -69,31 +77,35 @@ class SignupForm extends Component {
     	const config = {headers: {'Content-type': 'miltipart/form-data'}
     	}
     	let data = new FormData();
-    	//form data
-    	data.append('email', this.state.email);
-		data.append('username', this.state.username);
-		data.append('password', this.state.password);
-		data.append('confirmPassword', this.state.confirmPassword);
-		data.append('profilePicture', this.state.profilePicture[0]);
 
-    	axios.post('/api/signup',data,config).then(response => {
+    		//form data
+	    	data.append('email', this.state.email);
+			data.append('username', this.state.username);
+			data.append('password', this.state.password);
+			data.append('confirmPassword', this.state.confirmPassword);
 
-	/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
-		if(response.data.errors){
-			for(var i=0;i<response.data.errors.length;i++){
-				errArray.push(response.data.errors[i].msg);
+			if(this.state.profilePicture[0] != ""){
+				data.append('profilePicture', this.state.profilePicture[0]);
 			}
-			this.openModal();
-			errArray = [];
-		} else {
-				this.setState({
-				email: '', username: '', password: '', confirmPassword: '', secretQuestion: '', redirectTo: "/lobby"
-        });
-		}
+			console.log(this.state.profilePicture[0]);
+	    	axios.post('/api/signup',data,config).then(response => {
 
-		}).catch((error) => {
-			console.log(error);
-		});
+		/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
+			if(response.data.errors){
+				for(var i=0;i<response.data.errors.length;i++){
+					errArray.push(response.data.errors[i].msg);
+				}
+				this.openModal();
+				errArray = [];
+			} else {
+					this.setState({
+					email: '', username: '', password: '', confirmPassword: '', profilePicture: '',//, redirectTo: "/lobby"
+	        });
+			}
+
+			}).catch((error) => {
+				console.log(error);
+			});
 	};
 
 	/*Function to handle login on submit*/
@@ -290,21 +302,6 @@ class SignupForm extends Component {
 												</div>
 											</div>
 
-											<div className="control-group">
-												<label className="control-label" htmlFor="inputUser">Secret Question</label>
-
-												<label className="controls" htmlFor="inputUser">In Which City Your Father Was Born?</label>
-
-												<div className="controls">
-													<input id="secretQuestion"
-														placeholder= "E.g. Chicago"
-														type="text"
-														value={this.state.secretQuestion}
-														onChange={this.handleChange}
-														name="secretQuestion"
-													/>
-												</div>
-											</div>
 											
 											<Dropzone
                                                 onDrop={ this.onDrop }
@@ -321,6 +318,7 @@ class SignupForm extends Component {
 												}
                                             </div>
 
+                                            <br/>
 
 											<div className="control-group">
 												<div className="controls">

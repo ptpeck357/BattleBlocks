@@ -3,7 +3,7 @@ const passport = require('../../passport');
 const User = require('../../models/users.js');
 var multer  = require('multer');
 const uploadPicture = multer({
-	dest: '../../public/profilePicture'
+	dest: 'public/profilePicture'
 });
 const fs = require("fs");
 
@@ -28,12 +28,12 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 	const password = req.body.password;
 	const confirmPassword = req.body.confirmPassword;
 
-
+	console.log(req.files);
 	/* Requesting Files for profile picture*/
 
-	if(req.files){
+	if(req.files.length>0){
 		console.log(req.files[0]);
-		console.log(req.files);
+		
 		switch (req.files[0].mimetype) {
                case 'image/jpeg':
                    fileExtension = '.jpeg';
@@ -47,11 +47,12 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
                case 'image/gif':
                    fileExtension = '.gif';
                    break;
+
            }
            fs.renameSync(req.files[0].path, req.files[0].destination + "/" + req.files[0].filename + fileExtension, function (err) {
                if (err) throw err;
            });
-	}
+	} 
 
 
 	/*Checking forms for validity*/
@@ -87,7 +88,9 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 				newUser.losses = 0;
 				newUser.totalScore = 0;
 				newUser.totalGame = 0;
-				newUser.profilePicture = req.files[0].filename + fileExtension;
+				if(req.files.length>0){
+					newUser.profilePicture = req.files[0].filename + fileExtension;
+				} 
 
 				/*Save new user*/
 				newUser.save().then((dbUser) => {
@@ -195,10 +198,10 @@ router.get('/leaderboard', function(req, res, next) {
       		resultsObj.profilePicture = dbUsers[i].profilePicture;
 
       		result.push(resultsObj);
-      		console.log(result);
+      		//console.log(result);
 		}
 	res.json(result);
-	console.log(result);
+	//console.log(result);
 
   })
 	
