@@ -3,7 +3,7 @@ import {  Jumbotron, Button, Container } from "reactstrap"
 import axios from 'axios'
 //import styles from "./leaderboard.css"
 import ReactTable from 'react-table'
-import { render } from "react-dom";
+// import { render } from "react-dom";
 import "react-table/react-table.css";
 
 
@@ -41,7 +41,7 @@ class Leaderboard extends Component {
                       Header: "Picture",
                       Cell: (row) => {
                         console.log(row);
-                      return <div><img className="imgSize" style={{ height: "150px"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
+                      return <div><img alt="Not available" className="imgSize" style={{ height: "150px"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
                       }
                     },
                     {
@@ -63,7 +63,7 @@ class Leaderboard extends Component {
                     },
                     {
                       Header: "Total Score",
-                      accessor: "totalScore"
+                      accessor: "totalscore"
                     }
                   ]
                 }

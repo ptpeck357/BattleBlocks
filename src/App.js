@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Registration from "./pages/registration";
 import Lobby from "./pages/lobby";
 import Gamepage from "./pages/gamepage";
@@ -18,7 +18,6 @@ class App extends Component {
 
   componentWillMount(){
 		axios.get('/api/').then(response => {
-      console.log(response)
 			if(response.data.isAuthenticated === true){
 				this.setState({
 					loggedin: true
@@ -33,7 +32,7 @@ class App extends Component {
 
   render(){
 
-      if(this.state.loggedin === true) {
+    if(this.state.loggedin === true) {
       return(
         <Router>
           <div>

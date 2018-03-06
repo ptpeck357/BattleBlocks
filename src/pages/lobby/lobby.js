@@ -33,7 +33,6 @@ class Lobby extends React.Component{
 
 	componentWillMount(){
 		axios.get('/api/').then(response => {
-      console.log(response)
 			if(response.data.isAuthenticated === true){
 				this.setState({
 					loggedin: true
@@ -49,7 +48,6 @@ class Lobby extends React.Component{
 	//Sets up the game owner
 	componentDidMount(){
 		axios.get("/api/lobby").then(response => {
-			console.log(response)
 			this.setState({
 				owner: response.data.username,
 				score: response.data.totalscore
