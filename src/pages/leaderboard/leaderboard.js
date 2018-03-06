@@ -18,6 +18,8 @@ class Leaderboard extends Component {
   // making axios call and getting response from api.js
   // response comes from the database, then setting up the state
     componentDidMount() {
+      console.log(this.state.userData)
+
       axios.get('/api/leaderboard').then(
         response => { this.setState({ userData: response, isMounting:true })
           console.log(this.state.userData);
@@ -63,6 +65,10 @@ class Leaderboard extends Component {
                     {
                       Header: "Losses",
                       accessor: "losses"
+                    },
+                    {
+                      Header: "Total Games",
+                      accessor: "totalgames"
                     },
                     {
                       Header: "Total Score",

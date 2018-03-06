@@ -32,7 +32,6 @@ router.get("/authenticate", (req, res) => {
 router.post('/signup', uploadPicture.any(), (req, res) => {
 
 	/*Getting user's inputs from form*/
-	const email = req.body.email;
 	const username = req.body.username;
 	const password = req.body.password;
 	const confirmPassword = req.body.confirmPassword;
@@ -199,10 +198,10 @@ router.get('/leaderboard', function(req, res, next) {
 			resultsObj.username = dbUsers[i].username;
 			resultsObj.wins = dbUsers[i].wins;
 			resultsObj.losses = dbUsers[i].losses;
+			resultsObj.totalgames = dbUsers[i].totalgames;
 			resultsObj.totalscore = dbUsers[i].totalscore;
 			resultsObj.profilePicture = dbUsers[i].profilePicture;
 			result.push(resultsObj);
-      		//console.log(result);
 		}
 
 	res.json(result);
