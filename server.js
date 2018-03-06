@@ -1,6 +1,5 @@
 // // Loading evnironmental variables here
 if (process.env.NODE_ENV !== 'production') {
-	console.log('loading dev environments')
 	require('dotenv').config()
 }
 require('dotenv').config()
@@ -59,9 +58,7 @@ app.use(expressValidator({
 
 // ==== if its production environment!
 if (process.env.NODE_ENV === 'production') {
-	const path = require('path')
-	console.log('YOU ARE IN THE PRODUCTION ENV')
-	app.use('/static', express.static(path.join(__dirname, '../build/static')))
+	app.use('/', express.static(path.join(__dirname, '../build/static')))
 	app.get('/', (req, res) => {
 		res.sendFile(path.join(__dirname, '../build/'))
 	})
