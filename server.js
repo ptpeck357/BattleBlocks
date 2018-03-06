@@ -9,6 +9,7 @@ const routes = require("./routes/index.js");
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8080;
+const path = require("path");
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/battleblocks";
 mongoose.Promise = Promise;
 
@@ -50,7 +51,17 @@ app.use(expressValidator({
     }
 }));
 
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, 'build')))
+}
+
 app.use(routes);
+
+app.use("/", (req, res) => {
+    if (process.env.NODE_ENV === "production") {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'))
+    }
+})
 
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, (err, db) => {

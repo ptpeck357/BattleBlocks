@@ -4,10 +4,11 @@
   "description": "Battle blocks project 3",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"node server.js\"",
+    "start": "concurrently \"react-scripts build\" \"node server.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "concurrently \"react-scripts start\" \"node server.js\""
   },
   "proxy": "http://localhost:8080",
   "repository": {
