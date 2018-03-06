@@ -4,7 +4,7 @@
   "description": "Battle blocks project 3",
   "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"node server.js\" \"yarn start\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
