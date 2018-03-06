@@ -29,7 +29,6 @@ class SignupForm extends Component {
 		this.state = {
 			usernameSignIn: '',
 			passwordSignIn: '',
-			email: '',
 			username: '',
 			password: '',
 			confirmPassword: '',
@@ -82,7 +81,7 @@ class SignupForm extends Component {
 			errArray = [];
 		} else {
 			this.setState({
-			email: '', username: '', password: '', confirmPassword: '',  loggedin: true
+			username: '', password: '', confirmPassword: '',  loggedin: true
 			});
 		}
 
@@ -93,29 +92,35 @@ class SignupForm extends Component {
 
 	/*Function to handle login on submit*/
   	handleSignin = (event) => {
-		event.preventDefault();
-		if(this.state.usernameSignIn === ""){
-			this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
-		} else if (this.state.passwordSignIn === ""){
-			this.setState({loginError: true, errorMessage: "Please Enter The Password."});
-		} else {
-			axios.post('/api/login', {
-				username: this.state.usernameSignIn,
-				password: this.state.passwordSignIn
-			}).then(response => {
-				if(response.data.user === null){
-					this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
-					console.log(response.data.message);
-				} else {
-					this.setState({
-				 		usernameSignIn: '', passwordSignIn: '', loggedin: true
+			console.log("button wors")
+			event.preventDefault();
+			if(this.state.usernameSignIn === ""){
+				this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
+			} else if (this.state.passwordSignIn === ""){
+				this.setState({loginError: true, errorMessage: "Please Enter The Password."});
+			} else {
+				axios.post('/api/login', {
+					username: this.state.usernameSignIn,
+					password: this.state.passwordSignIn
+				}).then(response => {
+					if(response.data.user === null){
+						this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
+						console.log(response.data.message);
+					} else {
+						this.setState({
+							usernameSignIn: '', passwordSignIn: '', loggedin: true
+						});
+					}
+				}).catch(error => {
+					console.log(error);
 					});
-				}
-			}).catch(error => {
-				console.log(error);
-			  });
+			};
 		};
-	};
+
+	// onClick = (event) => {
+	// 	this.handleSignin(event);
+	// 	// this.props.login();
+	// }
 
 	openModal = () => {
 		this.setState({modalIsOpen: true});
@@ -132,10 +137,10 @@ class SignupForm extends Component {
 
 	// onDrop Event for Picture Upload
 	onDrop = (acceptedFiles) => {
-       this.setState({
-           profilePicture: acceptedFiles
-       });
-       console.log(this.state.profilePicture);
+		this.setState({
+				profilePicture: acceptedFiles
+		});
+   console.log(this.state.profilePicture);
    }
 
 	/*Function to render HTML form*/

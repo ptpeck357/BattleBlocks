@@ -26,8 +26,23 @@ class Lobby extends React.Component{
 			if(response.data.isAuthenticated === false){
 				this.setState({
 					loggedin: false
-      			});
+      	});
 			};
+		});
+	};
+
+	componentWillMount(){
+		axios.get('/api/').then(response => {
+      console.log(response)
+			if(response.data.isAuthenticated === true){
+				this.setState({
+					loggedin: true
+      	})
+			} else {
+        this.setState({
+					loggedin: false
+      	});
+      };
 		});
 	};
 
