@@ -52,6 +52,14 @@ class SignupForm extends Component {
 		});
 	};
 
+
+	/*Function for Forgot Password*/
+
+	forgotPassword = (event) => {
+		event.preventDefault();
+		this.openModal();
+	}
+
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
 		this.setState({
@@ -68,8 +76,9 @@ class SignupForm extends Component {
 		data.append('username', this.state.username);
 		data.append('password', this.state.password);
 		data.append('confirmPassword', this.state.confirmPassword);
-		data.append('profilePicture', this.state.profilePicture[0]);
-
+		if(this.state.profilePicture[0] != ""){
+			data.append('profilePicture', this.state.profilePicture[0]);
+		}
     axios.post('/api/signup',data,config).then(response => {
 
 		/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
@@ -85,9 +94,22 @@ class SignupForm extends Component {
 			});
 		}
 
-		}).catch((error) => {
-			console.log(error);
-		});
+		/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
+			if(response.data.errors){
+				for(var i=0;i<response.data.errors.length;i++){
+					errArray.push(response.data.errors[i].msg);
+				}
+				this.openModal();
+				errArray = [];
+			} else {
+					this.setState({
+					email: '', username: '', password: '', confirmPassword: '', profilePicture: '',//, redirectTo: "/lobby"
+	        });
+			}
+
+			}).catch((error) => {
+				console.log(error);
+			});
 	};
 
 	/*Function to handle login on submit*/
@@ -116,11 +138,6 @@ class SignupForm extends Component {
 					});
 			};
 		};
-
-	// onClick = (event) => {
-	// 	this.handleSignin(event);
-	// 	// this.props.login();
-	// }
 
 	openModal = () => {
 		this.setState({modalIsOpen: true});
@@ -275,7 +292,7 @@ class SignupForm extends Component {
 
 												}
 											</div>
-
+                    	<br/>
 											<div className="control-group">
 												<div className="controls">
 													<button id="makenew" className="btn btn-success" onClick={this.handleSubmit} type="submit" >Sign up</button>

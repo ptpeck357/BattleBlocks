@@ -5,6 +5,7 @@ import axios from 'axios'
 import ReactTable from 'react-table'
 // import { render } from "react-dom";
 import "react-table/react-table.css";
+import Moment from 'react-moment';
 
 
 // leaderboard class with the userData and isMounting variable to render the data
@@ -40,13 +41,14 @@ class Leaderboard extends Component {
                     {
                       Header: "Picture",
                       Cell: (row) => {
-                        console.log(row);
-                      return <div><img alt="Not available" className="imgSize" style={{ height: "150px"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
+                      return <div><img alt="Not available" className="imgSize" style={{ height: "250px", width: "250px"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
                       }
                     },
                     {
-                      Header: "Join Date",
-                      accessor: "joindate"
+                      Header: "Member Since",
+                      Cell: (row) => {
+                      return <Moment fromNow ago>{this.state.userData.data[row.index].joindate}</Moment>
+                      }
                     },
                     {
                       Header: "User Name",
@@ -66,6 +68,12 @@ class Leaderboard extends Component {
                       accessor: "totalscore"
                     }
                   ]
+                }
+              ]}
+              defaultSorted={[
+                {
+                  id: "totalscore",
+                  desc: true
                 }
               ]}
               defaultPageSize={10}

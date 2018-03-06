@@ -26,11 +26,11 @@ var userSchema = new Schema({
     type: Number
   },
 
-  totalscore: {
+  totalScore: {
     type: Number
   },
 
-  totalgames: {
+  totalGames: {
     type: Number
   },
 
@@ -40,7 +40,8 @@ var userSchema = new Schema({
   },
 
   profilePicture: {
-    type: String
+    type: String,
+    default: "defaultPicture.png"
   }
 
 });

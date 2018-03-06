@@ -3,7 +3,7 @@ const passport = require('../../passport');
 const User = require('../../models/users.js');
 var multer  = require('multer');
 const uploadPicture = multer({
-	dest: '../../public/profilePicture'
+	dest: 'public/profilePicture'
 });
 const fs = require("fs");
 
@@ -37,10 +37,12 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 	const password = req.body.password;
 	const confirmPassword = req.body.confirmPassword;
 
+	console.log(req.files);
 	/* Requesting Files for profile picture*/
-	if(req.files){
+
+	if(req.files.length>0){
 		console.log(req.files[0]);
-		console.log(req.files);
+
 		switch (req.files[0].mimetype) {
 			case 'image/jpeg':
 					fileExtension = '.jpeg';
@@ -54,9 +56,10 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 			case 'image/gif':
 					fileExtension = '.gif';
 					break;
+
 		}
 		fs.renameSync(req.files[0].path, req.files[0].destination + "/" + req.files[0].filename + fileExtension, function (err) {
-			if (err) throw err;
+				if (err) throw err;
 		});
 	}
 
@@ -90,7 +93,9 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 				newUser.losses = 0;
 				newUser.totalscore = 0;
 				newUser.totalgames = 0;
-				newUser.profilePicture = req.files[0].filename + fileExtension;
+				if(req.files.length>0){
+					newUser.profilePicture = req.files[0].filename + fileExtension;
+				}
 
 				/*Save new user*/
 				newUser.save().then((dbUser) => {
@@ -191,6 +196,7 @@ router.get('/leaderboard', function(req, res, next) {
 			let resultsObj = {};
 
 			resultsObj.joindate = dbUsers[i].joindate;
+<<<<<<< HEAD
 			resultsObj.username = dbUsers[i].username;
 			resultsObj.wins = dbUsers[i].wins;
 			resultsObj.losses = dbUsers[i].losses;
@@ -199,10 +205,25 @@ router.get('/leaderboard', function(req, res, next) {
 
 			result.push(resultsObj);
 			console.log(result);
+=======
+      		resultsObj.username = dbUsers[i].username;
+      		resultsObj.wins = dbUsers[i].wins;
+      		resultsObj.losses = dbUsers[i].losses;
+      		resultsObj.totalScore = dbUsers[i].totalScore;
+      		resultsObj.profilePicture = dbUsers[i].profilePicture;
+
+      		result.push(resultsObj);
+      		//console.log(result);
+>>>>>>> d60f3d41a6ffd6d4a8cc22c5530e27bfd4bdec5d
 		}
 
 	res.json(result);
+<<<<<<< HEAD
 	console.log(result);
+=======
+	//console.log(result);
+
+>>>>>>> d60f3d41a6ffd6d4a8cc22c5530e27bfd4bdec5d
   })
 });
 
