@@ -57,6 +57,7 @@ mongoose.connect(MONGODB_URI, (err, db) => {
 	if (err) {
 		console.log('Unable to connect to the mongoDB server. Error:', err);
 	} else {
+        useMongoClient: true,
 		console.log('Connection established to', MONGODB_URI);
 	}
 });
