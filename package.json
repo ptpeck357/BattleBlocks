@@ -4,14 +4,14 @@
   "description": "Battle blocks project 3",
   "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export NODE_ENV=\"production\" && node server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "concurrently --kill-others-on-fail \"node ./server/server.js\" \"yarn start\"",
-    "heroku-postbuild": "yarn build"
+    "dev": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
+    "prod": "export NODE_ENV=\"production\" && nodemon server/server.js"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:3001",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BattleBlocks/BattleBlocks.git"
@@ -47,7 +47,7 @@
     "react-modal": "^3.3.1",
     "react-moment": "^0.7.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1",
+    "react-scripts": "^1.1.1",
     "react-table": "^6.8.0",
     "react-transition-group": "^2.2.1",
     "react-transitions": "^1.0.0",
