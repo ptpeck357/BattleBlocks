@@ -25,7 +25,6 @@ class SignupForm extends Component {
 
 	constructor() {
 	super()
-
 		this.state = {
 			usernameSignIn: '',
 			passwordSignIn: '',
@@ -52,9 +51,7 @@ class SignupForm extends Component {
 		});
 	};
 
-
 	/*Function for Forgot Password*/
-
 	forgotPassword = (event) => {
 		event.preventDefault();
 		this.openModal();
@@ -71,7 +68,7 @@ class SignupForm extends Component {
 	handleSubmit = (event) => {
     event.preventDefault()
     const config = {headers: {'Content-type': 'miltipart/form-data'}}
-    	let data = new FormData();
+		let data = new FormData();
     //form data
 		data.append('username', this.state.username);
 		data.append('password', this.state.password);
@@ -90,54 +87,38 @@ class SignupForm extends Component {
 			errArray = [];
 		} else {
 			this.setState({
-			username: '', password: '', confirmPassword: '',  loggedin: true
+			username: '', password: '', confirmPassword: '', profilePicture: '', redirectTo: "/lobby", loggedin: true
 			});
 		}
-
-		/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
-			if(response.data.errors){
-				for(var i=0;i<response.data.errors.length;i++){
-					errArray.push(response.data.errors[i].msg);
-				}
-				this.openModal();
-				errArray = [];
-			} else {
-					this.setState({
-					email: '', username: '', password: '', confirmPassword: '', profilePicture: '',//, redirectTo: "/lobby"
-	        });
-			}
-
-			}).catch((error) => {
-				console.log(error);
-			});
+		}).catch((error) => {
+			console.log(error);
+		});
 	};
 
 	/*Function to handle login on submit*/
-  	handleSignin = (event) => {
-			console.log("button wors")
-			event.preventDefault();
-			if(this.state.usernameSignIn === ""){
-				this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
-			} else if (this.state.passwordSignIn === ""){
-				this.setState({loginError: true, errorMessage: "Please Enter The Password."});
-			} else {
-				axios.post('/api/login', {
-					username: this.state.usernameSignIn,
-					password: this.state.passwordSignIn
-				}).then(response => {
-					if(response.data.user === null){
-						this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
-						console.log(response.data.message);
-					} else {
-						this.setState({
-							usernameSignIn: '', passwordSignIn: '', loggedin: true
-						});
-					}
-				}).catch(error => {
-					console.log(error);
+	handleSignin = (event) => {
+		event.preventDefault();
+		if(this.state.usernameSignIn === ""){
+			this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
+		} else if (this.state.passwordSignIn === ""){
+			this.setState({loginError: true, errorMessage: "Please Enter The Password."});
+		} else {
+			axios.post('/api/login', {
+				username: this.state.usernameSignIn,
+				password: this.state.passwordSignIn
+			}).then(response => {
+				if(response.data.user === null){
+					this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
+				} else {
+					this.setState({
+						usernameSignIn: '', passwordSignIn: '', loggedin: true
 					});
-			};
+				}
+			}).catch(error => {
+				console.log(error);
+				});
 		};
+	};
 
 	openModal = () => {
 		this.setState({modalIsOpen: true});
@@ -155,9 +136,8 @@ class SignupForm extends Component {
 	// onDrop Event for Picture Upload
 	onDrop = (acceptedFiles) => {
 		this.setState({
-				profilePicture: acceptedFiles
+			profilePicture: acceptedFiles
 		});
-   console.log(this.state.profilePicture);
    }
 
 	/*Function to render HTML form*/

@@ -196,34 +196,16 @@ router.get('/leaderboard', function(req, res, next) {
 			let resultsObj = {};
 
 			resultsObj.joindate = dbUsers[i].joindate;
-<<<<<<< HEAD
 			resultsObj.username = dbUsers[i].username;
 			resultsObj.wins = dbUsers[i].wins;
 			resultsObj.losses = dbUsers[i].losses;
-			resultsObj.totalScore = dbUsers[i].totalScore;
+			resultsObj.totalscore = dbUsers[i].totalscore;
 			resultsObj.profilePicture = dbUsers[i].profilePicture;
-
 			result.push(resultsObj);
-			console.log(result);
-=======
-      		resultsObj.username = dbUsers[i].username;
-      		resultsObj.wins = dbUsers[i].wins;
-      		resultsObj.losses = dbUsers[i].losses;
-      		resultsObj.totalScore = dbUsers[i].totalScore;
-      		resultsObj.profilePicture = dbUsers[i].profilePicture;
-
-      		result.push(resultsObj);
       		//console.log(result);
->>>>>>> d60f3d41a6ffd6d4a8cc22c5530e27bfd4bdec5d
 		}
 
 	res.json(result);
-<<<<<<< HEAD
-	console.log(result);
-=======
-	//console.log(result);
-
->>>>>>> d60f3d41a6ffd6d4a8cc22c5530e27bfd4bdec5d
   })
 });
 
