@@ -66,9 +66,15 @@ class Leaderboard extends Component {
                     },
                     {
                       Header: "Total Score",
-                      accessor: "totalScore"
+                      accessor: "totalscore"
                     }
                   ]
+                }
+              ]}
+              defaultSorted={[
+                {
+                  id: "totalscore",
+                  desc: true
                 }
               ]}
               defaultPageSize={10}
