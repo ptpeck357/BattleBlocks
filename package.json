@@ -1,15 +1,14 @@
 {
   "name": "battleblocks",
   "version": "1.0.0",
-  "private": true,
   "description": "Battle blocks project 3",
   "main": "server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
+    "start": "concurrently \"react-scripts dev\" \"node server.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
+    "dev": "concurrently \"react-scripts start\" \"node server.js\"",
     "prod": "export NODE_ENV=\"production\" && nodemon server/server.js",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
