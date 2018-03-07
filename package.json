@@ -2,7 +2,7 @@
   "name": "battleblocks",
   "version": "1.0.0",
   "private": true,
-  "description": "Battle blocks project 1",
+  "description": "Battle Blocks",
   "proxy": "http://localhost:3001",
   "dependencies": {
     "axios": "^0.17.1",
