@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from 'react-router-dom';
-import {  Jumbotron, Container } from "reactstrap";
+import {  Jumbotron, Container, Button } from "reactstrap";
 import "./lobby.css";
 import Navbar from "../../components/Nav/index";
 import Newgame from "../../components/Newgame/index";
@@ -48,6 +48,7 @@ class Lobby extends React.Component{
 	//Sets up the game owner
 	componentDidMount(){
 		axios.get("/api/lobby").then(response => {
+		console.log(response.data.username)
 			this.setState({
 				owner: response.data.username,
 				score: response.data.totalscore
@@ -56,6 +57,7 @@ class Lobby extends React.Component{
 	};
 
 	render() {
+		console.log(this.state.owner)
 		if (this.state.loggedin === false) {
 			return <Redirect to={{ pathname: "/" }} />
 		} else {
@@ -88,7 +90,9 @@ class Lobby extends React.Component{
 				    	player={this.state.owner}
 				    	score={this.state.score}
 						/>
+						<Button className="btn-info" href="leaderboard">Leaderboard</Button>
 				    </Jumbotron>
+				    <Button className="btn btn-danger" href="https://github.com/BattleBlocks/BattleBlocks">Github</Button>
 				</Container>
 			)
 		}

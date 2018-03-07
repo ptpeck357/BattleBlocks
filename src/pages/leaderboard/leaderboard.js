@@ -3,10 +3,10 @@ import {  Jumbotron, Button, Container } from "reactstrap"
 import axios from 'axios'
 //import styles from "./leaderboard.css"
 import ReactTable from 'react-table'
+import Navbar from "../../components/Nav/index";
 // import { render } from "react-dom";
 import "react-table/react-table.css";
 import Moment from 'react-moment';
-
 
 // leaderboard class with the userData and isMounting variable to render the data
 class Leaderboard extends Component {
@@ -33,6 +33,11 @@ class Leaderboard extends Component {
     if(this.state.isMounting){
       return(
         <Container fluid>
+        <Navbar
+        headline = {"Leaderboard"}
+        href = {"/lobby"}
+        navAction = {"Lobby"}
+      />
         <Jumbotron>
           <h1 className="header">Leaderboard</h1>
           <div>

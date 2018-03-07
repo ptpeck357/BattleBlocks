@@ -49,6 +49,7 @@ class Gameboard extends React.Component {
 
   //Get buttons from firebase
   getFirebaseButtons = (gameID) => {
+    console.log("gameboard.getFirebaseButtons =>")
 
     //Synchronize firebase with state 'buttons'
     fire.syncState("Live_Games/"+gameID+'/headline', {
@@ -180,6 +181,7 @@ class Gameboard extends React.Component {
 
   //Get button object from firebase
   componentWillMount() {
+    console.log("gameboard.WillMount =>")
     this.parseUrl();
   }
 
@@ -188,6 +190,12 @@ class Gameboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 
   render() {
+    console.log("gameboard.render =>")
+    console.log(this.state.player)
+    console.log(this.state.opponent)
+    console.log(this.countBlocks)
+    console.log(this.state.high_side)
+    console.log(this.endGame)
     return (
       <Container fluid>
       <Navbar

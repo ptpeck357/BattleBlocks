@@ -18,6 +18,7 @@ class Newgame extends React.Component {
 
 	//Creates brand new game
 	createGameData = () => {
+		console.log("this.props.player ="+this.props.player)
 
 		let myRef = fire.push('Live_Games', {
 			data : {
