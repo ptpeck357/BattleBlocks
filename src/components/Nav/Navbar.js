@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import "./Navbar.css";
 
 class Navbar extends Component {
@@ -15,14 +14,14 @@ class Navbar extends Component {
 				<nav className="navbar navbar-dark bg-gunmetal fixed-top">
 					<h4 id="title"> {this.props.headline} </h4>
 					<Link to={this.props.href}>
-						<button 
+						<button
 							className="btn"
-							onClick={this.props.navClick} 
+							onClick={this.props.navClick}
 							type="button"
 							>
 							{this.props.navAction}
 						</button>
-					</Link>				
+					</Link>
 				</nav>
 			</div>
 		);

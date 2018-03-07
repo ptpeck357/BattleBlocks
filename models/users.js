@@ -10,7 +10,7 @@ var userSchema = new Schema({
 	    trim: true,
 	    unique: true,
       required: true
-    },
+  },
 
   password: {
     type: String,
@@ -40,7 +40,8 @@ var userSchema = new Schema({
   },
 
   profilePicture: {
-    type: String
+    type: String,
+    default: "defaultPicture.png"
   }
 
 });

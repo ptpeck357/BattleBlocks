@@ -2,9 +2,7 @@ const router = require("express").Router();
 const passport = require('../../passport');
 const User = require('../../models/users.js');
 var multer  = require('multer');
-const uploadPicture = multer({
-	dest: '../../public/profilePicture'
-});
+const uploadPicture = multer({ dest: 'public/profilepicture' });
 const fs = require("fs");
 
 /*Route to see ff the user is arleady signed in, go to lobby*/
@@ -32,15 +30,16 @@ router.get("/authenticate", (req, res) => {
 router.post('/signup', uploadPicture.any(), (req, res) => {
 
 	/*Getting user's inputs from form*/
-	const email = req.body.email;
 	const username = req.body.username;
 	const password = req.body.password;
 	const confirmPassword = req.body.confirmPassword;
 
+	console.log(req.files);
 	/* Requesting Files for profile picture*/
-	if(req.files){
+
+	if(req.files.length>0){
 		console.log(req.files[0]);
-		console.log(req.files);
+
 		switch (req.files[0].mimetype) {
 			case 'image/jpeg':
 					fileExtension = '.jpeg';
@@ -54,9 +53,10 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 			case 'image/gif':
 					fileExtension = '.gif';
 					break;
+
 		}
 		fs.renameSync(req.files[0].path, req.files[0].destination + "/" + req.files[0].filename + fileExtension, function (err) {
-			if (err) throw err;
+				if (err) throw err;
 		});
 	}
 
@@ -90,7 +90,9 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 				newUser.losses = 0;
 				newUser.totalscore = 0;
 				newUser.totalgames = 0;
-				newUser.profilePicture = req.files[0].filename + fileExtension;
+				if(req.files.length>0){
+					newUser.profilePicture = req.files[0].filename + fileExtension;
+				}
 
 				/*Save new user*/
 				newUser.save().then((dbUser) => {
@@ -194,15 +196,13 @@ router.get('/leaderboard', function(req, res, next) {
 			resultsObj.username = dbUsers[i].username;
 			resultsObj.wins = dbUsers[i].wins;
 			resultsObj.losses = dbUsers[i].losses;
-			resultsObj.totalScore = dbUsers[i].totalScore;
+			resultsObj.totalgames = dbUsers[i].totalgames;
+			resultsObj.totalscore = dbUsers[i].totalscore;
 			resultsObj.profilePicture = dbUsers[i].profilePicture;
-
 			result.push(resultsObj);
-			console.log(result);
 		}
 
 	res.json(result);
-	console.log(result);
   })
 });
 

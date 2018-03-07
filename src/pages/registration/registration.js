@@ -25,11 +25,9 @@ class SignupForm extends Component {
 
 	constructor() {
 	super()
-
 		this.state = {
 			usernameSignIn: '',
 			passwordSignIn: '',
-			email: '',
 			username: '',
 			password: '',
 			confirmPassword: '',
@@ -53,6 +51,12 @@ class SignupForm extends Component {
 		});
 	};
 
+	/*Function for Forgot Password*/
+	forgotPassword = (event) => {
+		event.preventDefault();
+		this.openModal();
+	}
+
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
 		this.setState({
@@ -64,13 +68,14 @@ class SignupForm extends Component {
 	handleSubmit = (event) => {
     event.preventDefault()
     const config = {headers: {'Content-type': 'miltipart/form-data'}}
-    	let data = new FormData();
+		let data = new FormData();
     //form data
 		data.append('username', this.state.username);
 		data.append('password', this.state.password);
 		data.append('confirmPassword', this.state.confirmPassword);
-		data.append('profilePicture', this.state.profilePicture[0]);
-
+		if(this.state.profilePicture[0] != ""){
+			data.append('profilePicture', this.state.profilePicture[0]);
+		}
     axios.post('/api/signup',data,config).then(response => {
 
 		/*If there is an error which signing up modal shows it otherwise user gets redirected to the lobby*/
@@ -82,17 +87,16 @@ class SignupForm extends Component {
 			errArray = [];
 		} else {
 			this.setState({
-			email: '', username: '', password: '', confirmPassword: '',  loggedin: true
+			username: '', password: '', confirmPassword: '', profilePicture: '', redirectTo: "/lobby", loggedin: true
 			});
 		}
-
 		}).catch((error) => {
 			console.log(error);
 		});
 	};
 
 	/*Function to handle login on submit*/
-  	handleSignin = (event) => {
+	handleSignin = (event) => {
 		event.preventDefault();
 		if(this.state.usernameSignIn === ""){
 			this.setState({loginError: true, errorMessage: "Please Enter The User Name."});
@@ -105,15 +109,14 @@ class SignupForm extends Component {
 			}).then(response => {
 				if(response.data.user === null){
 					this.setState({loginError: true, errorMessage: "Error! Invalid User Name or Password."});
-					console.log(response.data.message);
 				} else {
 					this.setState({
-				 		usernameSignIn: '', passwordSignIn: '', loggedin: true
+						usernameSignIn: '', passwordSignIn: '', loggedin: true
 					});
 				}
 			}).catch(error => {
 				console.log(error);
-			  });
+				});
 		};
 	};
 
@@ -132,10 +135,9 @@ class SignupForm extends Component {
 
 	// onDrop Event for Picture Upload
 	onDrop = (acceptedFiles) => {
-       this.setState({
-           profilePicture: acceptedFiles
-       });
-       console.log(this.state.profilePicture);
+		this.setState({
+			profilePicture: acceptedFiles
+		});
    }
 
 	/*Function to render HTML form*/
@@ -264,7 +266,7 @@ class SignupForm extends Component {
 
 												}
 											</div>
-
+                    	<br/>
 											<div className="control-group">
 												<div className="controls">
 													<button id="makenew" className="btn btn-success" onClick={this.handleSubmit} type="submit" >Sign up</button>

@@ -16,11 +16,11 @@ class Gameboard extends React.Component {
       gameID : "",
 
       //Game state settings
-      player: "David", // from user login!
-      opponent: "Goliath", // from user login!
+      player: null, // from user login!
+      opponent: "waiting for player", // from user login!
 
       headline: "Game is live",
-      high_side: "David",
+      high_side: null,
       boardleader: "Waiting for player 2...",
       leader: 0,
 
@@ -49,6 +49,7 @@ class Gameboard extends React.Component {
 
   //Get buttons from firebase
   getFirebaseButtons = (gameID) => {
+    console.log("gameboard.getFirebaseButtons =>")
 
     //Synchronize firebase with state 'buttons'
     fire.syncState("Live_Games/"+gameID+'/headline', {
@@ -79,13 +80,13 @@ class Gameboard extends React.Component {
       context: this,
       state: 'rightButtons'
     })
-    
+
     //Synchronize firebase with player 2
     fire.syncState("Live_Games/"+gameID+'/user2_name', {
       context: this,
       state: 'opponent'
-    }) 
-    
+    })
+
     //Synchronize firebase with player 1
     fire.syncState("Live_Games/"+gameID+'/user1_name', {
       context: this,
@@ -180,6 +181,7 @@ class Gameboard extends React.Component {
 
   //Get button object from firebase
   componentWillMount() {
+    console.log("gameboard.WillMount =>")
     this.parseUrl();
   }
 
@@ -188,9 +190,15 @@ class Gameboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 
   render() {
+    console.log("gameboard.render =>")
+    console.log(this.state.player)
+    console.log(this.state.opponent)
+    console.log(this.countBlocks)
+    console.log(this.state.high_side)
+    console.log(this.endGame)
     return (
       <Container fluid>
-      <Navbar 
+      <Navbar
         headline = {this.state.headline}
         href = {"/lobby"}
         navAction = {"Lobby"}

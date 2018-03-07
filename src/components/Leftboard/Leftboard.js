@@ -30,6 +30,7 @@ class Leftboard extends React.Component {
 
 	//Captures the gameID from the url
     parseUrl = () => {
+    	console.log("leftboard.parseUrl =>")
 		let gameUrl = window.location.href;
 		let path = new URL(gameUrl);
 
@@ -43,6 +44,7 @@ class Leftboard extends React.Component {
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
+		console.log("leftboard.syncFirebase =>")
 //GAME_OWNER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/owner', {

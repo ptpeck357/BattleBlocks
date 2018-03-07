@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 import leftButtons from "../leftbuttons.json";
 import rightButtons from "../rightbuttons.json";
 import fire from "../../fire.js";
-import axios from 'axios';
 
 //This component sits in "Lobby" button and initiates a new game
 class Newgame extends React.Component {
@@ -19,6 +18,7 @@ class Newgame extends React.Component {
 
 	//Creates brand new game
 	createGameData = () => {
+		console.log("this.props.player ="+this.props.player)
 
 		let myRef = fire.push('Live_Games', {
 			data : {
