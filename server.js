@@ -40,16 +40,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // will call the deserializeUser
 
-
-// -------------------------- ?What is this stuff? -----------------------------
-
-// Loading evnironmental variables here
-// if (process.env.NODE_ENV !== 'production') {
-// 	require('dotenv').config()
-// }
-// require('dotenv').config()
-
-
 //This validates and sanitizes strings
 app.use(expressValidator({
 	errorFormatter: (param, msg, value) => {

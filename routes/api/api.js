@@ -34,11 +34,9 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 	const password = req.body.password;
 	const confirmPassword = req.body.confirmPassword;
 
-	console.log(req.files);
 	/* Requesting Files for profile picture*/
 
 	if(req.files.length>0){
-		console.log(req.files[0]);
 
 		switch (req.files[0].mimetype) {
 			case 'image/jpeg':
@@ -97,7 +95,6 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 				/*Save new user*/
 				newUser.save().then((dbUser) => {
 					res.json(dbUser);
-					console.log("User saved")
 				  })
 			}
 		});
@@ -200,10 +197,11 @@ router.get('/leaderboard', function(req, res, next) {
 			resultsObj.totalscore = dbUsers[i].totalscore;
 			resultsObj.profilePicture = dbUsers[i].profilePicture;
 			result.push(resultsObj);
-		}
+
+		};
 
 	res.json(result);
-  })
+  });
 });
 
 module.exports = router;

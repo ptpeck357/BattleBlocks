@@ -21,8 +21,8 @@ class Rightboard extends React.Component {
 			user2_coins: 3,
 			user2_points: 1,
 			leftButtons : null
-		}
-	}
+		};
+	};
 
 // ----------------------- ------------- -----------------------//
 // --------------------------- SETUP ---------------------------//
@@ -39,7 +39,7 @@ class Rightboard extends React.Component {
 			gameID : gameID
 		})
 		this.syncFirebase(gameID);
-	}
+	};
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
@@ -48,14 +48,14 @@ class Rightboard extends React.Component {
 		fire.syncState("Live_Games/"+gameID+'/owner', {
 			context: this,
 			state: 'Game_owner'
-		})
+		});
 
 //USER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user2_name', {
 			context: this,
 			state: 'user2_name'
-		})
+		});
 
 //BUTTONS
 		//Synchronize firebase with state 'leftButtons'
@@ -63,29 +63,29 @@ class Rightboard extends React.Component {
 			context: this,
 			state: 'leftButtons',
 			asArray: true
-		})
+		});
 
 		//Synchronize firebase with state 'buttons'
 		fire.syncState("Live_Games/"+gameID+'/user2_buttons', {
 			context: this,
 			state: 'buttons',
 			asArray: true
-		})
+		});
 
 //COINS
 		//Synchronize firebase
 		fire.syncState("Live_Games/"+gameID+'/user2_coins', {
 			context: this,
 			state: 'user2_coins'
-		})
+		});
 
 //POINTS
 		//Synchronize firebase
 		fire.syncState("Live_Games/"+gameID+'/user2_points', {
 			context: this,
 			state: 'user2_points'
-		})
-	}
+		});
+	};
 
 
 // ----------------------- ------------- -----------------------//
@@ -97,19 +97,14 @@ class Rightboard extends React.Component {
 
 		//Test for side
 		if (this.state.Mongo_owner === this.state.Game_owner) {
-			console.log("illegal move - alto!")
 		}
-
 		//Test for coins
 		else if (this.state.user2_coins < 1 && this.props.high !== this.props.player) {
-			console.log("illegal move - stop!")
-
 		//Allow move
 		} else {
-			console.log("legal move")
 		this.changeButtonStatus(id);
 		}
-	}
+	};
 
 	//Handles the updates
 	async changeButtonStatus(id) {
@@ -118,7 +113,7 @@ class Rightboard extends React.Component {
 		this.changeCoins();
 		this.changePoints()
 		this.props.countBlocks()
-	}
+	};
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
@@ -134,10 +129,10 @@ class Rightboard extends React.Component {
 
 				this.setState({
 					buttons: buttons
-				})
-			}
-		}
-	}
+				});
+			};
+		};
+	};
 
   //This activates a random opponent button
 	addButton = () => {
@@ -150,9 +145,9 @@ class Rightboard extends React.Component {
 
 			this.setState({
 				leftButtons: leftButtons
-			})
-		}
-	}
+			});
+		};
+	};
 
   //This changes coins based on player's click position
 	changeCoins = () => {
@@ -167,8 +162,8 @@ class Rightboard extends React.Component {
 		//update props with new coins total
 		this.setState({
 			user2_coins: coins
-		})
-	}
+		});
+	};
 
 	//This changes points based on player's click position
 	changePoints = () => {
@@ -212,7 +207,7 @@ class Rightboard extends React.Component {
 		this.setState({
 			user2_points: points-this.state.user2_points
 		})
-	}
+	};
 
 	identifyPlayer = () => {
 		axios.get("/api/lobby").then(response => {
@@ -221,7 +216,7 @@ class Rightboard extends React.Component {
 				Mongo_owner: response.data.username
 			})
 		});
-	}
+	};
 
 // ----------------------- ------------- -----------------------//
 // -------------------- Component Lifecycle --------------------//
@@ -230,7 +225,7 @@ class Rightboard extends React.Component {
 	componentWillMount() {
 		this.parseUrl();
 		this.identifyPlayer();
-	}
+	};
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Render Logic ------------------------//
@@ -258,8 +253,8 @@ class Rightboard extends React.Component {
 		        {this.determineButtonRender()}
 
 		  	</Container>
-		)
-	}
-}
+		);
+	};
+};
 
 export default Rightboard;

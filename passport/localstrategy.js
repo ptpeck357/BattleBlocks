@@ -1,5 +1,5 @@
-const User = require('../models/users.js')
-const LocalStrategy = require('passport-local').Strategy
+const User = require('../models/users.js');
+const LocalStrategy = require('passport-local').Strategy;
 
 const strategy = new LocalStrategy(
 
@@ -10,14 +10,13 @@ const strategy = new LocalStrategy(
 			}
 			if (!userMatch) {
 				return done(null, false)
-				
 			}
 			if (!userMatch.checkPassword(password)) {
 				return done(null, false)
 			}
 			return done(null, userMatch)
-		})
+		});
 	}
-)
+);
 
-module.exports = strategy
+module.exports = strategy;

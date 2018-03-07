@@ -11,39 +11,31 @@ var userSchema = new Schema({
 	    unique: true,
       required: true
   },
-
   password: {
     type: String,
     trim: true,
     required: true
   },
-
   wins: {
     type: Number
   },
-
   losses: {
     type: Number
   },
-
   totalscore: {
     type: Number
   },
-
   totalgames: {
     type: Number
   },
-
   joindate: {
      type: Date,
      default: Date.now
   },
-
   profilePicture: {
     type: String,
     default: "defaultPicture.png"
   }
-
 });
 
 // Define schema methods

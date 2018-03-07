@@ -4,8 +4,7 @@ const User = require('../models/users');
 
 passport.serializeUser((user, done) => {
 	done(null, user._id)
-})
-
+});
 passport.deserializeUser((id, done) => {
 	User.findOne({_id: id}, (err, user) => {
 		done(null, user)
@@ -13,6 +12,6 @@ passport.deserializeUser((id, done) => {
 });
 
 // ==== Register Strategies ====
-passport.use(LocalStrategy)
+passport.use(LocalStrategy);
 
-module.exports = passport
+module.exports = passport;

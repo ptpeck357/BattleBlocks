@@ -48,7 +48,6 @@ class Lobby extends React.Component{
 	//Sets up the game owner
 	componentDidMount(){
 		axios.get("/api/lobby").then(response => {
-		console.log(response.data.username)
 			this.setState({
 				owner: response.data.username,
 				score: response.data.totalscore
@@ -57,7 +56,6 @@ class Lobby extends React.Component{
 	};
 
 	render() {
-		console.log(this.state.owner)
 		if (this.state.loggedin === false) {
 			return <Redirect to={{ pathname: "/" }} />
 		} else {
@@ -85,7 +83,7 @@ class Lobby extends React.Component{
 					    		<li>The computer is randomly reducing the number of blocks; whoever clears their last 3 blocks earns points</li>
 					    		<li>The game ends when one player clears all their blocks</li>
 				    		</ul>
-						<br/>				    
+						<br/>
 				    <Newgame
 				    	player={this.state.owner}
 				    	score={this.state.score}
