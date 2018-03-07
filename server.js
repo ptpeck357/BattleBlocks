@@ -68,13 +68,13 @@ app.use(expressValidator({
 	}
 }));
 
-// Checks if it's production environment and sends build folder
-if (process.env.NODE_ENV === 'production') {
-	app.use('/', express.static(path.join(__dirname, 'build/static')))
-	app.get('/', (req, res) => {
-		res.sendFile(path.join(__dirname, 'build/'))
-	})
-}
+// // Checks if it's production environment and sends build folder
+// if (process.env.NODE_ENV === 'production') {
+// 	app.use('/', express.static(path.join(__dirname, 'build/static')))
+// 	app.get('/', (req, res) => {
+// 		res.sendFile(path.join(__dirname, 'build/'))
+// 	})
+// }
 
 // -------------------------- Routes -----------------------------
 
