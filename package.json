@@ -5,12 +5,12 @@
   "description": "Battle blocks project 1",
   "main": "server.js",
   "scripts": {
-    "start": "export NODE_ENV=\"production\" && node server/server.js",
+    "start": "export NODE_ENV=\"production\" && node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"node server.js\"",
-    "prod": "export NODE_ENV=\"production\" && nodemon server/server.js"
+    "prod": "export NODE_ENV=\"production\" && nodemon server.js"
   },
   "proxy": "http://localhost:3001",
   "repository": {
