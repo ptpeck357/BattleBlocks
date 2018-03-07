@@ -22,6 +22,9 @@ mongoose.Promise = Promise;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// -------------------------- Sessions -----------------------------
+
+//App uses sessions for users
 app.use(
 	session({
 		secret: 'Secret',
@@ -34,29 +37,32 @@ app.use(
 	})
 );
 
-// ===== Passport ====
+//App uses passport for users
 app.use(passport.initialize());
 app.use(passport.session()); // will call the deserializeUser
 
-/* Express Validator */
-app.use(expressValidator({
-	errorFormatter: (param, msg, value) => {
-		const namespace = param.split('.')
-		, root    = namespace.shift()
-		, formParam = root;
 
-		while(namespace.length) {
-				formParam += '[' + namespace.shift() + ']';
-		}
-		return {
-				param : formParam,
-				msg   : msg,
-				value : value
-		};
-	}
-}));
+// -------------------------- ?? -----------------------------
 
-// ==== if its production environment!
+//This validates and sanitizes strings
+// app.use(expressValidator({
+// 	errorFormatter: (param, msg, value) => {
+// 		const namespace = param.split('.')
+// 		, root    = namespace.shift()
+// 		, formParam = root;
+
+// 		while(namespace.length) {
+// 				formParam += '[' + namespace.shift() + ']';
+// 		}
+// 		return {
+// 				param : formParam,
+// 				msg   : msg,
+// 				value : value
+// 		};
+// 	}
+// }));
+
+// Checks if it's production environment and sends build folder
 if (process.env.NODE_ENV === 'production') {
 	app.use('/', express.static(path.join(__dirname, '../build/static')))
 	app.get('/', (req, res) => {
@@ -64,13 +70,19 @@ if (process.env.NODE_ENV === 'production') {
 	})
 }
 
+// -------------------------- Routes -----------------------------
+
+//Setting up routes in app
 app.use(routes);
 
+//Sets index route
 app.use("/", (req, res) => {
     if (process.env.NODE_ENV === "production") {
         res.sendFile(path.join(__dirname, 'build', 'index.html'))
     }
 })
+
+// -------------------------- MongoDB -----------------------------
 
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, (err, db) => {
@@ -93,6 +105,8 @@ db.on("error", (error) => {
 db.once("open", () => {
  	console.log("Mongoose connection successful.");
 });
+
+// -------------------------- Listen -----------------------------
 
 // Start the API server
 app.listen(PORT, () => {
