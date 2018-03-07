@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import {  Jumbotron, Button, Container } from "reactstrap"
 import axios from 'axios'
-//import styles from "./leaderboard.css"
 import ReactTable from 'react-table'
 import Navbar from "../../components/Nav/index";
-// import { render } from "react-dom";
 import "react-table/react-table.css";
 import Moment from 'react-moment';
 
@@ -15,12 +13,11 @@ class Leaderboard extends Component {
     isMounting: ""
   };
 
-  // making axios call and getting response from api.js
-  // response comes from the database, then setting up the state
-    componentDidMount() {
-      console.log(this.state.userData)
-
+    componentWillMount() {
+      // making axios call and getting response from api.js
       axios.get('/api/leaderboard').then(
+        
+        // response comes from the database, then setting up the state
         response => { this.setState({ userData: response, isMounting:true })
           console.log(this.state.userData);
       }).catch(err => console.log(err));
