@@ -66,6 +66,12 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(routes);
 
+app.use("/", (req, res) => {
+    if (process.env.NODE_ENV === "production") {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'))
+    }
+})
+
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, (err, db) => {
 	if (err) {
