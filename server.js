@@ -1,9 +1,3 @@
-// // Loading evnironmental variables here
-if (process.env.NODE_ENV !== 'production') {
-	require('dotenv').config()
-}
-require('dotenv').config()
-
 const bodyParser = require("body-parser");
 const expressValidator = require('express-validator');
 const session = require('express-session');
@@ -13,18 +7,23 @@ const dbConnection = require('./models/users.js') // loads our connection to the
 const passport = require("./passport/index.js");
 const routes = require("./routes/index.js");
 const express = require("express");
+const http = require("http");
 const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/battleblocks";
 mongoose.Promise = Promise;
 
+//Parse application /x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//Server instance
+const server = http.createServer(app);
+
 // -------------------------- Sessions -----------------------------
 
-//App uses sessions for users
+//Initiate sessions
 app.use(
 	session({
 		secret: 'Secret',
@@ -37,50 +36,58 @@ app.use(
 	})
 );
 
-//App uses passport for users
+//Initialize passport
 app.use(passport.initialize());
 app.use(passport.session()); // will call the deserializeUser
 
 
-// -------------------------- ?? -----------------------------
+// -------------------------- ?What is this stuff? -----------------------------
+
+// Loading evnironmental variables here
+// if (process.env.NODE_ENV !== 'production') {
+// 	require('dotenv').config()
+// }
+// require('dotenv').config()
+
 
 //This validates and sanitizes strings
-// app.use(expressValidator({
-// 	errorFormatter: (param, msg, value) => {
-// 		const namespace = param.split('.')
-// 		, root    = namespace.shift()
-// 		, formParam = root;
+app.use(expressValidator({
+	errorFormatter: (param, msg, value) => {
+		const namespace = param.split('.')
+		, root    = namespace.shift()
+		, formParam = root;
 
-// 		while(namespace.length) {
-// 				formParam += '[' + namespace.shift() + ']';
-// 		}
-// 		return {
-// 				param : formParam,
-// 				msg   : msg,
-// 				value : value
-// 		};
-// 	}
-// }));
+		while(namespace.length) {
+				formParam += '[' + namespace.shift() + ']';
+		}
+		return {
+				param : formParam,
+				msg   : msg,
+				value : value
+		};
+	}
+}));
 
 // Checks if it's production environment and sends build folder
 if (process.env.NODE_ENV === 'production') {
-	app.use('/', express.static(path.join(__dirname, '../build/static')))
+	app.use('/', express.static(path.join(__dirname, 'build/static')))
 	app.get('/', (req, res) => {
-		res.sendFile(path.join(__dirname, '../build/'))
+		res.sendFile(path.join(__dirname, 'build/'))
 	})
 }
 
 // -------------------------- Routes -----------------------------
 
+//Sets static assets path
+app.use(express.static(path.join(__dirname, 'build/static/')));
+
+//Sets route to index
+app.use("/", (req, res) => {
+    res.sendFile(__dirname, '/index.html')
+})
+
 //Setting up routes in app
 app.use(routes);
-
-//Sets index route
-app.use("/", (req, res) => {
-    if (process.env.NODE_ENV === "production") {
-        res.sendFile(path.join(__dirname, 'build', 'index.html'))
-    }
-})
 
 // -------------------------- MongoDB -----------------------------
 
