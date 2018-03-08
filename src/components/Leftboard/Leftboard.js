@@ -20,7 +20,8 @@ class Leftboard extends React.Component {
 			user1_name: null,
 			user1_coins: 3,
 			user1_points: 1,
-			rightButtons : null
+			rightButtons : null,
+			opponent: null
 		}
 	}
 
@@ -30,7 +31,6 @@ class Leftboard extends React.Component {
 
 	//Captures the gameID from the url
     parseUrl = () => {
-    	console.log("leftboard.parseUrl =>")
 		let gameUrl = window.location.href;
 		let path = new URL(gameUrl);
 
@@ -40,11 +40,10 @@ class Leftboard extends React.Component {
 			gameID : gameID
 		})
 		this.syncFirebase(gameID);
-	}
+	};
 
 	//Sync firebase with state
 	syncFirebase = (gameID) => {
-		console.log("leftboard.syncFirebase =>")
 //GAME_OWNER
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/owner', {
@@ -57,6 +56,13 @@ class Leftboard extends React.Component {
 		fire.syncState("Live_Games/"+gameID+'/user1_name', {
 			context: this,
 			state: 'user1_name'
+		})
+
+//OPPONENT
+		//Synchronize firebase with state 'leftButtons'
+		fire.syncState("Live_Games/"+gameID+'/user2_points', {
+			context: this,
+			state: 'opponent'
 		})
 
 //BUTTONS
@@ -87,7 +93,7 @@ class Leftboard extends React.Component {
 			context: this,
 			state: 'user1_points'
 		})
-	}
+	};
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- click actions -----------------------//
@@ -96,22 +102,23 @@ class Leftboard extends React.Component {
 	//Checks for legal move
 	buttonClick = (id) => {
 
-		//Test for side
-		if (this.state.Mongo_owner !== this.state.Game_owner) {
-
-			console.log("illegal move - alto!")
+		//Test for opponent
+		if (!this.state.opponent) {
+			console.log("illegal move - no opponent!")
 		}
-
+		//Test for side
+		else if (this.state.Mongo_owner !== this.state.Game_owner) {
+			console.log("illegal move - wrong side!")
+		}
 		//Test for coins
 		else if (this.state.user1_coins < 1 && this.props.high !== this.props.player) {
-			console.log("illegal move - stop!")
-
+			console.log("illegal move - not enough coins")
 		//Allow move
 		} else {
 			console.log("legal move")
 			this.changeButtonStatus(id);
 		}
-	}
+	};
 
 	//Handles the updates
 	async changeButtonStatus(id) {
@@ -120,7 +127,7 @@ class Leftboard extends React.Component {
 		this.changeCoins();
 		this.changePoints()
 		this.props.countBlocks()
-	}
+	};
 
 	//This turns the button off and updates state
 	deactivateButton = (id) => {
@@ -139,7 +146,7 @@ class Leftboard extends React.Component {
 				})
 			}
 		}
-	}
+	};
 
   	//This activates a random opponent button
 	addButton = () => {
@@ -154,23 +161,23 @@ class Leftboard extends React.Component {
 				rightButtons: rightButtons
 			})
 		}
-	}
+	};
 
   //This changes coins based on player's click position
 	changeCoins = () => {
 		let coins = this.state.user1_coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
-			// console.log(coins);
+
 		} else {
 			coins = coins - 1;
-			// console.log(coins);
+
 		}
 		//update state with new coins total
 		this.setState({
 			user1_coins: coins
 		})
-	}
+	};
 
 	//This changes points based on player's click position
 	changePoints = () => {
@@ -197,12 +204,12 @@ class Leftboard extends React.Component {
 				axios.post('/api/leftboard', {
 					username: this.props.player,
 					opponent: this.props.opponent,
-					points: points-this.state.user1_points
+					points: points - this.state.user1_points
 				}).then(response => {
 					console.log(response)
 				}).catch(error => {
 					console.log(error);
-				  });
+				});
 
 				//declare if winner
 				this.props.winner(this.props.player)
@@ -214,7 +221,7 @@ class Leftboard extends React.Component {
 		this.setState({
 			user1_points: points
 		})
-	}
+	};
 
 	identifyPlayer = () => {
 		axios.get("/api/lobby").then(response => {
@@ -223,7 +230,7 @@ class Leftboard extends React.Component {
 				Mongo_owner: response.data.username
 			})
 		});
-	}
+	};
 
 // ----------------------- ------------- -----------------------//
 // -------------------- Component Lifecycle --------------------//
@@ -232,7 +239,7 @@ class Leftboard extends React.Component {
 	componentWillMount() {
 		this.parseUrl();
 		this.identifyPlayer();
-	}
+	};
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Render Logic ------------------------//
@@ -254,14 +261,22 @@ class Leftboard extends React.Component {
 	render() {
 		return (
 		  	<Container fluid>
-		        <h3>Player name: {this.state.user1_name}</h3>
-		        <h4>$BlockCoins$: {this.state.user1_coins} Total Points: {this.state.user1_points}</h4>
+		        <h3>Host: {this.state.user1_name}</h3>
+		        <h4>
+		        	<a
+		        		style={{ 
+				          color: (this.props.leader === this.state.Mongo_owner) ? 'green' : 'red' ,
+				        }}
+		        	>$BlockCoins$: {this.state.user1_coins}
+		        	</a> 
+
+		        <a> Points: {this.state.user1_points}</a></h4>
 
 		        {this.determineButtonRender()}
 
 		  	</Container>
 		)
-	}
-}
+	};
+};
 
 export default Leftboard;

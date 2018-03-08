@@ -139,7 +139,6 @@ class SignupForm extends Component {
 
 	/*Function to render HTML form*/
 	render() {
-
 		if (this.state.loggedin === true) {
 			return <Redirect to={{ pathname: "/lobby" }} />
 		} else {
