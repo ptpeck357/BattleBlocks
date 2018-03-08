@@ -10,7 +10,7 @@ A Northwestern University Bootcamp Final MERN Project
   <li>The object of the game is to earn points in each round and make it onto the Leaderboard</li>
   <li>Your points are accumulated and last forever, so the top point holders are on the Leaderboard</li>
   <li>To earn points, you have to try to clear the blocks on your side</li>
-  <li>The rounds are played in realtime, so course your opponent is trying to clear the blocks on their side at the same time</li>
+  <li>The rounds are played in realtime, so of course your opponent is trying to clear the blocks on their side at the same time</li>
 </ul>
 <br>
 There are two wrinkles that make the game interesting....
@@ -75,8 +75,7 @@ Continual Play
 <hr>
 
 ## Try It
-
-+ [Live]()
++ [Live](https://battle-blocks.herokuapp.com/)
 
 ### Built With
 + Mongo
@@ -87,9 +86,6 @@ Continual Play
 + Mongoose
 + Firebase
 + Passport JS
-
-### Resources
-+
 
 ### Node Package Dependencies Reference
 + [axios](https://www.npmjs.com/package/axios)
@@ -106,7 +102,6 @@ Continual Play
 + [passport-local](https://www.npmjs.com/package/passport-local)
 + [re-base](https://www.npmjs.com/package/re-base)
 + [react](https://www.npmjs.com/package/react)
-+ [react-center](https://www.npmjs.com/package/react-center)
 + [react-dom](https://www.npmjs.com/package/react-dom)
 + [react-dropzone](https://www.npmjs.com/package/react-dropzone)
 + [react-json-table](https://www.npmjs.com/package/react-json-table)
