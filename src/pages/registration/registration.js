@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, Jumbotron } from "reactstrap";
+import { Container, Jumbotron } from "reactstrap";
 import { Redirect } from 'react-router-dom';
 import logo3 from './assets/images/picture4.png';
 // import ReactDOM from 'react-dom';
@@ -7,7 +7,6 @@ import Dropzone from 'react-dropzone'
 import Modal from 'react-modal';
 import axios from 'axios';
 import "./signup.css";
-import Center from 'react-center';
 
 var errArray = [];
 const customStyles = {
@@ -19,6 +18,10 @@ const customStyles = {
 		marginRight: '-50%',
 		transform: 'translate(-50%, -50%)'
  	}
+};
+
+const jumboStyles = {
+	marginBottom: '0px'
 };
 
 class SignupForm extends Component {
@@ -50,12 +53,6 @@ class SignupForm extends Component {
 			};
 		});
 	};
-
-	/*Function for Forgot Password*/
-	forgotPassword = (event) => {
-		event.preventDefault();
-		this.openModal();
-	}
 
 	/*Function to watch for changes in the form inputs*/
 	handleChange = (event) => {
@@ -148,12 +145,12 @@ class SignupForm extends Component {
 		} else {
 			return (
 				<Container>
-				<Jumbotron>
+
 				  <img src={logo3} alt="Battle Blocks"/>
 
 				  	<br/>
-
-					 <div className="row-fluid">
+						<Jumbotron style={jumboStyles}>
+					 	<div className="row-fluid">
 						<div className="span12">
 
 							<div className="span6">
@@ -161,7 +158,7 @@ class SignupForm extends Component {
 									<iron-form id="form1">
 										<form className="form-horizontal" id="loginform">
 											<div className="heading">
-												<h4 className="form-heading">Sign In</h4>
+												<h4 className="form-heading text-center">Sign In</h4>
 											</div>
 
 											<div className="control-group">
@@ -175,12 +172,11 @@ class SignupForm extends Component {
 												</div>
 											</div>
 
-
 											<div className="control-group">
 												<label className="control-label" htmlFor="inputPassword">Password</label>
 												<div className="controls">
 													<input id="inputPassword"
-														placeholder="Min. 6 Characters"
+														placeholder="******"
 														type="password"
 														value={this.state.passwordSignIn}
 														onChange={this.handleChange}
@@ -300,7 +296,7 @@ class SignupForm extends Component {
 				</Container>
 
 			)
-		};
+		}
 	};
 };
 
