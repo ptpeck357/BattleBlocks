@@ -60,7 +60,7 @@ class Leftboard extends React.Component {
 
 //OPPONENT
 		//Synchronize firebase with state 'leftButtons'
-		fire.syncState("Live_Games/"+gameID+'/user2_points', {
+		fire.syncState("Live_Games/"+gameID+'/user2_name', {
 			context: this,
 			state: 'opponent'
 		})
@@ -103,7 +103,7 @@ class Leftboard extends React.Component {
 	buttonClick = (id) => {
 
 		//Test for opponent
-		if (!this.state.opponent) {
+		if (this.state.opponent === null) {
 			console.log("illegal move - no opponent!")
 		}
 		//Test for side
