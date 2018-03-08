@@ -270,7 +270,7 @@ class Rightboard extends React.Component {
 		        	>$BlockCoins$: {this.state.user2_coins}
 		        	</a> 
 
-		        <a> Points: {this.state.user1_points}</a></h4>
+		        <a> Points: {this.state.user2_points}</a></h4>
 
 		        {this.determineButtonRender()}
 
