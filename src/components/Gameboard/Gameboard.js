@@ -29,7 +29,7 @@ class Gameboard extends React.Component {
       leftButtons : "",
       rightButtons : "",
     }
-  }
+  };
 
 // ----------------------- ------------- -----------------------//
 // --------------------------- SETUP ---------------------------//
@@ -46,7 +46,7 @@ class Gameboard extends React.Component {
       gameID : gameID
     })
     this.getFirebaseButtons(gameID);
-  }
+  };
 
   //Get buttons from firebase
   getFirebaseButtons = (gameID) => {
@@ -93,7 +93,7 @@ class Gameboard extends React.Component {
       context: this,
       state: 'player'
     })
-  }
+  };
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Click Actions -----------------------//
@@ -131,7 +131,7 @@ class Gameboard extends React.Component {
     } else {
       this.updateLeader(u1_blocks, u2_blocks)
     }
-  }
+  };
 
   //Updates the boardleader based on countBlocks()
   updateLeader = (u1_blocks, u2_blocks) => {
@@ -148,7 +148,7 @@ class Gameboard extends React.Component {
     this.setState({
       high_side: leader,
       boardleader: leader+" has the most blocks!"})
-  }
+  };
 
   endFirebase = () => {
     fire.remove("Live_Games/"+this.state.gameID, function(err) {
@@ -156,13 +156,7 @@ class Gameboard extends React.Component {
         console.log("Error deleting firebase end-point")
       }
     })
-  }
-
-
-  componentWillUnmount() {
-    this.endFirebase();
-  }
-
+  };
 
   endGame = winner => {
     console.log("Winner function triggered")
@@ -178,11 +172,15 @@ class Gameboard extends React.Component {
 // -------------------- Component Lifecycle --------------------//
 // ----------------------- ------------- -----------------------//
 
-  //Get button object from firebase
+  //Parse url to get firebase button object
   componentWillMount() {
-    console.log("gameboard.WillMount =>")
     this.parseUrl();
   }
+
+  //Remove firebase game data
+  componentWillUnmount() {
+    this.endFirebase();
+  };
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Render Logic ------------------------//

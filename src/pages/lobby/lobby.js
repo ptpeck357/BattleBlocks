@@ -1,7 +1,6 @@
 import React from "react";
 import { Redirect } from 'react-router-dom';
 import {  Jumbotron, Container, Button } from "reactstrap";
-import "./lobby.css";
 import Navbar from "../../components/Nav/index";
 import Newgame from "../../components/Newgame/index";
 import axios from 'axios';
@@ -74,14 +73,14 @@ class Lobby extends React.Component{
 				    <div>In each round you will play against one opponent for <strong>BlockCoins and Points</strong></div>
 				    <div>Points last forever, BlockCoins do not</div>
 				    <hr/>
-					    <h4>The Object:</h4>
+					    <h5>The Object:</h5>
 						    <ol>
 						    	<li>Collect BlockCoins</li>
 						    	<li>Use BlockCoins to Earn Points</li>
 						    	<li>Clear Your Side First!</li>
 						    </ol>
 						<hr/>
-					    <h4>How it Works:</h4>
+					    <h5>How it Works:</h5>
 							<ul>
 								<li>Click blocks to <i>earn</i> or <i>spend</i> BlockCoins</li>
 								<li>If you have more blocks than your opponent, you <i>earn</i> BlockCoins</li>

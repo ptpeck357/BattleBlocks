@@ -18,7 +18,6 @@ class Newgame extends React.Component {
 
 	//Creates brand new game
 	createGameData = () => {
-		console.log("this.props.player =>"+this.props.player)
 
 		let myRef = fire.push('Live_Games', {
 			data : {
@@ -26,7 +25,7 @@ class Newgame extends React.Component {
 				id: null,
 				owner: this.props.player,
 				game_status: 'open',
-				headline: 'Waiting for another player...',
+				headline: 'Waiting for player 2...',
 				high_side: '',
 				boardleader: '',
 
@@ -49,7 +48,7 @@ class Newgame extends React.Component {
 		this.setState({
 			redirectTo : gameRoute
 		});
-	}
+	};
 
 	//Checks for available game - if no game - calls "createGameData"
 	joinGame = () => {
@@ -62,9 +61,9 @@ class Newgame extends React.Component {
 					this.createGameData();
 				}
 				for (let i = 0; i < data.length; i++){
-					console.log(i);
+					
 					if(data[i].game_status === "open"){
-						console.log(this.props.player)
+
 						fire.update('Live_Games/' + data[i].key,{
 							data: {
 								game_status: "closed",

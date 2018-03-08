@@ -143,161 +143,155 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: "/lobby" }} />
 		} else {
 			return (
-				<Container>
-
-				  <img src={logo3} alt="Battle Blocks"/>
-
-				  	<br/>
-						<Jumbotron style={jumboStyles}>
-					 	<div className="row-fluid">
+			<Container>
+			  	<img src={logo3} alt="Battle Blocks"/>
+				<Jumbotron style={jumboStyles}>
+				 	<div className="row-fluid">
 						<div className="span12">
+						<div className="span6">
+							<div className="area">
+								<iron-form id="form1">
+									<form className="form-horizontal" id="loginform">
+										<div className="heading">
+											<h4 className="form-heading">Sign In</h4>
+										</div>
 
-							<div className="span6">
-								<div className="area">
-									<iron-form id="form1">
-										<form className="form-horizontal" id="loginform">
-											<div className="heading">
-												<h4 className="form-heading text-center">Sign In</h4>
-											</div>
-
-											<div className="control-group">
-												<label className="control-label" htmlFor="inputUsername">Username</label>
-												<div className="controls">
-													<input id="inputUsername"
-														placeholder = "E.g. John Smith" type="text" value={this.state.usernameSignIn}
-														onChange={this.handleChange}
-														name="usernameSignIn"
-													/>
-												</div>
-											</div>
-
-											<div className="control-group">
-												<label className="control-label" htmlFor="inputPassword">Password</label>
-												<div className="controls">
-													<input id="inputPassword"
-														placeholder="******"
-														type="password"
-														value={this.state.passwordSignIn}
-														onChange={this.handleChange}
-														name="passwordSignIn"
-													/>
-												</div>
-											</div>
-
-											<div className="control-group">
-												<div className="controls">
-													<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
-												</div>
-											</div>
-											{this.state.loginError &&
-												<div className="alert alert-danger" role="alert">
-	  												{this.state.errorMessage}
-												</div>
-											}
-
-										</form>
-									</iron-form>
-								</div>
-							</div>
-
-							<div className="span6">
-								<div className="area">
-									<iron-form id="form2">
-										<form className="form-horizontal" id="c">
-											<div className="heading">
-												<h4 className="form-heading">Register</h4>
-											</div>
-
-											<div className="control-group">
-												<label className="control-label" htmlFor="inputUser">Username</label>
-												<div className="controls">
-													<input id="userName"
-														placeholder="E.g. John Smith"
-														type="text"
-														value={this.state.username}
-														onChange={this.handleChange}
-														name="username"
-													/>
-												</div>
-											</div>
-
-											<div className="control-group">
-												<label className="control-label" htmlFor="inputPassword">Password</label>
-												<div className="controls">
-													<input id="password"
-														placeholder="Min. 6 Characters"
-														type="password"
-														value={this.state.password}
-														onChange={this.handleChange}
-														name="password"
-													/>
-												</div>
-											</div>
-
-											<div className="control-group">
-												<label className="control-label" htmlFor= "inputPassword">Confirm Password</label>
-												<div className="controls">
-													<input id="confirmPassword"
-														placeholder="Min. 6 Characters"
-														type="password"
-														value={this.state.confirmPassword}
-														onChange={this.handleChange}
-														name="confirmPassword"
-													/>
-												</div>
-											</div>
-
-											<Dropzone
-												style={{
-													position: "relative",
-													fontSize: "12px",
-													left: "11%",
-													width: "65%"}}
-												onDrop={ this.onDrop }
-												accept="image/jpeg,image/jpg,image/png,image/gif"
-												multiple={ false }
-												className= "form-control">
-												Upload A Profile Picture (Optional)
-											</Dropzone>
-
+										<div className="control-group">
+											<label className="control-label" htmlFor="inputUsername">Username</label>
 											<div className="controls">
-												{this.state.profilePicture &&
-													<img data-value={this.state.profilePicture.name} src={this.state.profilePicture[0].preview} className="img-thumbnail preview m-1" alt={this.state.profilePicture.name} key={this.state.profilePicture.name}/>
+												<input id="inputUsername"
+													placeholder = "E.g. John Smith" type="text" value={this.state.usernameSignIn}
+													onChange={this.handleChange}
+													name="usernameSignIn"
+												/>
+											</div>
+										</div>
 
-												}
+										<div className="control-group">
+											<label className="control-label" htmlFor="inputPassword">Password</label>
+											<div className="controls">
+												<input id="inputPassword"
+													placeholder="******"
+													type="password"
+													value={this.state.passwordSignIn}
+													onChange={this.handleChange}
+													name="passwordSignIn"
+												/>
 											</div>
-                    	<br/>
-											<div className="control-group">
-												<div className="controls">
-													<button id="makenew" className="btn btn-success" onClick={this.handleSubmit} type="submit" >Sign up</button>
-												</div>
+										</div>
+
+										<div className="control-group">
+											<div className="controls">
+												<button className="btn btn-success" onClick={this.handleSignin} type="submit" id="signin">Sign In</button>
 											</div>
-										</form>
-									</iron-form>
-									</div>
+										</div>
+										{this.state.loginError &&
+											<div className="alert alert-danger" role="alert">
+													{this.state.errorMessage}
+											</div>
+										}
+
+									</form>
+								</iron-form>
+							</div>
+						</div>
+
+						<div className="span6">
+							<div className="area">
+								<iron-form id="form2">
+									<form className="form-horizontal" id="c">
+										<div className="heading">
+											<h4 className="form-heading">Register</h4>
+										</div>
+
+										<div className="control-group">
+											<label className="control-label" htmlFor="inputUser">Username</label>
+											<div className="controls">
+												<input id="userName"
+													placeholder="E.g. John Smith"
+													type="text"
+													value={this.state.username}
+													onChange={this.handleChange}
+													name="username"
+												/>
+											</div>
+										</div>
+
+										<div className="control-group">
+											<label className="control-label" htmlFor="inputPassword">Password</label>
+											<div className="controls">
+												<input id="password"
+													placeholder="Min. 6 Characters"
+													type="password"
+													value={this.state.password}
+													onChange={this.handleChange}
+													name="password"
+												/>
+											</div>
+										</div>
+
+										<div className="control-group">
+											<label className="control-label" htmlFor= "inputPassword">Confirm Password</label>
+											<div className="controls">
+												<input id="confirmPassword"
+													placeholder="Min. 6 Characters"
+													type="password"
+													value={this.state.confirmPassword}
+													onChange={this.handleChange}
+													name="confirmPassword"
+												/>
+											</div>
+										</div>
+
+										<Dropzone
+											style={{
+												position: "relative",
+												fontSize: "12px",
+												left: "11%",
+												width: "65%"}}
+											onDrop={ this.onDrop }
+											accept="image/jpeg,image/jpg,image/png,image/gif"
+											multiple={ false }
+											className= "form-control">
+											Upload A Profile Picture (Optional)
+										</Dropzone>
+
+										<div className="controls">
+											{this.state.profilePicture &&
+												<img data-value={this.state.profilePicture.name} src={this.state.profilePicture[0].preview} className="img-thumbnail preview m-1" alt={this.state.profilePicture.name} key={this.state.profilePicture.name}/>
+
+											}
+										</div>
+	            	<br/>
+										<div className="control-group">
+											<div className="controls">
+												<button id="makenew" className="btn btn-success" onClick={this.handleSubmit} type="submit" >Sign up</button>
+											</div>
+										</div>
+									</form>
+								</iron-form>
 								</div>
 							</div>
 						</div>
-					<div>
-				</div>
+					</div>
+			
+	<Modal
+	 	isOpen={this.state.modalIsOpen}
+	  	onAfterOpen={this.afterOpenModal}
+	  	onRequestClose={this.closeModal}
+	  	style={customStyles}
+	  	contentLabel="Error"
+	>
 
-        <Modal
-         	isOpen={this.state.modalIsOpen}
-          	onAfterOpen={this.afterOpenModal}
-          	onRequestClose={this.closeModal}
-          	style={customStyles}
-          	contentLabel="Error"
-        >
-
-        <h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
-        <ul>
-          {errArray.map(function(errorMessgae, index){
-            return <li key={ index }>{errorMessgae}</li>;
-          })}
-        </ul>
-        </Modal>
-        		</Jumbotron>
-				</Container>
+	<h2 ref={subtitle => this.subtitle = subtitle}>Error! </h2>
+	<ul>
+	  {errArray.map(function(errorMessgae, index){
+	    return <li key={ index }>{errorMessgae}</li>;
+	  })}
+	</ul>
+	</Modal>
+			</Jumbotron>
+			</Container>
 
 			)
 		}
