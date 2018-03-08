@@ -205,7 +205,7 @@ class SignupForm extends Component {
 									<iron-form id="form2">
 										<form className="form-horizontal" id="c">
 											<div className="heading">
-												<h4 className="form-heading">Sign Up</h4>
+												<h4 className="form-heading">Register</h4>
 											</div>
 
 											<div className="control-group">
@@ -248,11 +248,16 @@ class SignupForm extends Component {
 											</div>
 
 											<Dropzone
+												style={{
+													position: "relative",
+													fontSize: "12px",
+													left: "11%",
+													width: "65%"}}
 												onDrop={ this.onDrop }
 												accept="image/jpeg,image/jpg,image/png,image/gif"
 												multiple={ false }
 												className= "form-control">
-												Upload Or Drag n Drop Profile Picture
+												Upload A Profile Picture (Optional)
 											</Dropzone>
 
 											<div className="controls">
