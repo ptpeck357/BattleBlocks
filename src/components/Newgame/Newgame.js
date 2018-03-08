@@ -37,7 +37,7 @@ class Newgame extends React.Component {
 				user1_buttons: leftButtons,
 
 				//Rightboard data
-				user2_name: "Tbd",
+				user2_name: "",
 				user2_points: "",
 				user2_coins: 3,
 				user2_buttons: rightButtons
@@ -69,12 +69,12 @@ class Newgame extends React.Component {
 							data: {
 								game_status: "closed",
 								user2_name: this.props.player,
-								user2_points: this.props.score
+								user2_points: this.props.score,
+								headline: "Live game!"
 							}
 						});
 						let gameRoute = '/gameboard/' + data[i].key;
 						this.setState({
-							headline: "Game is live!",
 							redirectTo : gameRoute
 						});
 						break;

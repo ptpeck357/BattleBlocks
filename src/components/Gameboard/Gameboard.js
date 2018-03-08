@@ -18,11 +18,11 @@ class Gameboard extends React.Component {
 
       //Game state settings
       player: null, // from user login!
-      opponent: "waiting for player", // from user login!
+      opponent: "", // from user login!
 
-      headline: "Game is live",
+      headline: "",
       high_side: null,
-      boardleader: "Waiting for player 2...",
+      boardleader: "",
       leader: 0,
 
       //Buttons
@@ -151,8 +151,6 @@ class Gameboard extends React.Component {
   }
 
   endFirebase = () => {
-    console.log("gameboard.endFirebase =>")
-
     fire.remove("Live_Games/"+this.state.gameID, function(err) {
       if(err) {
         console.log("Error deleting firebase end-point")
