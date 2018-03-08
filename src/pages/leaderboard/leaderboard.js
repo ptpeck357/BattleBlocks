@@ -5,6 +5,7 @@ import ReactTable from 'react-table'
 import Navbar from "../../components/Nav/index";
 import "react-table/react-table.css";
 import Moment from 'react-moment';
+import "./leaderboard.css"
 
 // leaderboard class with the userData and isMounting variable to render the data
 class Leaderboard extends Component {
@@ -32,7 +33,7 @@ class Leaderboard extends Component {
         navAction = {"Lobby"}
       />
         <Jumbotron>
-          <h1 className="header">Leaderboard</h1>
+          <h1 className="leadboardTitle">Leaderboard</h1>
           <div>
             <ReactTable
               data={this.state.userData.data}
@@ -40,36 +41,36 @@ class Leaderboard extends Component {
                 {
                   columns: [
                     {
-                      Header: "Picture",
+                      Header: <strong>Profile Picture</strong>,
                       Cell: (row) => {
-                      return <div><img alt="Not available" className="imgSize" style={{ height: "250px", width: "250px"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
+                      return <div><img alt="Not available" className="imgSize" style={{ height: "5%"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
                       }
                     },
                     {
-                      Header: "Member Since",
+                      Header: <strong>Member Since</strong>,
                       Cell: (row) => {
                       return <Moment fromNow ago>{this.state.userData.data[row.index].joindate}</Moment>
                       }
                     },
                     {
-                      Header: "User Name",
+                      Header: <strong>User Name</strong>,
                       id: "username",
                       accessor: d => d.username
                     },
                     {
-                      Header: "Wins",
+                      Header: <strong>Wins</strong>,
                       accessor: "wins"
                     },
                     {
-                      Header: "Losses",
+                      Header: <strong>Losses</strong>,
                       accessor: "losses"
                     },
                     {
-                      Header: "Total Games",
+                      Header: <strong>Total Games</strong>,
                       accessor: "totalgames"
                     },
                     {
-                      Header: "Total Score",
+                      Header: <strong>Total Score</strong>,
                       accessor: "totalscore"
                     }
                   ]

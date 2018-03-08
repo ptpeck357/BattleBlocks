@@ -4,19 +4,15 @@ $teal:#009688;
 @mixin smoothtransition{
   transition: all 1s linear;
 }
-
-
-
 body{
-  background-image:url("https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-193961.jpg");
+  /* background-image:url("https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-193961.jpg"); */
   background-attachment:fixed;
   background-position:center;
   @include smoothtransition;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   font-size: 14px;
 }
-
 .logo{
   height:30px;
   margin:10px;
@@ -28,7 +24,15 @@ body{
   opacity:0.9;
   font-size: 20px;
 }
-
+.leadboardTitle {
+  color:             #385723;
+  border:             4px solid;
+  background:         rgb(59, 2, 6);
+  mix-blend-mode:     multiply;
+  font:               bolder 3vw 'Alfa Slab One';
+  text-align:         center;
+  margin:             0;
+}
 .card{
   transition: all 1s linear;
   margin-left:auto;
@@ -54,7 +58,6 @@ body{
   opacity:0.9;
   &:hover{transform:scale(1.05)}
 }
-
 .flexbox{
   display:flex;
 }
@@ -72,7 +75,7 @@ a:hover{color:#ccc; text-decoration:none;}
 .header{
   display:flex;
   justify-content:center;
-  flex-direction:column;  
+  flex-direction:column;
   align-items:center;
   font-family:Pacifico;
   font-size:1.8em;
