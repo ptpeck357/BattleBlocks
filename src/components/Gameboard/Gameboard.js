@@ -3,6 +3,7 @@ import Leftboard from "../../components/Leftboard";
 import Rightboard from "../../components/Rightboard";
 import { Container, Row, Col } from "reactstrap";
 import Navbar from "../../components/Nav/index";
+import { Redirect } from 'react-router-dom';
 import fire from "../../fire.js";
 import axios from 'axios';
 
@@ -190,44 +191,48 @@ class Gameboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 
   render() {
-    console.log("gameboard.render =>")
-    console.log(this.state.player)
-    console.log(this.state.opponent)
-    console.log(this.countBlocks)
-    console.log(this.state.high_side)
-    console.log(this.endGame)
-    return (
-      <Container fluid>
-      <Navbar
-        headline = {this.state.headline}
-        href = {"/lobby"}
-        navAction = {"Lobby"}
-      />
-        <Row>
-          <h2>{this.state.boardleader}</h2>
-        </Row>
-        <Row>
-          <Col>
-            <Leftboard
-              player = {this.state.player}
-              opponent = {this.state.opponent}
-              countBlocks = {this.countBlocks}
-              high = {this.state.high_side}
-              winner = {this.endGame}
-            />
-          </Col>
-          <Col>
-            <Rightboard
-              player = {this.state.opponent}
-              opponent = {this.state.player}
-              countBlocks = {this.countBlocks}
-              high = {this.state.high_side}
-              winner = {this.endGame}
-            />
-          </Col>
-        </Row>
-      </Container>
-    )
+
+    if (!this.state.gameID) {
+      console.log("gameboard.noGameID => lobby")
+      return <Redirect to={{ pathname: "/lobby" }} />
+    } else {
+      console.log("gameboard.render =>")
+      console.log(this.state.gameID)
+      return (
+        <Container fluid>
+        <Navbar
+          headline = {this.state.headline}
+          href = {"/lobby"}
+          navAction = {"Lobby"}
+        />
+          <Row>
+            <h2>{this.state.boardleader}</h2>
+          </Row>
+          <Row>
+            <Col>
+              <Leftboard
+                leader = {this.state.leader}
+                player = {this.state.player}
+                opponent = {this.state.opponent}
+                countBlocks = {this.countBlocks}
+                high = {this.state.high_side}
+                winner = {this.endGame}
+              />
+            </Col>
+            <Col>
+              <Rightboard
+                leader = {this.state.leader}
+                player = {this.state.opponent}
+                opponent = {this.state.player}
+                countBlocks = {this.countBlocks}
+                high = {this.state.high_side}
+                winner = {this.endGame}
+              />
+            </Col>
+          </Row>
+        </Container>
+      )
+    }
   }
 }
 
