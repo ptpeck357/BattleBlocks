@@ -40,6 +40,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // will call the deserializeUser
 
+// --------------------- Backend Validation---------------------------
+
 //This validates and sanitizes strings
 app.use(expressValidator({
 	errorFormatter: (param, msg, value) => {
