@@ -40,15 +40,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // will call the deserializeUser
 
-
-// -------------------------- ?What is this stuff? -----------------------------
-
-// Loading evnironmental variables here
-// if (process.env.NODE_ENV !== 'production') {
-// 	require('dotenv').config()
-// }
-// require('dotenv').config()
-
+// --------------------- Backend Validation---------------------------
 
 //This validates and sanitizes strings
 app.use(expressValidator({
@@ -67,14 +59,6 @@ app.use(expressValidator({
 		};
 	}
 }));
-
-// Checks if it's production environment and sends build folder
-// if (process.env.NODE_ENV === 'production') {
-// 	app.use('/', express.static(path.join(__dirname, 'build/static/')))
-// 	app.get('/', (req, res) => {
-// 		res.sendFile(path.join(__dirname, 'build/static/'))
-// 	})
-// }
 
 // -------------------------- Routes -----------------------------
 
