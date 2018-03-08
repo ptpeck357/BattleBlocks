@@ -37,7 +37,7 @@ class Newgame extends React.Component {
 				user1_buttons: leftButtons,
 
 				//Rightboard data
-				user2_name: "Goliath",
+				user2_name: "Waiting for player",
 				user2_points: "player 2 points",
 				user2_coins: 3,
 				user2_buttons: rightButtons
@@ -96,7 +96,7 @@ class Newgame extends React.Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
-				<Button 
+				<Button
 					className="btn btn-success"
 					onClick ={this.startGame}>
 					Start A Round

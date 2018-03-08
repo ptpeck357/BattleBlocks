@@ -9,25 +9,21 @@ import Moment from 'react-moment';
 // leaderboard class with the userData and isMounting variable to render the data
 class Leaderboard extends Component {
   state = {
-    userData:{},
-    isMounting: ""
+    userData:{}
   };
 
-    componentWillMount() {
-      // making axios call and getting response from api.js
-      axios.get('/api/leaderboard').then(
-        
-        // response comes from the database, then setting up the state
-        response => { this.setState({ userData: response, isMounting:true })
-          console.log(this.state.userData);
-      }).catch(err => console.log(err));
-    }
+  componentWillMount() {
+    axios.get('/api/leaderboard').then(response => {
+      this.setState({
+        userData: response
+      })
+    }).catch(err => console.log(err));
+  };
 
  // rendering the data in a react table
   render() {
     const id =1;
 
-    if(this.state.isMounting){
       return(
         <Container fluid>
         <Navbar
@@ -94,15 +90,8 @@ class Leaderboard extends Component {
         </Jumbotron>
         </Container>
       )
-    } else {
-      return(
-        <h1 className="header">
-          Error ...
-        </h1>
-      )
-    }
-  }
-}
+  };
+};
 
 export default Leaderboard
 
