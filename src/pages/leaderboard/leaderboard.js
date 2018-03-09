@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import {  Jumbotron, Button, Container } from "reactstrap"
-import axios from 'axios'
-import ReactTable from 'react-table'
+import React, { Component } from 'react';
+import {  Jumbotron, Button, Container } from "reactstrap";
 import Navbar from "../../components/Nav/index";
 import "react-table/react-table.css";
 import Moment from 'react-moment';
-import "./leaderboard.css"
+import ReactTable from 'react-table';
+import axios from 'axios';
+import "./leaderboard.css";
+import logo4 from '../registration/assets/images/leaderboard.png';
 
 // leaderboard class with the userData and isMounting variable to render the data
 class Leaderboard extends Component {
@@ -27,24 +28,30 @@ class Leaderboard extends Component {
 
       return(
         <Container fluid>
+        <br/><br/>
+          <img src={logo4} alt="Battle Blocks"/>
         <Navbar
         headline = {"Leaderboard"}
         href = {"/lobby"}
         navAction = {"Lobby"}
       />
         <Jumbotron>
-          <h1 className="leadboardTitle">Leaderboard</h1>
           <div>
             <ReactTable
               data={this.state.userData.data}
               columns={[
                 {
                   columns: [
+                    // {
+                    //   Header: <strong>Profile Picture</strong>,
+                    //   Cell: (row) => {
+                    //   return <div><img alt="Not available" className="imgSize" style={{ height: "5%"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
+                    //   }
+                    // },
                     {
-                      Header: <strong>Profile Picture</strong>,
-                      Cell: (row) => {
-                      return <div><img alt="Not available" className="imgSize" style={{ height: "5%"}}  src={`profilePicture/${this.state.userData.data[row.index].profilePicture}`}/></div>
-                      }
+                      Header: <strong>User Name</strong>,
+                      id: "username",
+                      accessor: d => d.username
                     },
                     {
                       Header: <strong>Member Since</strong>,
@@ -53,24 +60,19 @@ class Leaderboard extends Component {
                       }
                     },
                     {
-                      Header: <strong>User Name</strong>,
-                      id: "username",
-                      accessor: d => d.username
-                    },
-                    {
                       Header: <strong>Wins</strong>,
                       accessor: "wins"
                     },
-                    {
-                      Header: <strong>Losses</strong>,
-                      accessor: "losses"
-                    },
+                    // {
+                    //   Header: <strong>Losses</strong>,
+                    //   accessor: "losses"
+                    // },
                     {
                       Header: <strong>Total Games</strong>,
                       accessor: "totalgames"
                     },
                     {
-                      Header: <strong>Total Score</strong>,
+                      Header: <strong>Total Points</strong>,
                       accessor: "totalscore"
                     }
                   ]
