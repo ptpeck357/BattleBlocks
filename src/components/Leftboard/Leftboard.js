@@ -200,23 +200,13 @@ class Leftboard extends React.Component {
 			case 0:
 				points = points + 3
 
-				/*Calls mongoDB*/
-				axios.post('/api/leftboard', {
-					username: this.props.player,
-					opponent: this.props.opponent,
-					points: points - this.state.user1_points
-				}).then(response => {
-					console.log(response)
-				}).catch(error => {
-					console.log(error);
-				});
-
 				//declare if winner
 				this.props.winner(this.props.player)
 				break;
 			default:
 				points;
-		}
+		};
+
 		//update props with new points total
 		this.setState({
 			user1_points: points
@@ -246,35 +236,36 @@ class Leftboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 
 	determineButtonRender = () =>
-	    !(this.state.buttons === null) ?
-	        this.state.buttons.map((button, i) =>
-	       		<Squares
-	       			key = {i}
-	       			id = {button.id}
-	       			side = {button.side}
-	       			status = {button.active}
-	       			buttonClick = {this.buttonClick}
-	       		/>
-	        )
-	    : ""
+		!(this.state.buttons === null) ?
+			this.state.buttons.map((button, i) =>
+				<Squares
+					key = {i}
+					id = {button.id}
+					side = {button.side}
+					status = {button.active}
+					buttonClick = {this.buttonClick}
+				/>
+			)
+		: ""
 	//Render to Dom
 	render() {
 		return (
-		  	<Container fluid>
-		        <h3>Host: {this.state.user1_name}</h3>
-		        <h4>
-		        	<a
-		        		style={{ 
-				          color: (this.props.leader === this.state.Mongo_owner) ? 'green' : 'red' ,
-				        }}
-		        	>$BlockCoins$: {this.state.user1_coins}
-		        	</a> 
+			<Container fluid>
+				<h3>Host: {this.state.user1_name}</h3>
+					<h4>
+						<a
+							style={{
+								color: (this.props.leader === this.state.Mongo_owner) ? 'green' : 'red' ,
+							}}
+						>$BlockCoins$: {this.state.user1_coins}
+						</a>
 
-		        <a> Points: {this.state.user1_points}</a></h4>
+						<a> Points: {this.state.user1_points}</a>
+					</h4>
 
-		        {this.determineButtonRender()}
+				{this.determineButtonRender()}
 
-		  	</Container>
+			</Container>
 		)
 	};
 };

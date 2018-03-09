@@ -27,7 +27,9 @@ class Gameboard extends React.Component {
 
       //Buttons
       leftButtons : "",
+      leftboardpts: 1,
       rightButtons : "",
+      rightboardpts: 1,
     }
   };
 
@@ -93,6 +95,19 @@ class Gameboard extends React.Component {
       context: this,
       state: 'player'
     })
+
+//POINTS
+		//Synchronize firebase
+		fire.syncState("Live_Games/"+gameID+'/user1_points', {
+			context: this,
+			state: 'leftboardpts'
+    })
+
+		//Synchronize firebase
+		fire.syncState("Live_Games/"+gameID+'/user2_points', {
+			context: this,
+			state: 'rightboardpts'
+		})
   };
 
 // ----------------------- ------------- -----------------------//
@@ -159,6 +174,20 @@ class Gameboard extends React.Component {
   };
 
   endGame = winner => {
+
+    /*Calls mongoDB*/
+    axios.post('/api/endgame', {
+      owner: this.state.player,
+      opponent: this.state.opponent,
+      leftboardpts:  this.state.leftboardpts,
+      rightboardpts:  this.state.rightboardpts
+    }).then(response => {
+      console.log(response)
+    }).catch(error => {
+      console.log(error);
+    });
+
+
     console.log("Winner function triggered")
     let name = winner;
     this.setState({
