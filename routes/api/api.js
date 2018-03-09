@@ -142,7 +142,7 @@ router.post('/endgame', (req, res) => {
 	});
 
 	/*Updates looser data*/
-	User.findOneAndUpdate({username: opponent}, {$set:totalscore:rightboardpts}, {$inc:{losses:1, totalgames: 1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: opponent}, {$set:{totalscore:rightboardpts}, $inc:{losses:1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Looser updated")
 	});
