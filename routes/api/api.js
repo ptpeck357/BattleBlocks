@@ -136,7 +136,7 @@ router.post('/endgame', (req, res) => {
 
 	const {owner, opponent, leftboardpts, rightboardpts} = req.body;
 
-	User.findOneAndUpdate({username: owner}, {$set:{totalscore:leftboardpts}}, {$inc:{wins:1, totalgames: 1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: owner}, {$set:{totalscore:leftboardpts}, $inc:{wins:1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Winner updated")
 	});
