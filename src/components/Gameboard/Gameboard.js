@@ -27,7 +27,9 @@ class Gameboard extends React.Component {
 
       //Buttons
       leftButtons : "",
+      leftBoardpts: 1,
       rightButtons : "",
+      rightBoardpts: 1,
     }
   };
 
@@ -159,6 +161,20 @@ class Gameboard extends React.Component {
   };
 
   endGame = winner => {
+
+    /*Calls mongoDB*/
+    axios.post('/api/endgame', {
+      owner: this.props.player,
+      opponent: this.props.opponent,
+      leftboardpts:  this.state.leftBoardpts,
+      rightBoardpts:  this.state.rightBoardpts
+    }).then(response => {
+      console.log(response)
+    }).catch(error => {
+      console.log(error);
+    });
+
+
     console.log("Winner function triggered")
     let name = winner;
     this.setState({
@@ -209,6 +225,7 @@ class Gameboard extends React.Component {
               <Leftboard
                 leader = {this.state.high_side}
                 player = {this.state.player}
+                points = {this.state.leftBoardpts}
                 opponent = {this.state.opponent}
                 countBlocks = {this.countBlocks}
                 high = {this.state.high_side}
@@ -219,6 +236,7 @@ class Gameboard extends React.Component {
               <Rightboard
                 leader = {this.state.high_side}
                 player = {this.state.opponent}
+                points = {this.state.rightBoardpts}
                 opponent = {this.state.player}
                 countBlocks = {this.countBlocks}
                 high = {this.state.high_side}

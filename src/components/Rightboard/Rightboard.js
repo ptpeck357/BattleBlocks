@@ -19,7 +19,7 @@ class Rightboard extends React.Component {
 			buttons : null,
 			user2_name: null,
 			user2_coins: 3,
-			user2_points: 1,
+			user2_points: this.props.points,
 			leftButtons : null
 			//Doesn't need opponent
 		};
@@ -64,7 +64,7 @@ class Rightboard extends React.Component {
 		//NO OPPONENT NEEDED
 		//NO OPPONENT NEEDED
 		//NO OPPONENT NEEDED
-								
+
 //BUTTONS
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
@@ -200,17 +200,6 @@ class Rightboard extends React.Component {
 			case 0:
 				points = points + 3
 
-				/*Calls mongoDB*/
-				axios.post('/api/rightboard', {
-					username: this.props.player,
-					opponent: this.props.opponent,
-					points: points - this.state.user2_points
-				}).then(response => {
-					console.log(response)
-				}).catch(error => {
-					console.log(error);
-				});
-
 				//declare if winner
 				this.props.winner(this.props.player)
 				break;
@@ -264,11 +253,11 @@ class Rightboard extends React.Component {
 		        <h3>Guest: {this.state.user2_name}</h3>
 		        <h4>
 		        	<a
-		        		style={{ 
+		        		style={{
 				          color: (this.props.leader === this.state.Mongo_owner) ? 'green' : 'red' ,
 				        }}
 		        	>$BlockCoins$: {this.state.user2_coins}
-		        	</a> 
+		        	</a>
 
 		        <a> Points: {this.state.user2_points}</a></h4>
 

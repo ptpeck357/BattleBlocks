@@ -132,17 +132,17 @@ router.get('/lobby', (req, res) => {
 });
 
 /*If winner on leftboard, update MongoDB databse*/
-router.post('/leftboard', (req, res) => {
+router.post('/endgame', (req, res) => {
 
-	const {username, opponent, points} = req.body;
+	const {owner, opponent, leftboardpts, rightboardpts} = req.body;
 
-	User.findOneAndUpdate({username: username}, {$inc:{totalscore:points, wins:1, totalgames: 1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: owner}, {$set:totalscore:leftboardpts}, {$inc:{wins:1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Winner updated")
 	});
 
 	/*Updates looser data*/
-	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1, totalgames: 1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: opponent}, {$set:totalscore:rightboardpts}, {$inc:{losses:1, totalgames: 1}}, {new: true}, function(err, doc){
 		if(err) throw err;
 		console.log("Looser updated")
 	});
@@ -150,22 +150,22 @@ router.post('/leftboard', (req, res) => {
 });
 
 /*If winner on rightboard, update MongoDB databse*/
-router.post('/rightboard', (req, res) => {
+// router.post('/rightboard', (req, res) => {
 
-	const {username, opponent, points} = req.body;
+// 	const {username, opponent, rightboardpoints} = req.body;
 
-	User.findOneAndUpdate({username: username}, {$inc: { totalscore: points, wins: 1, totalgames: 1}}, {new: true}, function(err, doc){
-		if(err) throw err;
-		console.log("Winner updated")
-	});
+// 	User.findOneAndUpdate({username: username}, {$inc: { totalscore: rightboardpoints, wins: 1, totalgames: 1}}, {new: true}, function(err, doc){
+// 		if(err) throw err;
+// 		console.log("Winner updated")
+// 	});
 
-	/*Updates looser data*/
-	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:points, losses:1, totalgames: 1}}, {new: true}, function(err, doc){
-		if(err) throw err;
-		console.log("Looser updated")
-	});
+// 	/*Updates looser data*/
+// 	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:rightboardpoints, losses:1, totalgames: 1}}, {new: true}, function(err, doc){
+// 		if(err) throw err;
+// 		console.log("Looser updated")
+// 	});
 
-});
+// });
 
 /*Route to log user out of session*/
 router.get('/logout', (req, res) => {

@@ -274,7 +274,7 @@ class SignupForm extends Component {
 							</div>
 						</div>
 					</div>
-			
+
 	<Modal
 	 	isOpen={this.state.modalIsOpen}
 	  	onAfterOpen={this.afterOpenModal}

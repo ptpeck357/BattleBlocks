@@ -61,7 +61,7 @@ class Newgame extends React.Component {
 					this.createGameData();
 				}
 				for (let i = 0; i < data.length; i++){
-					
+
 					if(data[i].game_status === "open"){
 
 						fire.update('Live_Games/' + data[i].key,{
