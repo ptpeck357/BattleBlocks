@@ -135,10 +135,8 @@ router.get('/lobby', (req, res) => {
 router.post('/endgame', (req, res) => {
 
 	const {owner, opponent, leftboardpts, rightboardpts} = req.body;
-	console.log(owner)
-	console.log(opponent)
-	console.log(leftboardpts)
-	console.log(rightboardpts)
+	console.log(req.body)
+
 	User.findOneAndUpdate({username: owner}, {$set:{totalscore:leftboardpts}}, {new:true}, function(err, doc){
 		if(err) throw err;
 	});
@@ -148,11 +146,11 @@ router.post('/endgame', (req, res) => {
 	});
 
 	/*Updates looser data*/
-	User.findOneAndUpdate({username: "pp"}, {$set:{totalscore: rightboardpts}}, {new:true}, function(err, doc){
+	User.findOneAndUpdate({username: opponent}, {$set:{totalscore: rightboardpts}}, {new:true}, function(err, doc){
 		if(err) throw err;
 	});
 
-	User.findOneAndUpdate({username: "pp"}, {$inc:{losses:1, totalgames: 1}}, {new:true}, function(err, doc){
+	User.findOneAndUpdate({username: opponent}, {$inc:{losses:1, totalgames: 1}}, {new:true}, function(err, doc){
 		if(err) throw err;
 	});
 

@@ -95,6 +95,19 @@ class Gameboard extends React.Component {
       context: this,
       state: 'player'
     })
+
+//POINTS
+		//Synchronize firebase
+		fire.syncState("Live_Games/"+gameID+'/user1_points', {
+			context: this,
+			state: 'leftboardpts'
+    })
+
+		//Synchronize firebase
+		fire.syncState("Live_Games/"+gameID+'/user2_points', {
+			context: this,
+			state: 'rightboardpts'
+		})
   };
 
 // ----------------------- ------------- -----------------------//
@@ -167,7 +180,7 @@ class Gameboard extends React.Component {
       owner: this.state.player,
       opponent: this.state.opponent,
       leftboardpts:  this.state.leftboardpts,
-      rightBoardpts:  this.state.rightboardpts
+      rightboardpts:  this.state.rightboardpts
     }).then(response => {
       console.log(response)
     }).catch(error => {
@@ -225,7 +238,6 @@ class Gameboard extends React.Component {
               <Leftboard
                 leader = {this.state.high_side}
                 player = {this.state.player}
-                leftpoints = {this.state.leftboardpts}
                 opponent = {this.state.opponent}
                 countBlocks = {this.countBlocks}
                 high = {this.state.high_side}
@@ -236,7 +248,6 @@ class Gameboard extends React.Component {
               <Rightboard
                 leader = {this.state.high_side}
                 player = {this.state.opponent}
-                rightpoints = {this.state.rightboardpts}
                 opponent = {this.state.player}
                 countBlocks = {this.countBlocks}
                 high = {this.state.high_side}

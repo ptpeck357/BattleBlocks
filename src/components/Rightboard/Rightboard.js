@@ -29,10 +29,6 @@ class Rightboard extends React.Component {
 // --------------------------- SETUP ---------------------------//
 // ----------------------- ------------- -----------------------//
 
-		componentDidMount(){
-			this.setState({user2_points: this.props.rightpoints})
-		}
-
 		//Captures the gameID from the url
     parseUrl = () => {
 		let gameUrl = window.location.href;

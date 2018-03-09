@@ -29,10 +29,6 @@ class Leftboard extends React.Component {
 // --------------------------- SETUP ---------------------------//
 // ----------------------- ------------- -----------------------//
 
-	componentDidMount(){
-		this.setState({user1_points: this.props.leftpoints})
-	}
-
 	//Captures the gameID from the url
     parseUrl = () => {
 		let gameUrl = window.location.href;
