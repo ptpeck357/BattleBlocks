@@ -135,37 +135,30 @@ router.get('/lobby', (req, res) => {
 router.post('/endgame', (req, res) => {
 
 	const {owner, opponent, leftboardpts, rightboardpts} = req.body;
-
-	User.findOneAndUpdate({username: owner}, {$set:{totalscore:leftboardpts}, $inc:{wins:1, totalgames: 1}}, {new: true}, function(err, doc){
+	console.log(owner)
+	console.log(opponent)
+	console.log(leftboardpts)
+	console.log(rightboardpts)
+	User.findOneAndUpdate({username: owner}, {$set:{totalscore:leftboardpts}}, {new:true}, function(err, doc){
 		if(err) throw err;
-		console.log("Winner updated")
+	});
+
+	User.findOneAndUpdate({username: owner}, {$inc:{wins:1, totalgames: 1}}, {new:true}, function(err, doc){
+		if(err) throw err;
 	});
 
 	/*Updates looser data*/
-	User.findOneAndUpdate({username: opponent}, {$set:{totalscore:rightboardpts}, $inc:{losses:1, totalgames: 1}}, {new: true}, function(err, doc){
+	User.findOneAndUpdate({username: "pp"}, {$set:{totalscore: rightboardpts}}, {new:true}, function(err, doc){
 		if(err) throw err;
-		console.log("Looser updated")
 	});
 
+	User.findOneAndUpdate({username: "pp"}, {$inc:{losses:1, totalgames: 1}}, {new:true}, function(err, doc){
+		if(err) throw err;
+	});
+
+
+	res.json("success")
 });
-
-/*If winner on rightboard, update MongoDB databse*/
-// router.post('/rightboard', (req, res) => {
-
-// 	const {username, opponent, rightboardpoints} = req.body;
-
-// 	User.findOneAndUpdate({username: username}, {$inc: { totalscore: rightboardpoints, wins: 1, totalgames: 1}}, {new: true}, function(err, doc){
-// 		if(err) throw err;
-// 		console.log("Winner updated")
-// 	});
-
-// 	/*Updates looser data*/
-// 	User.findOneAndUpdate({username: opponent}, {$inc:{totalscore:rightboardpoints, losses:1, totalgames: 1}}, {new: true}, function(err, doc){
-// 		if(err) throw err;
-// 		console.log("Looser updated")
-// 	});
-
-// });
 
 /*Route to log user out of session*/
 router.get('/logout', (req, res) => {

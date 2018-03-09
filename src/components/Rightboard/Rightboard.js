@@ -208,7 +208,7 @@ class Rightboard extends React.Component {
 		}
 		//update props with new points total
 		this.setState({
-			user2_points: points-this.state.user2_points
+			user2_points: points
 		})
 	};
 
