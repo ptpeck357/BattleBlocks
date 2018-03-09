@@ -84,7 +84,7 @@ class SignupForm extends Component {
 			errArray = [];
 		} else {
 			this.setState({
-			username: '', password: '', confirmPassword: '', profilePicture: '', redirectTo: "/lobby", loggedin: true
+				username: '', password: '', confirmPassword: '', profilePicture: '', redirectTo: "/lobby", loggedin: true
 			});
 		}
 		}).catch((error) => {
@@ -274,7 +274,7 @@ class SignupForm extends Component {
 							</div>
 						</div>
 					</div>
-			
+
 	<Modal
 	 	isOpen={this.state.modalIsOpen}
 	  	onAfterOpen={this.afterOpenModal}
