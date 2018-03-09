@@ -1,7 +1,6 @@
 import React from "react";
 import { Redirect } from 'react-router-dom';
 import {  Jumbotron, Container, Button } from "reactstrap";
-import "./lobby.css";
 import Navbar from "../../components/Nav/index";
 import Newgame from "../../components/Newgame/index";
 import axios from 'axios';
@@ -67,21 +66,26 @@ class Lobby extends React.Component{
 				        navAction = {"Logout"}
 				        href = {""}
 				    />
-				    <Jumbotron>
+				    <br/><br/>
+				    <Jumbotron
+				    	style={{backgroundColor: '#f2f2f2'}}
+				    >
 				    <div>In each round you will play against one opponent for <strong>BlockCoins and Points</strong></div>
 				    <div>Points last forever, BlockCoins do not</div>
 				    <hr/>
-					    <h3>The Object of Battle Blocks:</h3>
+					    <h5>The Object:</h5>
 						    <ol>
-						    	<li>Clear Blocks From Your Side</li>
 						    	<li>Collect BlockCoins</li>
 						    	<li>Use BlockCoins to Earn Points</li>
+						    	<li>Clear Your Side First!</li>
 						    </ol>
 						<hr/>
+					    <h5>How it Works:</h5>
 							<ul>
-								<li>When you have more blocks than your opponent and you click a block, you <i>earn</i> BlockCoins, when you have fewer blocks, you <i>spend</i> BlockCoins</li>
-					    		<li>The computer is randomly reducing the number of blocks; whoever clears their last 3 blocks earns points</li>
-					    		<li>The game ends when one player clears all their blocks</li>
+								<li>Click blocks to <i>earn</i> or <i>spend</i> BlockCoins</li>
+								<li>If you have more blocks than your opponent, you <i>earn</i> BlockCoins</li>
+					    		<li>When you think you have enough coins to win, click as fast as you can!</li>
+					    		<li>To win, you will have to clear all your blocks</li>
 				    		</ul>
 						<br/>
 				    <Newgame

@@ -2,19 +2,22 @@ a {
   text-decoration:none;
   color:#FFF;
 }
-h4{
+.form-heading{
   text-align: center;
 }
 .preview{
   width: 200px;
 }
 #logo{
-    margin:200px;
-    height: 300px;
-    width:550px;
+  margin:200px;
+  height: 300px;
+  width:550px;
+}
+input{
+  width: 95%;
 }
 img{
-    width:200%;
+  width:200%;
 }
 @keyframes slidebg {
   to {

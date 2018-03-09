@@ -3,6 +3,7 @@ import Leftboard from "../../components/Leftboard";
 import Rightboard from "../../components/Rightboard";
 import { Container, Row, Col } from "reactstrap";
 import Navbar from "../../components/Nav/index";
+import { Redirect } from 'react-router-dom';
 import fire from "../../fire.js";
 import axios from 'axios';
 
@@ -17,18 +18,18 @@ class Gameboard extends React.Component {
 
       //Game state settings
       player: null, // from user login!
-      opponent: "waiting for player", // from user login!
+      opponent: "", // from user login!
 
-      headline: "Game is live",
+      headline: "",
       high_side: null,
-      boardleader: "Waiting for player 2...",
+      boardleader: "",
       leader: 0,
 
       //Buttons
       leftButtons : "",
       rightButtons : "",
     }
-  }
+  };
 
 // ----------------------- ------------- -----------------------//
 // --------------------------- SETUP ---------------------------//
@@ -45,7 +46,7 @@ class Gameboard extends React.Component {
       gameID : gameID
     })
     this.getFirebaseButtons(gameID);
-  }
+  };
 
   //Get buttons from firebase
   getFirebaseButtons = (gameID) => {
@@ -92,7 +93,7 @@ class Gameboard extends React.Component {
       context: this,
       state: 'player'
     })
-  }
+  };
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Click Actions -----------------------//
@@ -130,7 +131,7 @@ class Gameboard extends React.Component {
     } else {
       this.updateLeader(u1_blocks, u2_blocks)
     }
-  }
+  };
 
   //Updates the boardleader based on countBlocks()
   updateLeader = (u1_blocks, u2_blocks) => {
@@ -147,23 +148,15 @@ class Gameboard extends React.Component {
     this.setState({
       high_side: leader,
       boardleader: leader+" has the most blocks!"})
-  }
+  };
 
   endFirebase = () => {
-    console.log("gameboard.endFirebase =>")
-
     fire.remove("Live_Games/"+this.state.gameID, function(err) {
       if(err) {
         console.log("Error deleting firebase end-point")
       }
     })
-  }
-
-
-  componentWillUnmount() {
-    this.endFirebase();
-  }
-
+  };
 
   endGame = winner => {
     console.log("Winner function triggered")
@@ -179,55 +172,63 @@ class Gameboard extends React.Component {
 // -------------------- Component Lifecycle --------------------//
 // ----------------------- ------------- -----------------------//
 
-  //Get button object from firebase
+  //Parse url to get firebase button object
   componentWillMount() {
-    console.log("gameboard.WillMount =>")
     this.parseUrl();
   }
+
+  //Remove firebase game data
+  componentWillUnmount() {
+    this.endFirebase();
+  };
 
 // ----------------------- ------------- -----------------------//
 // ----------------------- Render Logic ------------------------//
 // ----------------------- ------------- -----------------------//
 
   render() {
-    console.log("gameboard.render =>")
-    console.log(this.state.player)
-    console.log(this.state.opponent)
-    console.log(this.countBlocks)
-    console.log(this.state.high_side)
-    console.log(this.endGame)
-    return (
-      <Container fluid>
-      <Navbar
-        headline = {this.state.headline}
-        href = {"/lobby"}
-        navAction = {"Lobby"}
-      />
-        <Row>
-          <h2>{this.state.boardleader}</h2>
-        </Row>
-        <Row>
-          <Col>
-            <Leftboard
-              player = {this.state.player}
-              opponent = {this.state.opponent}
-              countBlocks = {this.countBlocks}
-              high = {this.state.high_side}
-              winner = {this.endGame}
-            />
-          </Col>
-          <Col>
-            <Rightboard
-              player = {this.state.opponent}
-              opponent = {this.state.player}
-              countBlocks = {this.countBlocks}
-              high = {this.state.high_side}
-              winner = {this.endGame}
-            />
-          </Col>
-        </Row>
-      </Container>
-    )
+
+    if (!this.state.gameID) {
+      console.log("gameboard.noGameID => lobby")
+      return <Redirect to={{ pathname: "/lobby" }} />
+    } else {
+      console.log("gameboard.render =>")
+      console.log(this.state.gameID)
+      return (
+        <Container fluid>
+        <Navbar
+          headline = {this.state.headline}
+          href = {"/lobby"}
+          navAction = {"Lobby"}
+        />
+          <Row>
+            <h2>{this.state.boardleader}</h2>
+          </Row>
+          <Row>
+            <Col>
+              <Leftboard
+                leader = {this.state.high_side}
+                player = {this.state.player}
+                opponent = {this.state.opponent}
+                countBlocks = {this.countBlocks}
+                high = {this.state.high_side}
+                winner = {this.endGame}
+              />
+            </Col>
+            <Col>
+              <Rightboard
+                leader = {this.state.high_side}
+                player = {this.state.opponent}
+                opponent = {this.state.player}
+                countBlocks = {this.countBlocks}
+                high = {this.state.high_side}
+                winner = {this.endGame}
+              />
+            </Col>
+          </Row>
+        </Container>
+      )
+    }
   }
 }
 

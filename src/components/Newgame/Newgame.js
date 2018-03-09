@@ -18,7 +18,6 @@ class Newgame extends React.Component {
 
 	//Creates brand new game
 	createGameData = () => {
-		console.log("this.props.player ="+this.props.player)
 
 		let myRef = fire.push('Live_Games', {
 			data : {
@@ -26,9 +25,9 @@ class Newgame extends React.Component {
 				id: null,
 				owner: this.props.player,
 				game_status: 'open',
-				headline: 'Game is live',
-				high_side: 'Click a block to begin',
-				boardleader: 'Click a block to begin',
+				headline: 'Waiting for player 2...',
+				high_side: '',
+				boardleader: '',
 
 				//Leftboard data
 				user1_name: this.props.player,
@@ -37,8 +36,8 @@ class Newgame extends React.Component {
 				user1_buttons: leftButtons,
 
 				//Rightboard data
-				user2_name: "Waiting for player",
-				user2_points: "player 2 points",
+				user2_name: "",
+				user2_points: "",
 				user2_coins: 3,
 				user2_buttons: rightButtons
 			}
@@ -49,10 +48,11 @@ class Newgame extends React.Component {
 		this.setState({
 			redirectTo : gameRoute
 		});
-	}
+	};
 
 	//Checks for available game - if no game - calls "createGameData"
 	joinGame = () => {
+		console.log("Newgame.joinGame =>")
 		fire.fetch('Live_Games',{
 			context: this,
 			asArray: true,
@@ -61,14 +61,15 @@ class Newgame extends React.Component {
 					this.createGameData();
 				}
 				for (let i = 0; i < data.length; i++){
-					console.log(i);
+					
 					if(data[i].game_status === "open"){
-						console.log(this.props.player)
+
 						fire.update('Live_Games/' + data[i].key,{
 							data: {
 								game_status: "closed",
 								user2_name: this.props.player,
-								user2_points: this.props.score
+								user2_points: this.props.score,
+								headline: "Live game!"
 							}
 						});
 						let gameRoute = '/gameboard/' + data[i].key;

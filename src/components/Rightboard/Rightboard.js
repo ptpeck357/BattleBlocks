@@ -21,6 +21,7 @@ class Rightboard extends React.Component {
 			user2_coins: 3,
 			user2_points: 1,
 			leftButtons : null
+			//Doesn't need opponent
 		};
 	};
 
@@ -57,6 +58,13 @@ class Rightboard extends React.Component {
 			state: 'user2_name'
 		});
 
+//OPPONENT
+		//NO OPPONENT NEEDED
+		//NO OPPONENT NEEDED
+		//NO OPPONENT NEEDED
+		//NO OPPONENT NEEDED
+		//NO OPPONENT NEEDED
+								
 //BUTTONS
 		//Synchronize firebase with state 'leftButtons'
 		fire.syncState("Live_Games/"+gameID+'/user1_buttons', {
@@ -87,7 +95,6 @@ class Rightboard extends React.Component {
 		});
 	};
 
-
 // ----------------------- ------------- -----------------------//
 // ----------------------- click actions -----------------------//
 // ----------------------- ------------- -----------------------//
@@ -95,13 +102,20 @@ class Rightboard extends React.Component {
 	//Checks for legal move
 	buttonClick = (id) => {
 
+		//Test for opponent
+			//NO OPPONENT NEEDED
+			//NO OPPONENT NEEDED
+
 		//Test for side
 		if (this.state.Mongo_owner === this.state.Game_owner) {
+			console.log("illegal move - wrong side!")
 		}
 		//Test for coins
 		else if (this.state.user2_coins < 1 && this.props.high !== this.props.player) {
+			console.log("illegal move - not enough coins")
 		//Allow move
 		} else {
+			console.log("legal move")
 		this.changeButtonStatus(id);
 		}
 	};
@@ -154,10 +168,10 @@ class Rightboard extends React.Component {
 		let coins = this.state.user2_coins;
 		if (this.props.high === this.props.player){
 			coins = coins + 1;
-			// console.log(coins);
+
 		} else {
 			coins = coins - 1;
-			// console.log(coins);
+
 		}
 		//update props with new coins total
 		this.setState({
@@ -190,12 +204,12 @@ class Rightboard extends React.Component {
 				axios.post('/api/rightboard', {
 					username: this.props.player,
 					opponent: this.props.opponent,
-					points: points
+					points: points - this.state.user2_points
 				}).then(response => {
 					console.log(response)
 				}).catch(error => {
 					console.log(error);
-				  });
+				});
 
 				//declare if winner
 				this.props.winner(this.props.player)
@@ -247,8 +261,16 @@ class Rightboard extends React.Component {
 	render() {
 		return (
 		  	<Container fluid>
-		        <h3>Player name: {this.state.user2_name}</h3>
-		        <h4>$BlockCoins$: {this.state.user2_coins} Total Points: {this.state.user2_points}</h4>
+		        <h3>Guest: {this.state.user2_name}</h3>
+		        <h4>
+		        	<a
+		        		style={{ 
+				          color: (this.props.leader === this.state.Mongo_owner) ? 'green' : 'red' ,
+				        }}
+		        	>$BlockCoins$: {this.state.user2_coins}
+		        	</a> 
+
+		        <a> Points: {this.state.user2_points}</a></h4>
 
 		        {this.determineButtonRender()}
 
