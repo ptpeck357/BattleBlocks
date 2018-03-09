@@ -225,7 +225,7 @@ class Gameboard extends React.Component {
               <Leftboard
                 leader = {this.state.high_side}
                 player = {this.state.player}
-                points = {this.state.leftboardpts}
+                leftpoints = {this.state.leftboardpts}
                 opponent = {this.state.opponent}
                 countBlocks = {this.countBlocks}
                 high = {this.state.high_side}
@@ -236,7 +236,7 @@ class Gameboard extends React.Component {
               <Rightboard
                 leader = {this.state.high_side}
                 player = {this.state.opponent}
-                points = {this.state.rightboardpts}
+                rightpoints = {this.state.rightboardpts}
                 opponent = {this.state.player}
                 countBlocks = {this.countBlocks}
                 high = {this.state.high_side}

@@ -19,7 +19,7 @@ class Rightboard extends React.Component {
 			buttons : null,
 			user2_name: null,
 			user2_coins: 3,
-			user2_points: this.props.points,
+			user2_points: 1,
 			leftButtons : null
 			//Doesn't need opponent
 		};
@@ -28,6 +28,10 @@ class Rightboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 // --------------------------- SETUP ---------------------------//
 // ----------------------- ------------- -----------------------//
+
+		componentDidMount(){
+			this.setState({user2_points: this.props.rightpoints})
+		}
 
 		//Captures the gameID from the url
     parseUrl = () => {

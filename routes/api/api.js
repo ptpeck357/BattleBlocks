@@ -156,8 +156,6 @@ router.post('/endgame', (req, res) => {
 		if(err) throw err;
 	});
 
-
-	res.json("success")
 });
 
 /*Route to log user out of session*/

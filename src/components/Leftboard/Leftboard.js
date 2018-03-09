@@ -19,7 +19,7 @@ class Leftboard extends React.Component {
 			buttons : null,
 			user1_name: null,
 			user1_coins: 3,
-			user1_points: this.props.points,
+			user1_points: 1,
 			rightButtons : null,
 			opponent: null
 		}
@@ -28,6 +28,10 @@ class Leftboard extends React.Component {
 // ----------------------- ------------- -----------------------//
 // --------------------------- SETUP ---------------------------//
 // ----------------------- ------------- -----------------------//
+
+	componentDidMount(){
+		this.setState({user1_points: this.props.leftpoints})
+	}
 
 	//Captures the gameID from the url
     parseUrl = () => {
