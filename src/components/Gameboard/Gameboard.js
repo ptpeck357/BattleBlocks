@@ -208,7 +208,7 @@ class Gameboard extends React.Component {
   //Remove firebase game data
   componentWillUnmount() {
     this.endFirebase();
-    window.location.assign("https://battle-blocks.herokuapp.com");
+    window.location.assign("https://battle-blocks.herokuapp.com/lobby");
   };
 
 // ----------------------- ------------- -----------------------//
