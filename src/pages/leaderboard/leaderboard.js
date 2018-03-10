@@ -7,6 +7,14 @@ import ReactTable from 'react-table';
 import axios from 'axios';
 import logo4 from '../registration/assets/images/leaderboard.png';
 
+const customstyle = {
+  textAlign: 'center'
+}
+
+const style = {
+  marginTop: "15px"
+}
+
 // leaderboard class with the userData and isMounting variable to render the data
 class Leaderboard extends Component {
 
@@ -28,7 +36,7 @@ class Leaderboard extends Component {
     return(
       <Container fluid>
       <br/><br/>
-        <img src={logo4} alt="Battle Blocks"/>
+        <img style={style} src={logo4} alt="Battle Blocks"/>
         <Navbar
           headline = {"Leaderboard"}
           href = {"/lobby"}
@@ -36,7 +44,7 @@ class Leaderboard extends Component {
         />
         <Jumbotron>
           <div>
-            <ReactTable
+            <ReactTable style={customstyle}
               data={this.state.userData.data}
               columns={[
                 {
