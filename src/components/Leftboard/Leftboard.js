@@ -103,8 +103,8 @@ class Leftboard extends React.Component {
 	buttonClick = (id) => {
 
 		//Test for opponent
-		if (this.state.opponent === null) {
-			console.log("illegal move - no opponent!")
+		if (!this.state.opponent) {
+			return;
 		}
 		//Test for side
 		else if (this.state.Mongo_owner !== this.state.Game_owner) {
