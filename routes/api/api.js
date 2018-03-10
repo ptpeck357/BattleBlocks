@@ -152,7 +152,7 @@ router.post('/endgame', (req, res) => {
 		if(err) throw err;
 	});
 
-	User.findOneAndUpdate({username: winner}, {$inc:{wins: 1}}, function(err, doc){
+	User.findOneAndUpdate({username: winner}, {$inc:{wins: 1, totalscore: 3}}, function(err, doc){
 		if(err) throw err;
 	});
 
