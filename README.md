@@ -78,14 +78,14 @@ Continual Play
 + [Live](https://battle-blocks.herokuapp.com/)
 
 ### Built With
-+ Mongo
-+ Express JS
-+ React JS
-+ Node JS
-+ Bootstrap 4
-+ Mongoose
-+ Firebase
-+ Passport JS
++ [Mongo](https://www.mongodb.com/)
++ [Express JS](https://expressjs.com/)
++ [React JS](https://reactjs.org/)
++ [Node JS](https://nodejs.org/en/)
++ [Bootstrap 4](https://getbootstrap.com/)
++ [Mongoose](http://mongoosejs.com/)
++ [Firebase](https://firebase.google.com/)
++ [Passport JS](http://www.passportjs.org/)
 
 ### Node Package Dependencies Reference
 + [axios](https://www.npmjs.com/package/axios)
