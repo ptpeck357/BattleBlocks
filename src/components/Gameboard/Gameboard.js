@@ -136,11 +136,9 @@ class Gameboard extends React.Component {
     this.setState({u1_blockcount : u1_blocks})
 
     if (u1_blocks === 0) {
-      this.endGame(this.state.player)
       this.setState({leftButtons : "", rightButtons : ""})
 
     } else if (u2_blocks === 0) {
-      this.endGame(this.state.opponent)
       this.setState({leftButtons : "", rightButtons : ""})
 
     } else {
@@ -180,7 +178,8 @@ class Gameboard extends React.Component {
       owner: this.state.player,
       opponent: this.state.opponent,
       leftboardpts:  this.state.leftboardpts,
-      rightboardpts:  this.state.rightboardpts
+      rightboardpts:  this.state.rightboardpts,
+      winner: winner
     }).then(response => {
       console.log(response)
     }).catch(error => {

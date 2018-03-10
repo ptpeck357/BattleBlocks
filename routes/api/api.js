@@ -85,7 +85,6 @@ router.post('/signup', uploadPicture.any(), (req, res) => {
 				newUser.username = username,
 				newUser.password = newUser.hashPassword(password);
 				newUser.wins = 0;
-				newUser.losses = 0;
 				newUser.totalscore = 0;
 				newUser.totalgames = 0;
 				if(req.files.length>0){
@@ -134,23 +133,26 @@ router.get('/lobby', (req, res) => {
 /*If winner on leftboard, update MongoDB databse*/
 router.post('/endgame', (req, res) => {
 
-	const {owner, opponent, leftboardpts, rightboardpts} = req.body;
+	const {winner, owner, opponent, leftboardpts, rightboardpts} = req.body;
 	console.log(req.body)
 
 	User.findOneAndUpdate({username: owner}, {$set:{totalscore:leftboardpts}}, {new:true}, function(err, doc){
 		if(err) throw err;
 	});
 
-	User.findOneAndUpdate({username: owner}, {$inc:{wins:1, totalgames: 1}}, {new:true}, function(err, doc){
-		if(err) throw err;
-	});
-
-	/*Updates looser data*/
 	User.findOneAndUpdate({username: opponent}, {$set:{totalscore: rightboardpts}}, {new:true}, function(err, doc){
 		if(err) throw err;
 	});
 
-	User.findOneAndUpdate({username: opponent}, {$inc:{losses:1, totalgames: 1}}, {new:true}, function(err, doc){
+	User.findOneAndUpdate({username: owner}, {$inc:{totalgames: 1}}, function(err, doc){
+		if(err) throw err;
+	});
+
+	User.findOneAndUpdate({username: opponent}, {$inc:{totalgames: 1}}, function(err, doc){
+		if(err) throw err;
+	});
+
+	User.findOneAndUpdate({username: winner}, {$inc:{wins: 1}}, function(err, doc){
 		if(err) throw err;
 	});
 

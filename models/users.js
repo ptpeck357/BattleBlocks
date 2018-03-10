@@ -19,9 +19,6 @@ var userSchema = new Schema({
   wins: {
     type: Number
   },
-  losses: {
-    type: Number
-  },
   totalscore: {
     type: Number
   },
