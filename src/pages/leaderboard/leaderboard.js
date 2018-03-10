@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import {  Jumbotron, Button, Container } from "reactstrap";
+import {  Jumbotron, Container } from "reactstrap";
 import Navbar from "../../components/Nav/index";
 import "react-table/react-table.css";
 import Moment from 'react-moment';
 import ReactTable from 'react-table';
 import axios from 'axios';
-import "./leaderboard.css";
 import logo4 from '../registration/assets/images/leaderboard.png';
 
 // leaderboard class with the userData and isMounting variable to render the data
 class Leaderboard extends Component {
+
   state = {
     userData:{}
   };
@@ -24,17 +24,16 @@ class Leaderboard extends Component {
 
  // rendering the data in a react table
   render() {
-    const id =1;
 
-      return(
-        <Container fluid>
-        <br/><br/>
-          <img src={logo4} alt="Battle Blocks"/>
+    return(
+      <Container fluid>
+      <br/><br/>
+        <img src={logo4} alt="Battle Blocks"/>
         <Navbar
-        headline = {"Leaderboard"}
-        href = {"/lobby"}
-        navAction = {"Lobby"}
-      />
+          headline = {"Leaderboard"}
+          href = {"/lobby"}
+          navAction = {"Lobby"}
+        />
         <Jumbotron>
           <div>
             <ReactTable
@@ -63,10 +62,6 @@ class Leaderboard extends Component {
                       Header: <strong>Wins</strong>,
                       accessor: "wins"
                     },
-                    // {
-                    //   Header: <strong>Losses</strong>,
-                    //   accessor: "losses"
-                    // },
                     {
                       Header: <strong>Total Games</strong>,
                       accessor: "totalgames"
@@ -91,8 +86,8 @@ class Leaderboard extends Component {
 
           </div>
         </Jumbotron>
-        </Container>
-      )
+      </Container>
+    )
   };
 };
 
