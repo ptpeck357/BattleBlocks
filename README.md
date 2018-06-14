@@ -1,23 +1,25 @@
 
 <h2>BattleBlocks!</h2>
 <h3>'Wack-a-mole Meets Chess'<h3>
-A Northwestern University Bootcamp Final MERN Project
+
+This is a one-of-a-kind game, we invented it for this project, and it doesn't exist anywhere else.
+
+This is a Northwestern University Bootcamp Final MERN Project
 
 ### Synopsis
 <ul>
-  <li>BattleBlocks is a multi-player strategy board game</li>
-  <li>The game is played in "rounds" between two players</li>
-  <li>The <strong>Host</strong> is on the left, and <strong>Guest</strong> is on the right</li>
-  <li>The object of the game is to earn points in each round and climb up the Leaderboard</li>
-  <li>Your points are accumulated and last forever, so the top point holders are on the top of the Leaderboard</li>
-  <li>To earn points, you have to try to clear the blocks on your side</li>
+  <li>BattleBlocks is a 2-player strategy board game</li>
+  <li>To earn points, you have to clear blocks off of your side</li>
+  <li>When you clear a block, it appears randomly on your opponents side</li>
   <li>The rounds are played in realtime, so of course your opponent is trying to clear their side at the same time</li>
+  <li>The game is played in "rounds" between two players, typical rounds last 8-10 minutes</li>
+  <li>Your points are accumulated and last forever, so the top point holders are on the top of the Leaderboard</li>
 </ul>
 <br>
 There are two wrinkles that make the game interesting....
 <ol>
-  <li>The computer randomly intervenes, reducing the number of blocks</li>
-  <li>There is a currency in the game, called $BlockCoins$, which you need in order to earning points</li>
+  <li>The computer randomly intervenes, reducing the number of blocks creating scarcity</li>
+  <li>There is a currency in the game, called $BlockCoins$, which you must use to pay to remove blocks</li>
 </ol>
 <br>
 <h3>Detailed Game Play</h3>
@@ -26,7 +28,7 @@ There are two wrinkles that make the game interesting....
 <strong>Object of Game</strong>
 <ul>
   <li>The game is played in "rounds"; each round begins with two players, "Host" on the left and "Guest" on the right</li>
-  <li>The object of each round is to earn "Points" by clicking blocks. It is a game of speed and strategy</li>
+  <li>The object of each round is to earn "Points" by removing blocks. It is a game of speed and strategy</li>
   <li>Game play continues until one player clears their board or somebody gives up</li>
 </ul>
 
@@ -59,7 +61,7 @@ Points are earned in the following denominations:
 
 <strong>Winning or Ending Game</strong>
 
-The game is played in "rounds", and each round ends in one of two ways:
+Each round ends in one of two ways:
 <ol>
   <li>A player successfully clicks on the <strong>last</strong> block on their side and "clears" their board</li>
   <li>A player quits the round by clicking "Lobby"</li>
