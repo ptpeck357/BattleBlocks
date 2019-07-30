@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+	import React, { Component } from 'react';
 import { Container, Jumbotron } from "reactstrap";
 import { Redirect } from 'react-router-dom';
 import logo3 from './assets/images/picture4.png';

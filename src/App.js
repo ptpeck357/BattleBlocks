@@ -16,20 +16,6 @@ class App extends Component {
       };
     };
 
-  componentWillMount(){
-		axios.get('/api/').then(response => {
-			if(response.data.isAuthenticated === true){
-				this.setState({
-					loggedin: true
-      	})
-			} else {
-        this.setState({
-					loggedin: false
-      	});
-      };
-		});
-	};
-
   render(){
 
     if(this.state.loggedin === true) {
